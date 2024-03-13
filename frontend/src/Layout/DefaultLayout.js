@@ -1,20 +1,20 @@
 import styles from './Layout.module.scss';
 import Header from './Header/Header';
 import Footer from './Footer/Footer';
-function DefaultLayout({children}) {
-    return ( 
+function DefaultLayout({ children }) {
+    return (
         <div>
             <div>
-                <Header/>
+                <Header />
             </div>
-            <div>
+            <div style={{ minHeight: '600px' }}>
                 {children}
             </div>
             <div>
-                <Footer/>
+                <Footer />
             </div>
-        </div> 
-        );
+        </div>
+    );
 }
 
 export default DefaultLayout;
