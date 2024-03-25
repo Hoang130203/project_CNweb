@@ -1,6 +1,6 @@
 package com.example.backend.backend.Repository;
 
-import com.example.backend.backend.Entity.ERole;
+import com.example.backend.backend.Entity.Enum_Key.ERole;
 import com.example.backend.backend.Entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 

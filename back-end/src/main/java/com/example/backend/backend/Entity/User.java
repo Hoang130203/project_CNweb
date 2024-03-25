@@ -7,8 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -55,11 +56,19 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles=new HashSet<>();
 
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
+    private List<Order> orders=new ArrayList<>();
     public User(@NotNull String userName, @NotNull String email, @NotNull String password) {
         this.account = userName;
         this.email = email;
         this.password = password;
     }
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
+    private List<Cart> carts =new ArrayList<>();
+
     @Override
     public String toString() {
         return "User{" +
