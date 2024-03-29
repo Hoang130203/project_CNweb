@@ -1,5 +1,6 @@
 package com.example.backend.backend.Entity;
 
+import com.example.backend.backend.Entity.Enum_Key.EColor;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,7 +17,8 @@ public class Color {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "name",columnDefinition = "nvarchar(155)")
-    private String name;
+    @Column(name = "name")
+    @Enumerated(EnumType.STRING)
+    private EColor name;
 
 }

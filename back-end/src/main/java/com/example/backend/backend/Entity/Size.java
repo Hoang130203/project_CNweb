@@ -1,5 +1,6 @@
 package com.example.backend.backend.Entity;
 
+import com.example.backend.backend.Entity.Enum_Key.ESize;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,5 +18,6 @@ public class Size {
     private int id;
 
     @Column(name = "name")
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private ESize name;
 }

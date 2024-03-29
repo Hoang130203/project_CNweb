@@ -31,6 +31,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 
+//Api liên quan đăng nhập và đăng ký
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -42,6 +43,7 @@ public class AuthController {
     @Value("${jwt.accessTokenCookieName}")
     private String cookieName;
 
+    //Khởi tạo
     @Autowired
     public AuthController(AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder,
                           UserService userService, RoleService roleService, JwtProvider jwtProvider) {
@@ -51,6 +53,7 @@ public class AuthController {
         this.roleService = roleService;
         this.jwtProvider = jwtProvider;
     }
+    //Đăng nhập thường
     @PostMapping("/login")
     public ResponseEntity<Object> login(HttpServletResponse httpServletResponse, @Valid @RequestBody LoginUser loginUser, BindingResult bidBindingResult){
         if(bidBindingResult.hasErrors())
@@ -67,16 +70,21 @@ public class AuthController {
             return new ResponseEntity<>(new Message("Lỗi rồi!"), HttpStatus.BAD_REQUEST);
         }
     }
+    //Không liên quan
     @GetMapping("/createRole")
     public ResponseEntity<?> createRole(){
         Optional<Role> role1= roleService.getByName(ERole.ROLE_USER);
         Optional<Role> role2= roleService.getByName(ERole.ROLE_ADMIN);
+        Optional<Role> role3= roleService.getByName(ERole.ROLE_STAFF);
+        Optional<Role> role4= roleService.getByName(ERole.ROLE_SHIPPER);
         if(!role1.isPresent()&& !role2.isPresent()){
             roleService.createRole();
             return ResponseEntity.ok("created");
         }
+
         return ResponseEntity.ok("existed");
     }
+    //Đăng ký thường
     @PostMapping("/register")
     public ResponseEntity<?> Register(@RequestBody RegisterUser registerUser){
 
@@ -100,6 +108,7 @@ public class AuthController {
         userService.save(user);
         return new ResponseEntity<>(user,HttpStatus.CREATED);
     }
+    //Đăng nhập / đăng ký bằng tài khoản mxh
     @PostMapping("/providerAuth")
     public ResponseEntity<?> providerRegister(HttpServletResponse httpServletResponse,@RequestBody ProviderRegister providerRegister){
         Optional<User> user = userService.getById(providerRegister.getId());
@@ -112,7 +121,7 @@ public class AuthController {
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 String jwt = jwtProvider.generateToken(authentication);
-                CookieUtil.create(httpServletResponse,cookieName,jwt,false,-1,"");
+                CookieUtil.create(httpServletResponse,cookieName,jwt,true,-1,"");
                 return new ResponseEntity<>(new Message("Bạn đã đăng nhập"), HttpStatus.OK);
             } catch (Exception e) {
                 return new ResponseEntity<>(new Message("Lỗi rồi!"), HttpStatus.BAD_REQUEST);
@@ -137,13 +146,14 @@ public class AuthController {
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String jwt = jwtProvider.generateToken(authentication);
-            CookieUtil.create(httpServletResponse,cookieName,jwt,false,-1,"");
+            CookieUtil.create(httpServletResponse,cookieName,jwt,true,-1,"");
             return new ResponseEntity<>(new Message("Bạn đã đăng ký, đăng nhập thành công"), HttpStatus.OK);
 //            return new ResponseEntity<>(newuser,HttpStatus.CREATED);
         }
         return ResponseEntity.badRequest().body("error");
     }
 
+    //lây thông tin người dùng đã đăng nhập
     @GetMapping("/details")
     public ResponseEntity<Object> getUserDetails(){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()

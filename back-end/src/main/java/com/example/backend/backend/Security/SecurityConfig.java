@@ -1,6 +1,9 @@
 package com.example.backend.backend.Security;
 
+import com.example.backend.backend.Entity.Enum_Key.ERole;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.server.Cookie;
+import org.springframework.boot.web.servlet.server.CookieSameSiteSupplier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -28,7 +31,10 @@ import java.util.List;
 public class SecurityConfig {
     @Autowired
     private JwtException jwtException;
-
+    @Bean
+    public CookieSameSiteSupplier applicationCookieSameSiteSupplier() {
+        return CookieSameSiteSupplier.of(Cookie.SameSite.NONE);
+    }
     @Bean
     public JwtTokenFilter jwtTokenFilter(){
         return new JwtTokenFilter();
@@ -64,6 +70,8 @@ public class SecurityConfig {
                         .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers("/h2-console/login.do").permitAll()
                         .requestMatchers("/api/auth/createRole").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/api/product/**").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/api/user/**").hasRole("USER")
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling((exceptions) -> exceptions.authenticationEntryPoint(jwtException))

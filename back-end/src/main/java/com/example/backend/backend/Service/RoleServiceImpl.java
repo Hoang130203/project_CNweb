@@ -38,11 +38,19 @@ public class RoleServiceImpl implements RoleService{
     public void createRole() {
         Role roleUser= new Role();
         Role roleAdmin= new Role();
+        Role roleStaff= new Role();
+        Role roleShipper= new Role();
         roleUser.setName(ERole.ROLE_USER);
         roleUser.setId(1);
         roleAdmin.setName(ERole.ROLE_ADMIN);
         roleAdmin.setId(2);
+        roleStaff.setName(ERole.ROLE_STAFF);
+        roleStaff.setId(3);
+        roleShipper.setName(ERole.ROLE_SHIPPER);
+        roleShipper.setId(4);
         roleRepository.save(roleUser);
         roleRepository.save(roleAdmin);
+        roleRepository.save(roleStaff);
+        roleRepository.save(roleShipper);
     }
 }

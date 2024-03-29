@@ -1,5 +1,6 @@
 package com.example.backend.backend.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,6 +20,7 @@ public class ProductImage {
     @Column(name = "url",columnDefinition = "varchar(max)")
     private String url;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="product_id")
     private Product product;

@@ -51,6 +51,8 @@ public class Product {
             uniqueConstraints = @UniqueConstraint(columnNames = {"product_id", "color_id"}))
     private List<Color> colors;
 
+
+
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "product")
     private List<ProductImage> images= new ArrayList<>();
