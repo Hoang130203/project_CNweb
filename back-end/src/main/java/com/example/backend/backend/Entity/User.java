@@ -29,8 +29,10 @@ public class User {
     @JsonIgnore
     private String password;
 
+    @JsonIgnore
     @Column(name = "email",columnDefinition = "varchar(70)")
     private String email;
+
 
     @Column(name = "has_provider")
     private boolean hasProvider;
@@ -41,6 +43,7 @@ public class User {
     @Column(name="name",columnDefinition = "nvarchar(70)")
     private String name;
 
+    @JsonIgnore
     @Column(name = "age")
     private int age;
 
@@ -68,6 +71,8 @@ public class User {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
     private List<Cart> carts =new ArrayList<>();
+
+
 
     @Override
     public String toString() {

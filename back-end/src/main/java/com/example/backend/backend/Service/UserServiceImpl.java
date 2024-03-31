@@ -2,12 +2,17 @@ package com.example.backend.backend.Service;
 
 import com.example.backend.backend.Entity.*;
 import com.example.backend.backend.Entity.Enum_Key.CartKey;
+import com.example.backend.backend.Entity.Enum_Key.EStatus;
+import com.example.backend.backend.Entity.Enum_Key.ProductQuantityKey;
 import com.example.backend.backend.Payload.Cart.PostCart;
+import com.example.backend.backend.Payload.Order.OrderInfo;
 import com.example.backend.backend.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,14 +25,17 @@ public class UserServiceImpl implements UserService{
     private final ColorRepository colorRepository;
     private final SizeRepository sizeRepository;
     private final CartRepository cartRepository;
-
+    private final ProductQuantityRepository productQuantityRepository;
+    private final OrderRepository orderRepository;
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, ProductRepository productRepository, ColorRepository colorRepository, SizeRepository sizeRepository, CartRepository cartRepository) {
+    public UserServiceImpl(UserRepository userRepository, ProductRepository productRepository, ColorRepository colorRepository, SizeRepository sizeRepository, CartRepository cartRepository, ProductQuantityRepository productQuantityRepository, OrderRepository orderRepository) {
         this.userRepository = userRepository;
         this.productRepository = productRepository;
         this.colorRepository = colorRepository;
         this.sizeRepository = sizeRepository;
         this.cartRepository = cartRepository;
+        this.productQuantityRepository = productQuantityRepository;
+        this.orderRepository = orderRepository;
     }
     @Override
     public Optional<User> getByAccount(String account) {
@@ -111,6 +119,105 @@ public class UserServiceImpl implements UserService{
         if (existingCartItem.isPresent()) {
             cartRepository.delete(existingCartItem.get());
             return true;
+        }
+        return false;
+    }
+
+    @Override
+    public List<User> getAllByEmail(String email) {
+        return userRepository.getAllByEmail(email);
+    }
+
+    @Override
+    public String postOrder(OrderInfo orderInfo, String userId) {
+        Order order= new Order();
+        order.setDeliveryCost(orderInfo.getDeliveryCost());
+        order.setPayments(orderInfo.getPayments());
+        order.setTotalCost(orderInfo.getTotalCost());
+
+        List<PostCart> postCarts= orderInfo.getPostCarts();
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        List<ProductOrder> productOrders= new ArrayList<>();
+        order.setUser(user);
+        order.setTime(new Timestamp(System.currentTimeMillis()));
+        orderRepository.save(order);
+        for (PostCart postCart:postCarts
+             ) {
+            Product product = productRepository.findById(postCart.getProductId())
+                    .orElseThrow(() -> new RuntimeException("Product not found"));
+
+            Color color = colorRepository.findById(postCart.getColorId())
+                    .orElseThrow(() -> new RuntimeException("Color not found"));
+
+            Size size = sizeRepository.findById(postCart.getSizeId())
+                    .orElseThrow(() -> new RuntimeException("Size not found"));
+            CartKey cartKey = new CartKey(product,  color,size, user);
+            Optional<Cart> existingCartItem = cartRepository.findById(cartKey);
+
+            if(!existingCartItem.isPresent()){
+                orderRepository.delete(order);
+                return "Error";
+            }
+            Optional<ProductQuantity> quantity= productQuantityRepository.findById(new ProductQuantityKey(product,color,size));
+            if(quantity.isPresent()){
+                System.out.println("a");
+                ProductQuantity quantity1= quantity.get();
+                if(quantity.get().getQuantity()<postCart.getQuantity())
+                {
+                    orderRepository.delete(order);
+                    return product.getName()+" chỉ còn " +quantity.get().getQuantity()+" sản phẩm!";
+                }
+                else{
+                    productOrders.add(new ProductOrder(product,size,color,order,postCart.getQuantity(),postCart.getCost()));
+                    quantity1.setQuantity(quantity.get().getQuantity()-postCart.getQuantity());
+                    productQuantityRepository.save(quantity1);
+
+                    cartRepository.delete(existingCartItem.get());
+                }
+            }else{
+                return "Sản phẩm không tồn tại";
+            }
+        }
+        order.setProducts(productOrders);
+//        List<Order> orders= user.getOrders();
+//        orders.add(order);
+//        user.setOrders(orders);
+//        userRepository.save(user);
+        orderRepository.save(order);
+        return "Đã đặt hàng thành công, chờ xử lý!";
+    }
+
+    @Override
+    public List<Order> getOrders(String userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        return user.getOrders();
+    }
+
+    @Override
+    public boolean cancelOrder(String userId, int orderId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        Order orderr= orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+        List<Order> orders = user.getOrders();
+        for (Order order : orders) {
+            if (order.getId() == orderId ) {
+                List<ProductOrder> products = order.getProducts();
+                for (ProductOrder productOrder:products
+                     ) {
+                  Optional<ProductQuantity> productQuantity = productQuantityRepository.findById(new ProductQuantityKey(productOrder.getProduct(),productOrder.getColor(),productOrder.getSize()));
+                  if(productQuantity.isPresent()){
+                      ProductQuantity productQuantity1= productQuantity.get();
+                      productQuantity1.setQuantity(productQuantity.get().getQuantity()+productOrder.getQuantity());
+                      productQuantityRepository.save(productQuantity1);
+                  }
+                }
+                orderr.setStatus(EStatus.CANCELLED);
+                orderRepository.save(order);
+                return true;
+            }
         }
         return false;
     }
