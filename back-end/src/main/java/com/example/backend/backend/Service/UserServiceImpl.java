@@ -1,11 +1,9 @@
 package com.example.backend.backend.Service;
 
 import com.example.backend.backend.Entity.*;
+import com.example.backend.backend.Entity.Enum_Key.CartKey;
 import com.example.backend.backend.Payload.Cart.PostCart;
-import com.example.backend.backend.Repository.ColorRepository;
-import com.example.backend.backend.Repository.ProductRepository;
-import com.example.backend.backend.Repository.SizeRepository;
-import com.example.backend.backend.Repository.UserRepository;
+import com.example.backend.backend.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,12 +19,15 @@ public class UserServiceImpl implements UserService{
     private final ProductRepository productRepository;
     private final ColorRepository colorRepository;
     private final SizeRepository sizeRepository;
+    private final CartRepository cartRepository;
+
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, ProductRepository productRepository, ColorRepository colorRepository, SizeRepository sizeRepository) {
+    public UserServiceImpl(UserRepository userRepository, ProductRepository productRepository, ColorRepository colorRepository, SizeRepository sizeRepository, CartRepository cartRepository) {
         this.userRepository = userRepository;
         this.productRepository = productRepository;
         this.colorRepository = colorRepository;
         this.sizeRepository = sizeRepository;
+        this.cartRepository = cartRepository;
     }
     @Override
     public Optional<User> getByAccount(String account) {
@@ -81,5 +82,36 @@ public class UserServiceImpl implements UserService{
         }
 
         userRepository.save(user);
+    }
+
+    @Override
+    public List<Cart> getCart(String userId) {
+        User user= userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        return user.getCarts();
+    }
+
+    @Override
+    public boolean delete(PostCart postCart, String userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Product product = productRepository.findById(postCart.getProductId())
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        Color color = colorRepository.findById(postCart.getColorId())
+                .orElseThrow(() -> new RuntimeException("Color not found"));
+
+        Size size = sizeRepository.findById(postCart.getSizeId())
+                .orElseThrow(() -> new RuntimeException("Size not found"));
+
+        // Tìm sản phẩm trong giỏ hàng với cùng một màu sắc và kích thước
+        CartKey cartKey = new CartKey(product,  color,size, user);
+        Optional<Cart> existingCartItem = cartRepository.findById(cartKey);
+        if (existingCartItem.isPresent()) {
+            cartRepository.delete(existingCartItem.get());
+            return true;
+        }
+        return false;
     }
 }

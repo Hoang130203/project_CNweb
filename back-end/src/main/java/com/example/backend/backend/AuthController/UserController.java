@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -29,6 +30,33 @@ public class UserController {
         return ResponseEntity.ok("");
 
     }
+
+    @GetMapping("/carts")
+    public ResponseEntity<?> getCarts(){
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        return ResponseEntity.ok(userService.getCart(getUserId(userDetails)));
+    }
+
+
+    @DeleteMapping("/cart")
+    public ResponseEntity<?> deleteCart(@RequestBody List<PostCart> postCarts){
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        boolean deleted=false;
+        for (PostCart postCart:postCarts
+             ) {
+            deleted=userService.delete(postCart, getUserId(userDetails));
+
+        }
+        if (deleted){
+            return ResponseEntity.ok(new Message("Đã xóa"));
+        }else{
+            return ResponseEntity.ok(new Message("Chưa xóa"));
+        }
+    }
+
+
     public String getUserId(UserDetails userDetails){
 
         String userName = userDetails.getUsername();
@@ -39,4 +67,5 @@ public class UserController {
 
         return user.get().getId() ;
     }
+
 }

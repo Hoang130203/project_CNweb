@@ -71,7 +71,7 @@ public class SecurityConfig {
                         .requestMatchers("/h2-console/login.do").permitAll()
                         .requestMatchers("/api/auth/createRole").permitAll()
                         .requestMatchers(HttpMethod.GET,"/api/product/**").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/api/user/**").hasRole("USER")
+                        .requestMatchers("/api/user/**").hasRole("USER")
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling((exceptions) -> exceptions.authenticationEntryPoint(jwtException))

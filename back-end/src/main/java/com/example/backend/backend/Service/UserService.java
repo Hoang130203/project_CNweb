@@ -6,6 +6,7 @@ import com.example.backend.backend.Entity.Cart;
 import com.example.backend.backend.Entity.User;
 import com.example.backend.backend.Payload.Cart.PostCart;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
@@ -14,4 +15,6 @@ public interface UserService {
     boolean existByAccount(String account);
     void save(User user);
     void addProductToCart(PostCart postCart, String userId);
+    List<Cart> getCart(String userId);
+    boolean delete(PostCart postCart,String userId);
 }

@@ -1,5 +1,6 @@
 package com.example.backend.backend.Entity;
 
+import com.example.backend.backend.Entity.Enum_Key.CartKey;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,6 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@IdClass(CartKey.class)
 public class Cart {
     @Id
     @ManyToOne
