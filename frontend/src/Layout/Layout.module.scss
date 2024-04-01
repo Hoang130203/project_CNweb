@@ -75,6 +75,33 @@
         left: 1787px;
         gap: 0px;
         opacity: 0px;
+        border-radius: 75px;
+    }
 
+    .acc {
+        left: 1787px;
+        position: fixed;
+        top: 10px;
+        border: none;
+        background-color: #ffffff00;
+    }
+
+    .acc:hover {
+        cursor: pointer;
+    }
+
+    .frame2 {
+        position: fixed;
+        width: 285px;
+        height: 268px;
+        top: 106px;
+        right: -285px;
+        padding: 33px 6px 21px 7px;
+        gap: 0px;
+        border-radius: 20px;
+        opacity: 0px;
+        background: #FFFEFE;
+        box-shadow: 0px 0px 4px 0px #00000040;
+        transition: all 0.5s;
     }
 }
