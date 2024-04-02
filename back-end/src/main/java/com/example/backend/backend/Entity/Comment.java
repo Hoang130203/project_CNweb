@@ -36,4 +36,12 @@ public class Comment {
 
     @Column(name = "time", columnDefinition = "DATETIME")
     private Timestamp time;
+
+    public Comment(Product product, User user, String content, String picture, Timestamp timestamp) {
+        this.product=product;
+        this.user=user;
+        this.content=content;
+        this.picture=picture;
+        this.time=timestamp;
+    }
 }

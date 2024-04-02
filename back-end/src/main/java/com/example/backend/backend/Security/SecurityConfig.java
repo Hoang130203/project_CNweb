@@ -55,7 +55,7 @@ public class SecurityConfig {
 //                cors(cors->cors.notifyAll())
                 .cors().configurationSource(request -> {
             CorsConfiguration configuration= new CorsConfiguration();
-            configuration.setAllowedOrigins(List.of("http://localhost:3000"));
+            configuration.setAllowedOrigins(List.of("http://localhost:3000","https://project-c-nweb.vercel.app/hot"));
             configuration.setAllowedMethods(List.of("HEAD", "GET", "POST", "PUT", "DELETE", "PATCH","OPTIONS"));
             configuration.setAllowCredentials(true);
             configuration.addExposedHeader("Message");

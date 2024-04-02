@@ -52,8 +52,6 @@ public class Product {
     private List<Color> colors;
 
 
-
-    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "product")
     private List<ProductImage> images= new ArrayList<>();
 
@@ -68,4 +66,5 @@ public class Product {
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL,mappedBy = "product")
     private List<Rate> rates= new ArrayList<>();
+
 }
