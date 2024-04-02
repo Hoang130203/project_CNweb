@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from '../Layout.module.scss'
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const cx = classNames.bind(styles)
 
@@ -40,9 +40,19 @@ function DivAcc() {
 </div>)
 }
 
+
+
 function Header() {
+    // Hiện, ẩn khi bấm vào accImg
     const [clickAcc, setClickAcc] = useState(true)
 
+    // Hiện, ẩn khi tìm kiếm (ẩn khi bấm vào input, khi trong input có dữ liệu, hiện lại khi trong thẻ input o có gì)
+    const [search, setSearch] = useState('block')
+
+    // Nội dung trong thẻ input
+    const [valueInput, setValueInput] = useState('')
+
+    // Hiện frame2
     const handleClickAcc = () => {
         setClickAcc(!clickAcc)
         if(clickAcc){
@@ -52,10 +62,23 @@ function Header() {
         }    
     }
 
+    // Focus vào input khi nhấn vào icon + text
     const focusInput = () => {
       const input = document.getElementById("myInput");
       input.focus();
+      setSearch('none')
     };
+
+    useEffect(() => {
+      
+      if (valueInput !== '') {
+        setSearch('none')
+      } else {
+        setSearch('block')
+        
+      }
+
+    }, [valueInput]) 
 
     return (
         <div className={cx('header')}>
@@ -89,9 +112,9 @@ function Header() {
             {/* Tìm kiếm */}
             <div className={cx('group5')} >
               <div style={{ position: 'relative', display: 'inline-block' }} >
-                <input id='myInput' className={cx('group4')}/>
-                <p onClick={focusInput} style={{ position: 'absolute', top: '6%', transform: 'translateY(-50%)', right: '280px', fontFamily: 'Itim', fontSize: '32px', color: '#9C9C9C'}}>Tìm kiếm</p>
-                <svg onClick={focusInput} className={cx('magnifier-icon')} xmlns="http://www.w3.org/2000/svg" width="40" height="35" viewBox="0 0 40 35" fill="none" style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)' }}>
+                <input id='myInput' className={cx('group4')} value={valueInput} onChange={e => setValueInput(e.target.value)} />
+                <p onClick={focusInput} style={{display: search, position: 'absolute', top: '6%', transform: 'translateY(-50%)', right: '280px', fontFamily: 'Itim', fontSize: '32px', color: '#9C9C9C'}}>Tìm kiếm</p>
+                <svg onClick={focusInput} className={cx('magnifier-icon')} xmlns="http://www.w3.org/2000/svg" width="40" height="35" viewBox="0 0 40 35" fill="none" style={{display: search, position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)' }}>
                   <g clipPath="url(#clip0_1_19)">
                     <path d="M18.6145 27.7083C25.8283 27.7083 31.6762 22.485 31.6762 16.0417C31.6762 9.59834 25.8283 4.375 18.6145 4.375C11.4008 4.375 5.55292 9.59834 5.55292 16.0417C5.55292 22.485 11.4008 27.7083 18.6145 27.7083Z" stroke="#717171" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M36.9008 33.1081L28.0842 24.5946" stroke="#717171" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
