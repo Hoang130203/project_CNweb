@@ -40,6 +40,8 @@
     }
 
     .group4 {
+        border: none;
+        outline: #1a1919;
         width: 463px;
         height: 71px;
         top: 19px;
@@ -96,12 +98,81 @@
         height: 268px;
         top: 106px;
         right: -350px;
-        padding: 33px 6px 21px 7px;
+        padding: 0px 6px 21px 7px;
         gap: 0px;
         border-radius: 20px;
         opacity: 0px;
         background: #FFFEFE;
         box-shadow: 0px 0px 4px 0px #00000040;
         transition: all 0.5s;
+    }
+
+    .shoping-bag {
+        position: fixed;
+        width: 50px;
+        height: 54px;
+        flex-shrink: 0;
+        width: 50px;
+        height: 54px;
+        top: 23px;
+        left: 1685px;
+        gap: 0px;
+        opacity: 0px;
+
+    }
+
+    .magnifier-icon {
+        position: absolute;
+        width: 277.388px;
+        height: 46px;
+        flex-shrink: 0;
+        color: #9C9C9C;
+        text-align: center;
+        font-family: Itim;
+        font-size: 32px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        width: 39.18px;
+        height: 35px;
+        margin-right: 410px;
+
+    }
+
+    .searchText {
+        font-family: Itim;
+        font-size: 36px;
+        font-weight: 400;
+        line-height: 38.4px;
+        text-align: center;
+
+    }
+
+    .group9 {
+        margin: 0px;
+        width: 272px;
+        height: 214px;
+        top: 33px;
+        left: 7px;
+        gap: 0px;
+        border: 1px 0px 0px 0px;
+        opacity: 0px;
+
+    }
+
+    .group8 {
+        margin-left: 28px;
+        margin-top: 0px ;
+        margin-bottom: 0px;
+    }
+
+    .group7 {
+        margin-left: 28px;
+        margin-top: -20px ;
+    }
+
+    .group6 {
+        margin-left: 33px;
+        margin-top: 0px;
     }
 }
