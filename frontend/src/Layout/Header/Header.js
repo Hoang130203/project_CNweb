@@ -16,7 +16,7 @@ function DivAcc() {
 }
 
 function Header() {
-    const [clickAcc, setClickAcc] = useState(false)
+    const [clickAcc, setClickAcc] = useState(true)
 
     const handleClickAcc = () => {
         setClickAcc(!clickAcc)
