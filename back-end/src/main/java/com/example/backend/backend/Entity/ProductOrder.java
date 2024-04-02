@@ -1,5 +1,7 @@
 package com.example.backend.backend.Entity;
 
+import com.example.backend.backend.Entity.Enum_Key.ProductOrderKey;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,6 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@IdClass(ProductOrderKey.class)
 public class ProductOrder {
     @Id
     @ManyToOne
@@ -26,6 +29,7 @@ public class ProductOrder {
     @JoinColumn(name = "color_id")
     private Color color;
 
+    @JsonIgnore
     @Id
     @ManyToOne
     @JoinColumn(name = "order_id")

@@ -18,7 +18,7 @@ public class DetailInfoProduct {
     private List<Color> colors;
     private List<ProductImage> images= new ArrayList<>();
     private Promotion promotion;
-    private List<Comment> comments= new ArrayList<>();
-    private List<Rate> rates= new ArrayList<>();
+    private List<?> comments= new ArrayList<>();
+    private List<RateReq> rates= new ArrayList<>();
 
 }

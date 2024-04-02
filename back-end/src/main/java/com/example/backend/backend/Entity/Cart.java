@@ -1,6 +1,7 @@
 package com.example.backend.backend.Entity;
 
 import com.example.backend.backend.Entity.Enum_Key.CartKey;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -31,6 +32,7 @@ public class Cart {
     @Id
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
     @Column(name = "quantity")
