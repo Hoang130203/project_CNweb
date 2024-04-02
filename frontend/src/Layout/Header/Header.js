@@ -49,10 +49,13 @@ function Header() {
             document.getElementById('hehe').style.right = "3px";
         }else{
             document.getElementById('hehe').style.right = "-300px";
-        }
-
-        
+        }    
     }
+
+    const focusInput = () => {
+      const input = document.getElementById("myInput");
+      input.focus();
+    };
 
     return (
         <div className={cx('header')}>
@@ -84,11 +87,11 @@ function Header() {
             </div>
 
             {/* Tìm kiếm */}
-            <div className={cx('group5')}>
-              <div style={{ position: 'relative', display: 'inline-block' }}>
-                <input className={cx('group4')}/>
-                <p style={{ position: 'absolute', top: '6%', transform: 'translateY(-50%)', right: '280px', fontFamily: 'Itim', fontSize: '32px', color: '#9C9C9C'}}>Tìm kiếm</p>
-                <svg className={cx('magnifier-icon')} xmlns="http://www.w3.org/2000/svg" width="40" height="35" viewBox="0 0 40 35" fill="none" style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)' }}>
+            <div className={cx('group5')} >
+              <div style={{ position: 'relative', display: 'inline-block' }} >
+                <input id='myInput' className={cx('group4')}/>
+                <p onClick={focusInput} style={{ position: 'absolute', top: '6%', transform: 'translateY(-50%)', right: '280px', fontFamily: 'Itim', fontSize: '32px', color: '#9C9C9C'}}>Tìm kiếm</p>
+                <svg onClick={focusInput} className={cx('magnifier-icon')} xmlns="http://www.w3.org/2000/svg" width="40" height="35" viewBox="0 0 40 35" fill="none" style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)' }}>
                   <g clipPath="url(#clip0_1_19)">
                     <path d="M18.6145 27.7083C25.8283 27.7083 31.6762 22.485 31.6762 16.0417C31.6762 9.59834 25.8283 4.375 18.6145 4.375C11.4008 4.375 5.55292 9.59834 5.55292 16.0417C5.55292 22.485 11.4008 27.7083 18.6145 27.7083Z" stroke="#717171" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M36.9008 33.1081L28.0842 24.5946" stroke="#717171" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -101,7 +104,6 @@ function Header() {
                 </svg>
               </div>
             </div>
-
 
             {/* Giỏ hàng */}
             <div className={cx('shoping-bag')}>
