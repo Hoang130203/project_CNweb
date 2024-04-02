@@ -1,6 +1,6 @@
 .card__product {
     position: relative;
-    width: 22%;
+    width: calc(20% - 10px);
     height: auto;
     display: flex;
     flex-direction: column;
@@ -12,6 +12,7 @@
     margin-bottom: 10px;
     cursor: pointer;
     transition: all 0.8s cubic-bezier(0.15, 0.83, 0.66, 1);
+    box-sizing: border-box;
 
 
     .product__image {
@@ -19,7 +20,7 @@
 
         img {
             margin: 10px 0 0;
-            width: 280px;
+            width: 200px;
             height: auto;
             max-width: 100%;
         }
@@ -66,7 +67,7 @@
         }
 
         .discount {
-            width: 100px;
+            width: 30%;
             height: 40px;
             border-radius: 8px;
             background-color: #DD2E2EC4;
@@ -76,7 +77,7 @@
 
             .discount__detail {
                 font-family: Itim;
-                font-size: 18px;
+                font-size: 14px;
                 font-weight: 400;
                 line-height: 30px;
                 text-align: center;
@@ -89,4 +90,18 @@
 
 .card__product:hover {
     transform: scale(1.02);
+}
+
+@media screen and (max-width: 1199px) {
+    .card__product {
+        width: calc(25% - 10px);
+    }
+
+}
+
+@media screen and (max-width: 989px) {
+    .card__product {
+        width: calc(33.33333% - 10px);
+    }
+
 }
