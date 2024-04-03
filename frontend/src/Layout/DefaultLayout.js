@@ -7,7 +7,7 @@ function DefaultLayout({ children }) {
             <div>
                 <Header />
             </div>
-            <div style={{ minHeight: '600px' }}>
+            <div style={{ minHeight: '600px'}}>
                 {children}
             </div>
             <div>
