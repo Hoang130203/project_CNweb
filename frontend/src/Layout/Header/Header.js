@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from '../Layout.module.scss'
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const cx = classNames.bind(styles)
 
@@ -69,16 +69,28 @@ function Header() {
       setSearch('none')
     };
 
-    useEffect(() => {
-      
+    const inputClicked = () => {
+      setSearch('none')
+    }
+
+    const inputUnClicked = () => {
       if (valueInput !== '') {
         setSearch('none')
       } else {
         setSearch('block')
-        
       }
+    }
 
-    }, [valueInput]) 
+    // useEffect(() => {
+      
+    //   if (valueInput !== '') {
+    //     setSearch('none')
+    //   } else {
+    //     setSearch('block')
+        
+    //   }
+
+    // }, [valueInput])
 
     return (
         <div className={cx('header')}>
@@ -112,7 +124,7 @@ function Header() {
             {/* Tìm kiếm */}
             <div className={cx('group5')} >
               <div style={{ position: 'relative', display: 'inline-block' }} >
-                <input id='myInput' className={cx('group4')} value={valueInput} onChange={e => setValueInput(e.target.value)} />
+                <input id='myInput' className={cx('group4')} value={valueInput} onChange={e => setValueInput(e.target.value)} onFocus={inputClicked} onBlur={inputUnClicked}/>
                 <p onClick={focusInput} style={{display: search, position: 'absolute', top: '6%', transform: 'translateY(-50%)', right: '280px', fontFamily: 'Itim', fontSize: '32px', color: '#9C9C9C'}}>Tìm kiếm</p>
                 <svg onClick={focusInput} className={cx('magnifier-icon')} xmlns="http://www.w3.org/2000/svg" width="40" height="35" viewBox="0 0 40 35" fill="none" style={{display: search, position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)' }}>
                   <g clipPath="url(#clip0_1_19)">
