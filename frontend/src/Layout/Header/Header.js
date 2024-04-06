@@ -1,12 +1,12 @@
 import classNames from 'classnames/bind';
 import styles from '../Layout.module.scss'
 import { Link } from 'react-router-dom';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 const cx = classNames.bind(styles)
 
 // Điều hướng khi bấm vào icon tài khoản
-function DivAcc() {
+function DivAcc({ updateRole }) {
   
     return (<div className={cx('frame2')} id='hehe'>
     <div className={cx('group9')}>
@@ -37,7 +37,13 @@ function DivAcc() {
                 <path d="M24.6667 26.2083L32.375 18.5L24.6667 10.7917" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M32.375 18.5H13.875" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            <Link to='/login' style={{ marginLeft: '9.6px',  fontFamily: 'Itim', fontSize: '25.6px', color: '#000000', textDecoration: 'none' }}>Đăng xuất</Link>
+            <Link 
+              to='/login' 
+              style={{ marginLeft: '9.6px',  fontFamily: 'Itim', fontSize: '25.6px', color: '#000000', textDecoration: 'none' } }
+              onClick={() => updateRole('guest')}
+            >
+              Đăng xuất
+            </Link>
         </div>
         {/* <Link to='/login' style={{ color: '#fff', marginRight: '30px' }}>Login</Link>
         <Link to='/register' style={{ color: '#fff' }}>Register</Link> */}
@@ -98,7 +104,7 @@ function Header() {
     // }, [valueInput])
 
     // Hiển thị theo vai trò
-    const [role, setRole] = useState('guest')
+    const [role, setRole] = useState('user')
     //   const [role, setRole] = useState(() => {
     //     const storageRole = JSON.parse(localStorage.getItem('role'))
     //     return storageRole ? role : 'guest'
@@ -117,6 +123,10 @@ function Header() {
       }
     }, [role])
 
+    // Tạo hiệu ứng khi bấm đăng xuất
+    const updateRole = (newRole) => {
+      setRole(newRole);
+    }
 
     return (
         <div className={cx('header')}>
@@ -181,7 +191,7 @@ function Header() {
             </button>
             
             {/* Điều hướng khi bấm vào icon tài khoản */}
-            {<DivAcc />}
+            {<DivAcc updateRole={updateRole}/>}
           </div>)}
 
           { guest && (<div>
@@ -194,7 +204,7 @@ function Header() {
               <Link to='/login' style={{ marginRight: '15px', marginLeft: '15px',  fontFamily: 'Itim', fontSize: '30px', color: '#000000', textDecoration: 'none' }}>Đăng nhập</Link>
             </div>
             <div className={cx('frame8')} style={{ display: 'flex', alignItems: 'center' }}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="40" height="34" viewBox="0 0 40 34" fill="none" marginRight='10px'>
+              <svg xmlns="http://www.w3.org/2000/svg" width="38" height="34" viewBox="0 0 40 34" fill="none" marginRight='10px'>
                 <g clip-path="url(#clip0_16_110)">
                 <path d="M26.6667 29.75V26.9167C26.6667 25.4138 25.9643 23.9724 24.7141 22.9097C23.4638 21.847 21.7681 21.25 20 21.25H8.33335C6.56524 21.25 4.86955 21.847 3.61931 22.9097C2.36907 23.9724 1.66669 25.4138 1.66669 26.9167V29.75" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M14.1667 15.5833C17.8486 15.5833 20.8333 13.0463 20.8333 9.91667C20.8333 6.78705 17.8486 4.25 14.1667 4.25C10.4848 4.25 7.5 6.78705 7.5 9.91667C7.5 13.0463 10.4848 15.5833 14.1667 15.5833Z" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
