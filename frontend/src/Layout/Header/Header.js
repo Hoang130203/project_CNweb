@@ -97,6 +97,23 @@ function Header() {
 
     // }, [valueInput])
 
+    // Hiển thị theo vai trò
+    const [role, setRole] = useState('guest')
+    const [guest, setGuest] = useState(true)
+    const [user, setUser] = useState(false)
+
+    useEffect(() => {
+      if (role === 'guest') {
+        setGuest(true)
+        setUser(false)
+      }
+      if (role === 'user') {
+        setGuest(false)
+        setUser(true)
+      }
+    }, [role])
+
+
     return (
         <div className={cx('header')}>
             
@@ -125,7 +142,7 @@ function Header() {
                 <Link to='/type' className={cx('headerText')} style={{ color: '#403F3F', marginRight: '30px' }}>Thể loại</Link>
                 <Link to='/following' className={cx('headerText')} style={{ color: '#403F3F', marginRight: '30px' }}>Theo dõi</Link>
             </div>
-
+          { user && (<div>
             {/* Tìm kiếm */}
             <div className={cx('group5')} >
               <div style={{ position: 'relative', display: 'inline-block' }} >
@@ -161,7 +178,35 @@ function Header() {
             
             {/* Điều hướng khi bấm vào icon tài khoản */}
             {<DivAcc />}
+          </div>)}
 
+          { guest && (<div>
+          <div className={cx('signInUP')} style={{ display: 'flex', alignItems: 'center' }}>
+            <div className={cx('frame7')} style={{ display: 'flex', alignItems: 'center' }}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="38" height="34" viewBox="0 0 38 34" fill="none">
+                <path d="M31.6667 29.75V26.9167C31.6667 25.4138 30.9994 23.9724 29.8117 22.9097C28.6239 21.847 27.013 21.25 25.3333 21.25H12.6667C10.987 21.25 9.37606 21.847 8.18833 22.9097C7.0006 23.9724 6.33334 25.4138 6.33334 26.9167V29.75" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M19 15.5833C22.4978 15.5833 25.3333 13.0463 25.3333 9.91667C25.3333 6.78705 22.4978 4.25 19 4.25C15.5022 4.25 12.6667 6.78705 12.6667 9.91667C12.6667 13.0463 15.5022 15.5833 19 15.5833Z" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <Link to='/login' style={{ marginRight: '15px', marginLeft: '15px',  fontFamily: 'Itim', fontSize: '30px', color: '#000000', textDecoration: 'none' }}>Đăng nhập</Link>
+            </div>
+            <div className={cx('frame8')} style={{ display: 'flex', alignItems: 'center' }}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="40" height="34" viewBox="0 0 40 34" fill="none" marginRight='10px'>
+                <g clip-path="url(#clip0_16_110)">
+                <path d="M26.6667 29.75V26.9167C26.6667 25.4138 25.9643 23.9724 24.7141 22.9097C23.4638 21.847 21.7681 21.25 20 21.25H8.33335C6.56524 21.25 4.86955 21.847 3.61931 22.9097C2.36907 23.9724 1.66669 25.4138 1.66669 26.9167V29.75" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M14.1667 15.5833C17.8486 15.5833 20.8333 13.0463 20.8333 9.91667C20.8333 6.78705 17.8486 4.25 14.1667 4.25C10.4848 4.25 7.5 6.78705 7.5 9.91667C7.5 13.0463 10.4848 15.5833 14.1667 15.5833Z" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M33.3333 11.3333V19.8333" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M38.3333 15.5833H28.3333" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                </g>
+                <defs>
+                <clipPath id="clip0_16_110">
+                <rect width="40" height="34" fill="white"/>
+                </clipPath>
+                </defs>
+              </svg>
+              <Link to='/register' style={{ marginRight: '15px', marginLeft: '15px',  fontFamily: 'Itim', fontSize: '30px', color: '#000000', textDecoration: 'none' }}>Đăng ký</Link>
+            </div>
+          </div>
+          </div>)}
         </div>
     );
 }
