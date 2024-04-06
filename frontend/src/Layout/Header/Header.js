@@ -99,6 +99,10 @@ function Header() {
 
     // Hiển thị theo vai trò
     const [role, setRole] = useState('guest')
+    //   const [role, setRole] = useState(() => {
+    //     const storageRole = JSON.parse(localStorage.getItem('role'))
+    //     return storageRole ? role : 'guest'
+    //   })
     const [guest, setGuest] = useState(true)
     const [user, setUser] = useState(false)
 
