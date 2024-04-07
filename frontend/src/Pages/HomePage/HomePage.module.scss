@@ -4,7 +4,7 @@
     height: 100%;
     margin: 0 auto;
     position: relative;
-    width: 1200px;
+    width: 1500px;
 
 
     h1 {
@@ -28,7 +28,7 @@
         margin-top: 100px;
 
         .option__item {
-            width: 295px;
+            width: 20%;
             cursor: pointer;
             text-align: center;
 
@@ -52,7 +52,7 @@
             font-family: Itim;
             font-size: 36px;
             font-weight: 400;
-
+            margin: 20px 0px 10px 0;
         }
 
         .item {
@@ -62,9 +62,9 @@
     }
 }
 
-@media only screen and (max-width: 1199px) {
+@media only screen and (max-width: 1499px) {
     .homepage {
-        max-width: 1200px !important;
+        max-width: 1500px !important;
         padding: 0 10px;
         width: 100% !important;
     }
