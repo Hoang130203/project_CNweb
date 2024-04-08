@@ -1,0 +1,41 @@
+.button {
+    border: none;
+    font-size: 1.2rem;
+    border-radius: 1rem;
+    box-shadow: 0 0.4rem #dfd9d9;
+    cursor: pointer;
+    width: fit-content;
+    padding: 10px 20px;
+    height: fit-content;
+}
+
+.button:active {
+    box-shadow: 0 0.2rem #dfd9d9;
+    transform: translateY(0.2rem);
+}
+
+
+
+.delete-button {
+    background-color: #eee;
+    color: lightcoral;
+}
+
+.delete-button:active {
+    color: white;
+}
+
+.delete-button:hover:not(:disabled) {
+    background: lightcoral;
+    color: white;
+    text-shadow: 0 0.1rem #bcb4b4;
+}
+
+.delete-button:disabled {
+    cursor: auto;
+    color: grey;
+}
+
+.small {
+    padding: 5px 5px;
+}
