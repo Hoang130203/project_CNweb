@@ -5,6 +5,7 @@ import lombok.Data;
 import java.util.ArrayList;
 import java.util.List;
 
+//lớp email dùng cho chức năng quên mật khẩu, gửi mail quảng cáo tới người dùng...
 @Data
 public class Email{
     private Message message =new Message();

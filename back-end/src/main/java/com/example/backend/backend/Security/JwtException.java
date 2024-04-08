@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+//Lớp ngoại lệ kế thừa từ AuthenticationEntryPoint của spring security
 @Component
 public class JwtException implements AuthenticationEntryPoint {
 

@@ -7,6 +7,8 @@ import lombok.Data;
 import java.util.List;
 
 @Data
+//Thông tin cơ bản của sản phẩm dùng khi gửi nhiều sản phẩm và không yêu cầu chi tiết thông tin
+//nhằm giảm tải dữ liệu gửi đi
 public class BaseInfoProduct {
     private int id;
     private String name;
