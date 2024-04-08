@@ -187,7 +187,7 @@ function Header() {
 
             {/* Tài khoản */}
             <button className={cx('acc')} onClick={handleClickAcc}>
-                <img className={cx('accImg')} alt='accImg' src='https://s3-alpha-sig.figma.com/img/0e69/55b5/ac6bae2245e3befa7985f1a3d42889b3?Expires=1712534400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=IyN1A2uNyIa14KOrBbMXHDFKCcU0hN3Mpg-K9-dK-fNXHtEMj3pbdpQQDerLTL74BS~CyniPznCxK00NU3Pao4xjUYYeU9HgfmH9jhTCK4TtU-0xITaboFq7BJoDBNo476G2Qynv3~h~O7DErvDWTYp8T6Fc3v0-9GtyAuJY7Qi4jcJVzwHDgZ2v2ix5V747i-0c5riIAjzr8nyAqJKk0eE4jOW2WztoaKmdWnM5S~nqLzCem~mfoiLFiw2MB52PjN3nzv-ZxR-Nn2TdVyuGuMcbgceyKR6KLZFhbA-Prhawt6sZQbWUw0blcv8LRTA1Tzi9D0f9IfJvRtErS6W63g__' />
+                <img className={cx('accImg')} alt='accImg' src='https://s3-alpha-sig.figma.com/img/0e69/55b5/ac6bae2245e3befa7985f1a3d42889b3?Expires=1713744000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=FWweGy8XtDrpDt7tG8pk42e6BS1-K27ipk8JgAYus-qedcmTGXt5gDDi7mHU4a6N5fnkh3nq5XdNb4walvQx1mq~yR2vFgY1cmjogpL4qMf9sGKLfQT427mX1L0LUsaBF9P1IbP9Bpf8v22iLyb5kZnbr6aurtwrkRxa888-uykeO2fJiDwW8ItK1qWBTd34pmcizXitGuMarO9nsHVGc7JIpn5nX6TpIDSjMXpW3TfhQ~wm4KFjN6fkbLL37v4~CDMdYTgj-6X0ZprlndlYBxYNMjgVCzP6kNpS1V~nwNb2ypvxUsb3HSd-700korCSjTaapYo~G1cbMBvYGMTvyQ__' />
             </button>
             
             {/* Điều hướng khi bấm vào icon tài khoản */}
