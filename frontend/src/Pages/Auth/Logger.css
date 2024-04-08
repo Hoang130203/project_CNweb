@@ -1,0 +1,136 @@
+*{
+    margin: 0px;
+    font-family: 'itim', sans-serif;
+}
+.container{
+    width: 90%;
+    height: 70vh;
+    margin-top: 75px;
+    display: flex;
+    margin-left: 100px;
+}
+
+.ad-block{
+    width: 50%;
+    height: 100%;
+    /* background-image: url(https://s3-alpha-sig.figma.com/img/e524/4b76/ccda07599e30db81c999ab3e9d004f59?Expires=1713139200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=QXikj1~W-6CO-hjyCiGMn0lzXZrigX~rK7mJ0b4kbulOi~-V4kS2FzemdJ8Lf3BiZkPZmJegKbhpGXd-QlOh22nTQEU~nCP5u29Plg6y1XwSxCscUzZg66IFurotEmahB9bfstlOaYNVlwE~K8uCXF~7N5041s6U68wFXzXPT9Ag48wVOpLrVQaWVeDn~0deXqxNi69QSM-i6LEZicAiPIHvRQBXuPtjuBhBD3OYlRxJlD7u~5aP63hX~qlBfVv2vveiGCu20CGNTQX0zYQpUO70kfiyaADe1spXxpnLtECOMmHRzno6P6C4SNM77XdyOhQRrVwhTC4-7F9WppzSFg__); */
+    background-size: 100% 100%;
+}
+
+.ad-block img {
+    width: 82%;
+    height: 100%;
+}
+
+.logger {
+    margin-left: 80px;
+    margin-top:40px;
+    width: 50%;
+}
+
+.logger h1{
+    font-weight: 400;
+    font-size: 50px;
+    color: #131182;
+}
+
+.internal {
+    margin-top: 10px;    
+    width: 100%;
+    height: 60%;    
+}
+
+.internal.login {
+    margin-top: 10px;    
+    width: 100%;
+    height: 45%;    
+}
+
+.internal .row{
+    width: 100%;
+    height: 25%;
+}
+
+.internal .row .label{
+    font-size: 25px;
+    margin-bottom: 5px;
+    width: 100%;
+    height: 50%;
+}
+
+.internal .row .input{
+    width: 100%;
+    height: 50%;
+    margin-bottom: 5px
+}
+
+.internal .row .input input{
+    width: 50%;
+    height: 35px;
+    font-size: 20px;
+    border-radius: 15px;
+    padding-left: 15px;
+    border: 1px #000000 solid;
+}
+
+
+.internal .row button {
+    margin-top: 10px;
+    border-radius: 15px;
+    width: 53%;
+    height: 40px;
+    font-size: 25px;
+    color: #fff;
+    background-color: #4CB9C7;
+}
+
+/* .internal .row button.login-btn {
+    margin-top: 40px;
+    border-radius: 15px;
+    width: 53%;
+    height: 60px;
+    font-size: 25px;
+    color: #fff;
+    background-color: #4CB9C7;
+} */
+
+.break-line{
+    width: 50%;
+    margin-top: 18px;
+    font-size: 25px;
+    text-align: center;
+    margin-bottom: 18px;
+    text-decoration: underline;
+}
+
+.external{
+    width: 100%;
+}
+
+.external .button {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.external .button button {
+    height: 40px;
+    width: 50%;
+    border-radius: 15px;
+    font-size: 20px;
+    background-color: #EAE9E9;
+    color: #7E7A7A;
+}
+
+.other {
+    margin-top: 5px;
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+    font-size: 22px;
+}
+
+.other .nav {
+    color: #3E10C2;
+    text-decoration: none;
+    
+}
