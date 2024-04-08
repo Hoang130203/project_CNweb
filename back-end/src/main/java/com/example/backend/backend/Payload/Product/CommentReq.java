@@ -6,6 +6,7 @@ import lombok.Data;
 import java.sql.Timestamp;
 
 @Data
+//Comment của người dùng khi gửi tới
 public class CommentReq {
     private int productId;
     private String content;

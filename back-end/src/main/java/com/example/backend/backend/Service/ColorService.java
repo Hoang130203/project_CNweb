@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ColorService {
     @Autowired
     private  ColorRepository colorRepository;
+    //Tạo các màu từ ENum vào csdl
     public void createColorsFromEnum() {
         for (EColor eColor : EColor.values()) {
 

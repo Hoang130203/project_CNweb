@@ -9,6 +9,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+//Thông tin đơn hàng khi người dùng gửi request lên
 public class OrderInfo {
     private List<PostCart> postCarts;
     private Long totalCost;
