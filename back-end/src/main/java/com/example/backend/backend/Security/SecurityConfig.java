@@ -49,6 +49,7 @@ public class SecurityConfig {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
+
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.headers().frameOptions().disable().and()
