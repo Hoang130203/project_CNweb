@@ -1,6 +1,9 @@
 package com.example.backend.backend.Payload.User;
 
+import com.example.backend.backend.Entity.UserRole;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class UserInfo {
@@ -10,5 +13,6 @@ public class UserInfo {
 //    private String password;
     private String address;
     private String phone;
+    private List<UserRole> roles;
 
 }
