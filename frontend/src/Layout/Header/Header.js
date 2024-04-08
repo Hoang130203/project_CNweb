@@ -151,7 +151,7 @@ function Header() {
   
             {/* Các trang con */}
             <div className={cx('group2')} style={{ color: '#fff', padding: '5px' }}>                
-                <Link to='/hot' className={cx('headerText')} style={{ color: '#403F3F', marginRight: '30px' }}>Hot</Link>
+                <Link to='/mobile' className={cx('headerText')} style={{ color: '#403F3F', marginRight: '30px' }}>Mobile</Link>
                 <Link to='/new' className={cx('headerText')} style={{ color: '#403F3F', marginRight: '30px' }}>New</Link>
                 <Link to='/type' className={cx('headerText')} style={{ color: '#403F3F', marginRight: '30px' }}>Thể loại</Link>
                 <Link to='/following' className={cx('headerText')} style={{ color: '#403F3F', marginRight: '30px' }}>Theo dõi</Link>
