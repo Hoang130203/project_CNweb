@@ -71,10 +71,12 @@ function Header() {
         setClickAcc(!clickAcc)
         if(clickAcc){
             document.getElementById('hehe').style.right = "3px";
-            document.getElementById('div1').style.zIndex = "0";
+            document.getElementById('div1').style.width = "100%";
+            document.getElementById('div1').style.height = "100%";
         }else{
             document.getElementById('hehe').style.right = "-300px";
-            document.getElementById('div1').style.zIndex = "-3"
+            document.getElementById('div1').style.width = "0%";
+            document.getElementById('div1').style.height = "0%";
         }    
     }
 
