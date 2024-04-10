@@ -6,49 +6,52 @@ import { useState, useEffect } from 'react';
 const cx = classNames.bind(styles)
 
 // Điều hướng khi bấm vào icon tài khoản
-function DivAcc({ updateRole }) {
+function DivAcc({ updateRole, handleClickAcc }) {
   
-    return (<div className={cx('frame2')} id='hehe'>
-    <div className={cx('group9')}>
-        {/* Icon hình người */}
-        <div className={cx('group8')} style={{ display: 'flex', alignItems: 'center' }}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="37.6" height="36" viewBox="0 0 47 45" fill="none">
-                <path d="M39.1666 39.8162V36.0662C39.1666 34.0771 38.3413 32.1694 36.8723 30.7629C35.4033 29.3564 33.4108 28.5662 31.3333 28.5662H15.6666C13.5891 28.5662 11.5967 29.3564 10.1276 30.7629C8.65861 32.1694 7.83331 34.0771 7.83331 36.0662V39.8162" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M23.5 20.625C27.8262 20.625 31.3333 17.2671 31.3333 13.125C31.3333 8.98286 27.8262 5.625 23.5 5.625C19.1738 5.625 15.6667 8.98286 15.6667 13.125C15.6667 17.2671 19.1738 20.625 23.5 20.625Z" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <p style={{ marginLeft: '8px',  fontFamily: 'Itim', fontSize: '25.6px', color: '#000000'}}>Tài khoản</p>
-        </div>
+  return (
+    <div className={cx('divAcc')} id='div1' onClick={() => handleClickAcc(false)}>
+      <div className={cx('frame2')} id='hehe'>
+        <div className={cx('group9')}>
+          {/* Icon hình người */}
+          <div className={cx('group8')} style={{ display: 'flex', alignItems: 'center' }}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="37.6" height="36" viewBox="0 0 47 45" fill="none">
+                  <path d="M39.1666 39.8162V36.0662C39.1666 34.0771 38.3413 32.1694 36.8723 30.7629C35.4033 29.3564 33.4108 28.5662 31.3333 28.5662H15.6666C13.5891 28.5662 11.5967 29.3564 10.1276 30.7629C8.65861 32.1694 7.83331 34.0771 7.83331 36.0662V39.8162" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M23.5 20.625C27.8262 20.625 31.3333 17.2671 31.3333 13.125C31.3333 8.98286 27.8262 5.625 23.5 5.625C19.1738 5.625 15.6667 8.98286 15.6667 13.125C15.6667 17.2671 19.1738 20.625 23.5 20.625Z" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <p style={{ marginLeft: '8px',  fontFamily: 'Itim', fontSize: '25.6px', color: '#000000'}}>Tài khoản</p>
+          </div>
 
-        {/* Icon hình chuông */}
-        <div className={cx('group7')} style={{ display: 'flex', alignItems: 'center' }}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="37.6" height="33.6" viewBox="0 0 47 42" fill="none">
-                <path d="M35.25 14C35.25 11.2152 34.0121 8.54451 31.8085 6.57538C29.605 4.60625 26.6163 3.5 23.5 3.5C20.3837 3.5 17.395 4.60625 15.1915 6.57538C12.9879 8.54451 11.75 11.2152 11.75 14C11.75 26.25 5.875 29.75 5.875 29.75H41.125C41.125 29.75 35.25 26.25 35.25 14Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M26.8879 36.75C26.5436 37.2804 26.0494 37.7206 25.4549 38.0267C24.8603 38.3327 24.1862 38.4938 23.5 38.4938C22.8138 38.4938 22.1397 38.3327 21.5451 38.0267C20.9506 37.7206 20.4564 37.2804 20.1121 36.75" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <p style={{ marginLeft: '8px',  fontFamily: 'Itim', fontSize: '25.6px', color: '#000000' }}>Thông báo</p>
-        </div>
+          {/* Icon hình chuông */}
+          <div className={cx('group7')} style={{ display: 'flex', alignItems: 'center' }}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="37.6" height="33.6" viewBox="0 0 47 42" fill="none">
+                  <path d="M35.25 14C35.25 11.2152 34.0121 8.54451 31.8085 6.57538C29.605 4.60625 26.6163 3.5 23.5 3.5C20.3837 3.5 17.395 4.60625 15.1915 6.57538C12.9879 8.54451 11.75 11.2152 11.75 14C11.75 26.25 5.875 29.75 5.875 29.75H41.125C41.125 29.75 35.25 26.25 35.25 14Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M26.8879 36.75C26.5436 37.2804 26.0494 37.7206 25.4549 38.0267C24.8603 38.3327 24.1862 38.4938 23.5 38.4938C22.8138 38.4938 22.1397 38.3327 21.5451 38.0267C20.9506 37.7206 20.4564 37.2804 20.1121 36.75" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <p style={{ marginLeft: '8px',  fontFamily: 'Itim', fontSize: '25.6px', color: '#000000' }}>Thông báo</p>
+          </div>
 
-        <hr style={{ borderTop: '2px solid #B6B6B6', width: '170px', paddingLeft: '10px', margin:'22px 0px 0px 14px'}} />
+          <hr style={{ borderTop: '2px solid #B6B6B6', width: '170px', paddingLeft: '10px', margin:'22px 0px 0px 14px'}} />
 
-        {/* Icon đăng xuất */}
-        <div className={cx('group6')} style={{ display: 'flex', alignItems: 'center' }}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="29.6" height="29.6" viewBox="0 0 37 37" fill="none">
-                <path d="M13.875 32.375H7.70833C6.89058 32.375 6.10632 32.0501 5.52809 31.4719C4.94985 30.8937 4.625 30.1094 4.625 29.2917V7.70833C4.625 6.89058 4.94985 6.10632 5.52809 5.52809C6.10632 4.94985 6.89058 4.625 7.70833 4.625H13.875" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M24.6667 26.2083L32.375 18.5L24.6667 10.7917" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M32.375 18.5H13.875" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <Link 
-              to='/login' 
-              style={{ marginLeft: '9.6px',  fontFamily: 'Itim', fontSize: '25.6px', color: '#000000', textDecoration: 'none' } }
-              onClick={() => updateRole('guest')}
-            >
-              Đăng xuất
-            </Link>
+          {/* Icon đăng xuất */}
+          <div className={cx('group6')} style={{ display: 'flex', alignItems: 'center' }}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="29.6" height="29.6" viewBox="0 0 37 37" fill="none">
+                  <path d="M13.875 32.375H7.70833C6.89058 32.375 6.10632 32.0501 5.52809 31.4719C4.94985 30.8937 4.625 30.1094 4.625 29.2917V7.70833C4.625 6.89058 4.94985 6.10632 5.52809 5.52809C6.10632 4.94985 6.89058 4.625 7.70833 4.625H13.875" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M24.6667 26.2083L32.375 18.5L24.6667 10.7917" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M32.375 18.5H13.875" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <Link 
+                to='/login' 
+                style={{ marginLeft: '9.6px',  fontFamily: 'Itim', fontSize: '25.6px', color: '#000000', textDecoration: 'none' } }
+                onClick={() => updateRole('guest')}
+              >
+                Đăng xuất
+              </Link>
+          </div>
+          {/* <Link to='/login' style={{ color: '#fff', marginRight: '30px' }}>Login</Link>
+          <Link to='/register' style={{ color: '#fff' }}>Register</Link> */}
         </div>
-        {/* <Link to='/login' style={{ color: '#fff', marginRight: '30px' }}>Login</Link>
-        <Link to='/register' style={{ color: '#fff' }}>Register</Link> */}
-    </div>
-</div>)
+      </div>
+    </div>)
 }
 
 
@@ -64,12 +67,14 @@ function Header() {
     const [valueInput, setValueInput] = useState('')
 
     // Hiện frame2
-    const handleClickAcc = () => {
+    const handleClickAcc = (clickAcc) => {
         setClickAcc(!clickAcc)
         if(clickAcc){
             document.getElementById('hehe').style.right = "3px";
+            document.getElementById('div1').style.zIndex = "0";
         }else{
             document.getElementById('hehe').style.right = "-300px";
+            document.getElementById('div1').style.zIndex = "-3"
         }    
     }
 
@@ -146,7 +151,7 @@ function Header() {
                   </clipPath>
                 </defs>
               </svg>
-              <Link to='/' className={cx('logo')} style={{ color: '#000000', marginRight: '24px', position: 'absolute', top: '50%', transform: 'translateY(-50%)', left: '45px' }}>w15store</Link>
+              <Link to='/' className={cx('logo')} style={{ fontFamily:'Itim', color: '#000000', marginRight: '24px', position: 'absolute', top: '50%', transform: 'translateY(-50%)', left: '45px' }}>w15store</Link>
             </div>
   
             {/* Các trang con */}
@@ -186,12 +191,13 @@ function Header() {
             </div>
 
             {/* Tài khoản */}
-            <button className={cx('acc')} onClick={handleClickAcc}>
+            <button className={cx('acc')} onClick={() => handleClickAcc(clickAcc)}>
                 <img className={cx('accImg')} alt='accImg' src='https://s3-alpha-sig.figma.com/img/0e69/55b5/ac6bae2245e3befa7985f1a3d42889b3?Expires=1713744000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=FWweGy8XtDrpDt7tG8pk42e6BS1-K27ipk8JgAYus-qedcmTGXt5gDDi7mHU4a6N5fnkh3nq5XdNb4walvQx1mq~yR2vFgY1cmjogpL4qMf9sGKLfQT427mX1L0LUsaBF9P1IbP9Bpf8v22iLyb5kZnbr6aurtwrkRxa888-uykeO2fJiDwW8ItK1qWBTd34pmcizXitGuMarO9nsHVGc7JIpn5nX6TpIDSjMXpW3TfhQ~wm4KFjN6fkbLL37v4~CDMdYTgj-6X0ZprlndlYBxYNMjgVCzP6kNpS1V~nwNb2ypvxUsb3HSd-700korCSjTaapYo~G1cbMBvYGMTvyQ__' />
             </button>
             
             {/* Điều hướng khi bấm vào icon tài khoản */}
-            {<DivAcc updateRole={updateRole}/>}
+            {<DivAcc updateRole={updateRole} handleClickAcc={handleClickAcc}/>}
+            
           </div>)}
 
           { guest && (<div>

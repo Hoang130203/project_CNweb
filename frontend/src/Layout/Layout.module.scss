@@ -210,6 +210,28 @@
     //     // cursor: url('./custom-cursor.png'), auto;
         
     // }
+    html, body {
+        height: 100%;
+        margin: 0;
+      }
+      
+    .divAcc {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -3;
+    }
     
-    
+    #div2 {
+      position: absolute;
+      top: 50%; /* Điều chỉnh vị trí đứng đặc biệt của div2 tùy thuộc vào yêu cầu của bạn */
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 200px; /* Chiều rộng của div2 */
+      height: 200px; /* Chiều cao của div2 */
+      background-color: #ff0000; /* Màu nền của div2 */
+      z-index: 1;
+    }
 }
