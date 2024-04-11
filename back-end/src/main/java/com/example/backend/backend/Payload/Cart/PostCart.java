@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+//thông tin sản phẩm trong giỏ hàng khi người dùng gửi request lên
 public class PostCart {
     private int productId;
     private int colorId;
