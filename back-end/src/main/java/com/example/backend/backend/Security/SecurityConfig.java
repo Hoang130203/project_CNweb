@@ -27,35 +27,44 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-//class cấu hình chính
+//class cấu hình bảo mật chính
 public class SecurityConfig {
     @Autowired
+    //Xử lý ngoại lệ cho jwt
     private JwtException jwtException;
+
+    //bật chế độ samesite=none cho cookie,đồng ý cho phép máy chủ khác tên miền lưu trữ cookie
     @Bean
     public CookieSameSiteSupplier applicationCookieSameSiteSupplier() {
         return CookieSameSiteSupplier.of(Cookie.SameSite.NONE);
     }
+
+    //Đối tượng JwtTokenFilter
     @Bean
     public JwtTokenFilter jwtTokenFilter(){
         return new JwtTokenFilter();
     }
+
+    //Mã hóa mật khẩu
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
 
+    //Đối tượng quản lý xác thực
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception{
         return authenticationConfiguration.getAuthenticationManager();
     }
 
+    //Đối tượng lọc các request tới ứng dụng spring boot
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.headers().frameOptions().disable().and()
 //                cors(cors->cors.notifyAll())
                 .cors().configurationSource(request -> {
             CorsConfiguration configuration= new CorsConfiguration();
-            configuration.setAllowedOrigins(List.of("http://localhost:3000","https://project-c-nweb.vercel.app/hot"));
+            configuration.setAllowedOrigins(List.of("http://localhost:3000","https://project-c-nweb.vercel.app"));
             configuration.setAllowedMethods(List.of("HEAD", "GET", "POST", "PUT", "DELETE", "PATCH","OPTIONS"));
             configuration.setAllowCredentials(true);
             configuration.addExposedHeader("Message");
@@ -72,6 +81,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/createRole").permitAll()
                         .requestMatchers(HttpMethod.GET,"/api/product/**").permitAll()
                         .requestMatchers("/api/user/**").hasRole("USER")
+                        .requestMatchers("/vnpay/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/vnpay/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling((exceptions) -> exceptions.authenticationEntryPoint(jwtException))

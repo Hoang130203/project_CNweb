@@ -42,6 +42,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         }
         filterChain.doFilter(request, response);
     }
+    //Lấy ra token người dùng từ request
     private String getToken(HttpServletRequest request){
         Cookie cookie = WebUtils.getCookie(request,cookieName);
         return cookie!=null?cookie.getValue():null;

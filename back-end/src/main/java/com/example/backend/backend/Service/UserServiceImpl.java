@@ -19,7 +19,7 @@ import java.util.Optional;
 @Service
 @Transactional
 public class UserServiceImpl implements UserService{
-
+    //khai báo các repository cần thiết
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
     private final ColorRepository colorRepository;
@@ -37,27 +37,32 @@ public class UserServiceImpl implements UserService{
         this.productQuantityRepository = productQuantityRepository;
         this.orderRepository = orderRepository;
     }
+    //Lấy ra người dùng từ tài khoản
     @Override
     public Optional<User> getByAccount(String account) {
         return userRepository.findByAccount(account);
     }
 
+    //Lấy ra người dùng từ id
     @Override
     public Optional<User> getById(String id) {
         return userRepository.findById(id);
     }
 
+    //kiếm tra người dùng có tồn tại không
     @Override
     public boolean existByAccount(String account) {
         return userRepository.existsByAccount(account);
     }
 
+    //Lưu thông tin người dùng
     @Override
     @Transactional
     public void save(User user) {
         userRepository.save(user);
     }
 
+    //thêm sản phẩm vào giỏ hàng
     @Override
     public void addProductToCart(PostCart postCart, String userId) {
         User user = userRepository.findById(userId)
@@ -92,6 +97,7 @@ public class UserServiceImpl implements UserService{
         userRepository.save(user);
     }
 
+    //Lấy ra các sản phẩm đang có trong giỏ hàng
     @Override
     public List<Cart> getCart(String userId) {
         User user= userRepository.findById(userId)
@@ -99,6 +105,7 @@ public class UserServiceImpl implements UserService{
         return user.getCarts();
     }
 
+    //xóa các sản phẩm được chọn khỏi giỏ hàng
     @Override
     public boolean delete(PostCart postCart, String userId) {
         User user = userRepository.findById(userId)
@@ -123,11 +130,13 @@ public class UserServiceImpl implements UserService{
         return false;
     }
 
+    //danh sách tài khoản có email xác định
     @Override
     public List<User> getAllByEmail(String email) {
         return userRepository.getAllByEmail(email);
     }
 
+    //tạo đơn hàng của người dùng
     @Override
     public String postOrder(OrderInfo orderInfo, String userId) {
         Order order= new Order();
@@ -188,6 +197,7 @@ public class UserServiceImpl implements UserService{
         return "Đã đặt hàng thành công, chờ xử lý!";
     }
 
+    //Lấy ra các đơn hàng của người dùng
     @Override
     public List<Order> getOrders(String userId) {
         User user = userRepository.findById(userId)
@@ -195,6 +205,7 @@ public class UserServiceImpl implements UserService{
         return user.getOrders();
     }
 
+    //Hủy đơn hàng (không xóa)
     @Override
     public boolean cancelOrder(String userId, int orderId) {
         User user = userRepository.findById(userId)

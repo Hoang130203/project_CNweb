@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
+//lớp chừa thông tin chi tiết của sản phẩm dùng khi người dùng vào trang xem chi tiết...
 public class DetailInfoProduct {
     private int id;
     private EType type;
