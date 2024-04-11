@@ -18,11 +18,10 @@ function Mobile() {
     const { min: MIN, max: MAX } = getMinMaxNewPrice();
     const [selectedOptions, setSelectedOptions] = useState({});
     const [priceRange, setPriceRange] = useState([MIN, MAX]);
-    const [sortType, setSortType] = useState('Mới nhất');
+    const [sortType, setSortType] = useState('Giá thấp - cao');
 
 
     const filteredProducts = products.filter((product) => {
-        // Check if the product matches the selected filter options
         for (const [filterName, options] of Object.entries(selectedOptions)) {
             const filterNameLower = filterName.toLowerCase();
             if (filterNameLower.toLowerCase() === 'rating') {
@@ -38,30 +37,28 @@ function Mobile() {
             }
         }
 
-        // Check if the product price is within the selected price range
         return product.newPrice >= priceRange[0] && product.newPrice <= priceRange[1];
     });
-    // Sort the filtered products based on the selected sort type
-  const sortedProducts = [...filteredProducts].sort((a, b) => {
-    switch (sortType) {
-      case 'Giá cao - thấp':
-        return b.newPrice - a.newPrice;
-      case 'Giá thấp - cao':
-        return a.newPrice - b.newPrice;
-      case 'Mới nhất':
-        return new Date(b.manufacturingDate).getTime() - new Date(a.manufacturingDate).getTime();
-      case 'Bán chạy':
-        return b.salesCount - a.salesCount;
-      default:
-        return 0;
-    }
-  });
+    const sortedProducts = [...filteredProducts].sort((a, b) => {
+        switch (sortType) {
+            case 'Giá cao - thấp':
+                return b.newPrice - a.newPrice;
+            case 'Giá thấp - cao':
+                return a.newPrice - b.newPrice;
+            case 'Mới nhất':
+                return new Date(b.manufacturingDate).getTime() - new Date(a.manufacturingDate).getTime();
+            case 'Bán chạy':
+                return b.salesCount - a.salesCount;
+            default:
+                return 0;
+        }
+    });
     const handlePriceRangeChange = (newPriceRange) => {
         setPriceRange(newPriceRange);
     };
     const handleSortTypeChange = (sortType) => {
         setSortType(sortType);
-      };
+    };
 
 
     return (
@@ -73,25 +70,23 @@ function Mobile() {
                     Bộ lọc
                 </div>
                 <Filter
-                    MIN={MIN} 
-                    MAX={MAX} 
+                    MIN={MIN}
+                    MAX={MAX}
                     handlePriceRangeChange={handlePriceRangeChange}
                     selectedOptions={selectedOptions}
                     setSelectedOptions={setSelectedOptions}
                 />
-                </div>
-            <div className={cx('sort__container')}>
+            </div>
+            <div className={cx('wrapper')}>
                 <div className={cx('sort__title')}>
                     <h3>Sắp xếp theo</h3>
                 </div>
                 <Sort sortType={sortType} onSortTypeChange={handleSortTypeChange} />
-            </div>
-
-            {/* Filter content goes here */}
-            <div className={cx('item__container')} >
-                {sortedProducts.map((product, index) => (
+                <div className={cx('item__container')} >
+                {sortedProducts.map((product) => (
                     <CardProduct
-                        key={index}
+                        key={product.id}
+                        id={product.id}
                         image={product.image}
                         name={product.name}
                         discount={product.discount}
@@ -100,6 +95,8 @@ function Mobile() {
                     />
                 ))}
             </div>
+            </div>
+            
         </div>
     );
 

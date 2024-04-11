@@ -1,5 +1,8 @@
 import classNames from 'classnames/bind';
 import styles from './CardProduct.module.scss';
+import { Link } from 'react-router-dom';
+
+
 
 const cx = classNames.bind(styles);
 
@@ -8,8 +11,8 @@ const formatPrice = (price) => {
     return formattedPrice;
 };
 
-const CardProduct = ({ image, name, discount, oldPrice, newPrice }) => (
-    <div className={cx("card__product")}>
+const CardProduct = ({ image, name, discount, oldPrice, newPrice, id }) => (
+    <Link to={`/product-detail/${id}`} className={cx("card__product")} style={{color: 'inherit', textDecoration: 'inherit'}}>
         <div className={cx("product__image")}>
             <img src={image} alt={name} />
         </div>
@@ -30,7 +33,7 @@ const CardProduct = ({ image, name, discount, oldPrice, newPrice }) => (
                 </div>
             )}
         </div>
-    </div>
+    </Link>
 );
 
 export default CardProduct;
