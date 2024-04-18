@@ -105,3 +105,9 @@
     }
 
 }
+/* Loại bỏ màu chữ và gạch chân mặc định */
+Link {
+  color: inherit;
+  text-decoration: inherit;
+}
+

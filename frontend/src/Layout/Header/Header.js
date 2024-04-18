@@ -7,7 +7,7 @@ const cx = classNames.bind(styles)
 
 // Điều hướng khi bấm vào icon tài khoản
 function DivAcc({ updateRole, handleClickAcc }) {
-  
+
   return (
     <div className={cx('divAcc')} id='div1' onClick={() => handleClickAcc(false)}>
       <div className={cx('frame2')} id='hehe'>
@@ -20,9 +20,8 @@ function DivAcc({ updateRole, handleClickAcc }) {
               </svg>
               <p style={{ marginLeft: '8px',  fontFamily: 'Itim', fontSize: '25.6px', color: '#000000'}}>Tài khoản</p>
           </div>
-
-          {/* Icon hình chuông */}
-          <div className={cx('group7')} style={{ display: 'flex', alignItems: 'center' }}>
+           {/* Icon hình chuông */}
+           <div className={cx('group7')} style={{ display: 'flex', alignItems: 'center' }}>
               <svg xmlns="http://www.w3.org/2000/svg" width="37.6" height="33.6" viewBox="0 0 47 42" fill="none">
                   <path d="M35.25 14C35.25 11.2152 34.0121 8.54451 31.8085 6.57538C29.605 4.60625 26.6163 3.5 23.5 3.5C20.3837 3.5 17.395 4.60625 15.1915 6.57538C12.9879 8.54451 11.75 11.2152 11.75 14C11.75 26.25 5.875 29.75 5.875 29.75H41.125C41.125 29.75 35.25 26.25 35.25 14Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                   <path d="M26.8879 36.75C26.5436 37.2804 26.0494 37.7206 25.4549 38.0267C24.8603 38.3327 24.1862 38.4938 23.5 38.4938C22.8138 38.4938 22.1397 38.3327 21.5451 38.0267C20.9506 37.7206 20.4564 37.2804 20.1121 36.75" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -32,8 +31,8 @@ function DivAcc({ updateRole, handleClickAcc }) {
 
           <hr style={{ borderTop: '2px solid #B6B6B6', width: '170px', paddingLeft: '10px', margin:'22px 0px 0px 14px'}} />
 
-          {/* Icon đăng xuất */}
-          <div className={cx('group6')} style={{ display: 'flex', alignItems: 'center' }}>
+      {/* Icon đăng xuất */}
+      <div className={cx('group6')} style={{ display: 'flex', alignItems: 'center' }}>
               <svg xmlns="http://www.w3.org/2000/svg" width="29.6" height="29.6" viewBox="0 0 37 37" fill="none">
                   <path d="M13.875 32.375H7.70833C6.89058 32.375 6.10632 32.0501 5.52809 31.4719C4.94985 30.8937 4.625 30.1094 4.625 29.2917V7.70833C4.625 6.89058 4.94985 6.10632 5.52809 5.52809C6.10632 4.94985 6.89058 4.625 7.70833 4.625H13.875" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                   <path d="M24.6667 26.2083L32.375 18.5L24.6667 10.7917" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -49,91 +48,90 @@ function DivAcc({ updateRole, handleClickAcc }) {
           </div>
           {/* <Link to='/login' style={{ color: '#fff', marginRight: '30px' }}>Login</Link>
           <Link to='/register' style={{ color: '#fff' }}>Register</Link> */}
-        </div>
       </div>
-    </div>)
-}
+      </div>
+    </div>)}
 
 
 
 function Header() {
-    // Hiện, ẩn khi bấm vào accImg
-    const [clickAcc, setClickAcc] = useState(true)
+  // Hiện, ẩn khi bấm vào accImg
+  const [clickAcc, setClickAcc] = useState(true)
 
-    // Hiện, ẩn khi tìm kiếm (ẩn khi bấm vào input, khi trong input có dữ liệu, hiện lại khi trong thẻ input o có gì)
-    const [search, setSearch] = useState('block')
+  // Hiện, ẩn khi tìm kiếm (ẩn khi bấm vào input, khi trong input có dữ liệu, hiện lại khi trong thẻ input o có gì)
+  const [search, setSearch] = useState('block')
 
-    // Nội dung trong thẻ input
-    const [valueInput, setValueInput] = useState('')
+  // Nội dung trong thẻ input
+  const [valueInput, setValueInput] = useState('')
 
     // Hiện frame2
     const handleClickAcc = (clickAcc) => {
-        setClickAcc(!clickAcc)
-        if(clickAcc){
-            document.getElementById('hehe').style.right = "3px";
-            document.getElementById('div1').style.width = "100%";
-            document.getElementById('div1').style.height = "100%";
-        }else{
-            document.getElementById('hehe').style.right = "-300px";
-            document.getElementById('div1').style.width = "0%";
-            document.getElementById('div1').style.height = "0%";
-        }    
-    }
+      setClickAcc(!clickAcc)
+    if (clickAcc) {
+      document.getElementById('hehe').style.right = "3px";
+      document.getElementById('div1').style.zIndex = "0";
 
-    // Focus vào input khi nhấn vào icon + text
-    const focusInput = () => {
-      const input = document.getElementById("myInput");
-      input.focus();
+    } else {
+      document.getElementById('hehe').style.right = "-300px";
+      document.getElementById('div1').style.zIndex = "-3"
+
+    }
+  }
+
+  // Focus vào input khi nhấn vào icon + text
+  const focusInput = () => {
+    const input = document.getElementById("myInput");
+    input.focus();
+    setSearch('none')
+  };
+
+  const inputClicked = () => {
+    setSearch('none')
+  }
+
+  const inputUnClicked = () => {
+    if (valueInput !== '') {
       setSearch('none')
-    };
-
-    const inputClicked = () => {
-      setSearch('none')
+    } else {
+      setSearch('block')
     }
+  }
 
-    const inputUnClicked = () => {
-      if (valueInput !== '') {
-        setSearch('none')
-      } else {
-        setSearch('block')
-      }
+  // useEffect(() => {
+
+  //   if (valueInput !== '') {
+  //     setSearch('none')
+  //   } else {
+  //     setSearch('block')
+
+  //   }
+
+  // }, [valueInput])
+
+  // Hiển thị theo vai trò
+  const [role, setRole] = useState('user')
+  //   const [role, setRole] = useState(() => {
+  //     const storageRole = JSON.parse(localStorage.getItem('role'))
+  //     return storageRole ? role : 'guest'
+  //   })
+  const [guest, setGuest] = useState(true)
+  const [user, setUser] = useState(false)
+
+  useEffect(() => {
+    if (role === 'guest') {
+      setGuest(true)
+      setUser(false)
     }
-
-    // useEffect(() => {
-      
-    //   if (valueInput !== '') {
-    //     setSearch('none')
-    //   } else {
-    //     setSearch('block')
-        
-    //   }
-
-    // }, [valueInput])
-
-    // Hiển thị theo vai trò
-    const [role, setRole] = useState('user')
-    //   const [role, setRole] = useState(() => {
-    //     const storageRole = JSON.parse(localStorage.getItem('role'))
-    //     return storageRole ? role : 'guest'
-    //   })
-    const [guest, setGuest] = useState(true)
-    const [user, setUser] = useState(false)
-
-    useEffect(() => {
-      if (role === 'guest') {
-        setGuest(true)
-        setUser(false)
-      }
-      if (role === 'user') {
-        setGuest(false)
-        setUser(true)
-      }
-    }, [role])
+    if (role === 'user') {
+      setGuest(false)
+      setUser(true)
+    }
+  }, [role])
 
     // Tạo hiệu ứng khi bấm đăng xuất
-    const updateRole = (newRole) => {
-      setRole(newRole);
-    }
+  const updateRole = (newRole) => {
+    setRole(newRole);
+  }
 
     return (
         <div className={cx('header')}>
@@ -153,7 +151,7 @@ function Header() {
                   </clipPath>
                 </defs>
               </svg>
-              <Link to='/' className={cx('logo')} style={{ fontFamily:'JejuHallasan', color: '#000000', marginRight: '24px', position: 'absolute', top: '50%', transform: 'translateY(-50%)', left: '45px' }}>w15store</Link>
+              <Link to='/' className={cx('logo')} style={{ fontFamily:'Itim', color: '#000000', marginRight: '24px', position: 'absolute', top: '50%', transform: 'translateY(-50%)', left: '45px' }}>w15store</Link>
             </div>
   
             {/* Các trang con */}
@@ -183,54 +181,53 @@ function Header() {
               </div>
             </div>
 
-            {/* Giỏ hàng */}
-            <div className={cx('shoping-bag')}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="43.2" viewBox="0 0 50 54" fill="none">
-                    <path d="M12.5 4.5L6.25 13.5V45C6.25 46.1935 6.68899 47.3381 7.47039 48.182C8.25179 49.0259 9.3116 49.5 10.4167 49.5H39.5833C40.6884 49.5 41.7482 49.0259 42.5296 48.182C43.311 47.3381 43.75 46.1935 43.75 45V13.5L37.5 4.5H12.5Z" stroke="#6B6B6B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M6.25 13.5H43.75" stroke="#6B6B6B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M33.3334 22.5C33.3334 24.887 32.4554 27.1761 30.8926 28.864C29.3298 30.5518 27.2102 31.5 25 31.5C22.7899 31.5 20.6703 30.5518 19.1075 28.864C17.5447 27.1761 16.6667 24.887 16.6667 22.5" stroke="#6B6B6B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </div>
-
-            {/* Tài khoản */}
-            <button className={cx('acc')} onClick={() => handleClickAcc(clickAcc)}>
-                <img className={cx('accImg')} alt='accImg' src='https://s3-alpha-sig.figma.com/img/0e69/55b5/ac6bae2245e3befa7985f1a3d42889b3?Expires=1713744000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=FWweGy8XtDrpDt7tG8pk42e6BS1-K27ipk8JgAYus-qedcmTGXt5gDDi7mHU4a6N5fnkh3nq5XdNb4walvQx1mq~yR2vFgY1cmjogpL4qMf9sGKLfQT427mX1L0LUsaBF9P1IbP9Bpf8v22iLyb5kZnbr6aurtwrkRxa888-uykeO2fJiDwW8ItK1qWBTd34pmcizXitGuMarO9nsHVGc7JIpn5nX6TpIDSjMXpW3TfhQ~wm4KFjN6fkbLL37v4~CDMdYTgj-6X0ZprlndlYBxYNMjgVCzP6kNpS1V~nwNb2ypvxUsb3HSd-700korCSjTaapYo~G1cbMBvYGMTvyQ__' />
-            </button>
-            
-            {/* Điều hướng khi bấm vào icon tài khoản */}
-            {<DivAcc updateRole={updateRole} handleClickAcc={handleClickAcc}/>}
-            
-          </div>)}
-
-          { guest && (<div>
-          <div className={cx('signInUP')} style={{ display: 'flex', alignItems: 'center' }}>
-            <div className={cx('frame7')} style={{ display: 'flex', alignItems: 'center' }}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="38" height="34" viewBox="0 0 38 34" fill="none">
-                <path d="M31.6667 29.75V26.9167C31.6667 25.4138 30.9994 23.9724 29.8117 22.9097C28.6239 21.847 27.013 21.25 25.3333 21.25H12.6667C10.987 21.25 9.37606 21.847 8.18833 22.9097C7.0006 23.9724 6.33334 25.4138 6.33334 26.9167V29.75" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M19 15.5833C22.4978 15.5833 25.3333 13.0463 25.3333 9.91667C25.3333 6.78705 22.4978 4.25 19 4.25C15.5022 4.25 12.6667 6.78705 12.6667 9.91667C12.6667 13.0463 15.5022 15.5833 19 15.5833Z" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              <Link to='/login' style={{ marginRight: '15px', marginLeft: '15px',  fontFamily: 'Itim', fontSize: '30px', color: '#000000', textDecoration: 'none' }}>Đăng nhập</Link>
-            </div>
-            <div className={cx('frame8')} style={{ display: 'flex', alignItems: 'center' }}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="38" height="34" viewBox="0 0 40 34" fill="none" marginRight='10px'>
-                <g clip-path="url(#clip0_16_110)">
-                <path d="M26.6667 29.75V26.9167C26.6667 25.4138 25.9643 23.9724 24.7141 22.9097C23.4638 21.847 21.7681 21.25 20 21.25H8.33335C6.56524 21.25 4.86955 21.847 3.61931 22.9097C2.36907 23.9724 1.66669 25.4138 1.66669 26.9167V29.75" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M14.1667 15.5833C17.8486 15.5833 20.8333 13.0463 20.8333 9.91667C20.8333 6.78705 17.8486 4.25 14.1667 4.25C10.4848 4.25 7.5 6.78705 7.5 9.91667C7.5 13.0463 10.4848 15.5833 14.1667 15.5833Z" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M33.3333 11.3333V19.8333" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M38.3333 15.5833H28.3333" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-                </g>
-                <defs>
-                <clipPath id="clip0_16_110">
-                <rect width="40" height="34" fill="white"/>
-                </clipPath>
-                </defs>
-              </svg>
-              <Link to='/register' style={{ marginRight: '15px', marginLeft: '15px',  fontFamily: 'Itim', fontSize: '30px', color: '#000000', textDecoration: 'none' }}>Đăng ký</Link>
-            </div>
-          </div>
-          </div>)}
+        {/* Giỏ hàng */}
+        <div className={cx('shoping-bag')}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="43.2" viewBox="0 0 50 54" fill="none">
+            <path d="M12.5 4.5L6.25 13.5V45C6.25 46.1935 6.68899 47.3381 7.47039 48.182C8.25179 49.0259 9.3116 49.5 10.4167 49.5H39.5833C40.6884 49.5 41.7482 49.0259 42.5296 48.182C43.311 47.3381 43.75 46.1935 43.75 45V13.5L37.5 4.5H12.5Z" stroke="#6B6B6B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M6.25 13.5H43.75" stroke="#6B6B6B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M33.3334 22.5C33.3334 24.887 32.4554 27.1761 30.8926 28.864C29.3298 30.5518 27.2102 31.5 25 31.5C22.7899 31.5 20.6703 30.5518 19.1075 28.864C17.5447 27.1761 16.6667 24.887 16.6667 22.5" stroke="#6B6B6B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
         </div>
-    );
+
+        {/* Tài khoản */}
+        <button className={cx('acc')} onClick={() => handleClickAcc(clickAcc)}>
+          <img className={cx('accImg')} alt='accImg' src='https://s3-alpha-sig.figma.com/img/0e69/55b5/ac6bae2245e3befa7985f1a3d42889b3?Expires=1712534400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=IyN1A2uNyIa14KOrBbMXHDFKCcU0hN3Mpg-K9-dK-fNXHtEMj3pbdpQQDerLTL74BS~CyniPznCxK00NU3Pao4xjUYYeU9HgfmH9jhTCK4TtU-0xITaboFq7BJoDBNo476G2Qynv3~h~O7DErvDWTYp8T6Fc3v0-9GtyAuJY7Qi4jcJVzwHDgZ2v2ix5V747i-0c5riIAjzr8nyAqJKk0eE4jOW2WztoaKmdWnM5S~nqLzCem~mfoiLFiw2MB52PjN3nzv-ZxR-Nn2TdVyuGuMcbgceyKR6KLZFhbA-Prhawt6sZQbWUw0blcv8LRTA1Tzi9D0f9IfJvRtErS6W63g__' />
+        </button>
+
+        {/* Điều hướng khi bấm vào icon tài khoản */}
+        {<DivAcc updateRole={updateRole} handleClickAcc={handleClickAcc}/>}
+      </div>)}
+
+      {guest && (<div>
+        <div className={cx('signInUP')} style={{ display: 'flex', alignItems: 'center' }}>
+          <div className={cx('frame7')} style={{ display: 'flex', alignItems: 'center' }}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="38" height="34" viewBox="0 0 38 34" fill="none">
+              <path d="M31.6667 29.75V26.9167C31.6667 25.4138 30.9994 23.9724 29.8117 22.9097C28.6239 21.847 27.013 21.25 25.3333 21.25H12.6667C10.987 21.25 9.37606 21.847 8.18833 22.9097C7.0006 23.9724 6.33334 25.4138 6.33334 26.9167V29.75" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M19 15.5833C22.4978 15.5833 25.3333 13.0463 25.3333 9.91667C25.3333 6.78705 22.4978 4.25 19 4.25C15.5022 4.25 12.6667 6.78705 12.6667 9.91667C12.6667 13.0463 15.5022 15.5833 19 15.5833Z" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <Link to='/login' style={{ marginRight: '15px', marginLeft: '15px', fontFamily: 'Itim', fontSize: '30px', color: '#000000', textDecoration: 'none' }}>Đăng nhập</Link>
+          </div>
+          <div className={cx('frame8')} style={{ display: 'flex', alignItems: 'center' }}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="38" height="34" viewBox="0 0 40 34" fill="none" marginRight='10px'>
+              <g clip-path="url(#clip0_16_110)">
+                <path d="M26.6667 29.75V26.9167C26.6667 25.4138 25.9643 23.9724 24.7141 22.9097C23.4638 21.847 21.7681 21.25 20 21.25H8.33335C6.56524 21.25 4.86955 21.847 3.61931 22.9097C2.36907 23.9724 1.66669 25.4138 1.66669 26.9167V29.75" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M14.1667 15.5833C17.8486 15.5833 20.8333 13.0463 20.8333 9.91667C20.8333 6.78705 17.8486 4.25 14.1667 4.25C10.4848 4.25 7.5 6.78705 7.5 9.91667C7.5 13.0463 10.4848 15.5833 14.1667 15.5833Z" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M33.3333 11.3333V19.8333" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M38.3333 15.5833H28.3333" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+              </g>
+              <defs>
+                <clipPath id="clip0_16_110">
+                  <rect width="40" height="34" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
+            <Link to='/register' style={{ marginRight: '15px', marginLeft: '15px', fontFamily: 'Itim', fontSize: '30px', color: '#000000', textDecoration: 'none' }}>Đăng ký</Link>
+          </div>
+        </div>
+      </div>)}
+    </div>
+  );
 }
 
 export default Header;

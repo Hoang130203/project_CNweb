@@ -1,0 +1,44 @@
+.quantity-selector {
+    overflow: hidden;
+    position: relative;
+    width: 200px;
+    background: #fff;
+    border-radius: 3px;
+    line-height: 30px;
+    font-size: 24px;
+    color: #333;
+    float: unset;
+    display: inline-block;
+    vertical-align: middle;
+
+    .decrement-button {
+        float: left;
+        background: #fff;
+        width: 32%;
+        height: 50px;
+        position: relative;
+        cursor: pointer;
+        text-align: center;
+        font-size: 24px;
+    }
+
+    .quantity-input {
+        font-size: 24px;
+        color: #333;
+        float: left;
+        width: 32%;
+        height: 44px;
+        text-align: center;
+    }
+
+    .increment-button {
+        float: right;
+        background: #fff;
+        width: 32%;
+        height: 50px;
+        position: relative;
+        cursor: pointer;
+        text-align: center;
+        font-size: 24px;
+    }
+}

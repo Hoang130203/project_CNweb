@@ -37,9 +37,10 @@ function HomePage() {
             <div className={cx('item__container')} >
                 <h2>Sản phẩm mới nhất</h2>
                 <div className={cx('item')} >
-                    {products.map((product, index) => (
+                    {products.map((product) => (
                         <CardProduct
-                            key={index}
+                            key={product.id}
+                            id={product.id}
                             image={product.image}
                             name={product.name}
                             discount={product.discount}
