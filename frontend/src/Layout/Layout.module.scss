@@ -5,41 +5,31 @@
 
     .menu {
         border-color: #1a1919;
-        border-style: dotted;
         margin-left: 0.25%;
         width: 99%;
         height: 100%;
         padding: 0%;
+        display: flex;
     }
 
     .column1 {
         height: 80%;
-        border-style: dotted;
-        width: 15%;
-        padding: 0;
-    
         margin-left: 4%;
-        display: inline-block;
+        margin-right: 2%;
+        margin-top: 2%;
+        flex: 1;
     }
 
     .column2 {
         height: 80%;
-        border-style: dotted;
-        width: 15%;
-        padding: 0;
+        flex: 1;
         margin-top: 2%;
-        margin-left: 4%;
-        display: inline-block;
     }
 
-    .customerHub {
-        border-style: dotted;
-        
-    }
-
-    .teamIntroduction {
-        border-style: dotted;
-        width: 10%;
+    .column3 {
+        height: 80%;
+        flex: 1.5;
+        margin-top: 2%;
     }
 
     .level1 {
@@ -52,6 +42,11 @@
         text-decoration: none;
         display: block;
         padding-left: 6%;
+        color: black;
+    }
+
+    .level2:hover {
+        text-decoration: underline; /* Gạch chân khi di chuột vào */
     }
 }
 
