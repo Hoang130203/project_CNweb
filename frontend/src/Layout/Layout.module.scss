@@ -1,7 +1,58 @@
 .footer {
     width: 100%;
     height: 300px;
-    background: #ccc;
+    background: #ffffff;
+
+    .menu {
+        border-color: #1a1919;
+        border-style: dotted;
+        margin-left: 0.25%;
+        width: 99%;
+        height: 100%;
+        padding: 0%;
+    }
+
+    .column1 {
+        height: 80%;
+        border-style: dotted;
+        width: 15%;
+        padding: 0;
+    
+        margin-left: 4%;
+        display: inline-block;
+    }
+
+    .column2 {
+        height: 80%;
+        border-style: dotted;
+        width: 15%;
+        padding: 0;
+        margin-top: 2%;
+        margin-left: 4%;
+        display: inline-block;
+    }
+
+    .customerHub {
+        border-style: dotted;
+        
+    }
+
+    .teamIntroduction {
+        border-style: dotted;
+        width: 10%;
+    }
+
+    .level1 {
+        font-size: 23px;
+        margin-bottom: 3%;
+    }
+
+    .level2 {
+        //marginleft: '9.6px',  fontFamily: 'Itim', fontSize: '25.6px', color: '#000000', textDecoration: 'none'
+        text-decoration: none;
+        display: block;
+        padding-left: 6%;
+    }
 }
 
 .header {
@@ -130,7 +181,7 @@
         top: 18.4px;
         left: 1348px;
         gap: 0px;
-        opacity: 0px;
+        opacity: 1;
 
     }
 

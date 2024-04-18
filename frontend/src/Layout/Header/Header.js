@@ -153,7 +153,7 @@ function Header() {
                   </clipPath>
                 </defs>
               </svg>
-              <Link to='/' className={cx('logo')} style={{ fontFamily:'Itim', color: '#000000', marginRight: '24px', position: 'absolute', top: '50%', transform: 'translateY(-50%)', left: '45px' }}>w15store</Link>
+              <Link to='/' className={cx('logo')} style={{ fontFamily:'JejuHallasan', color: '#000000', marginRight: '24px', position: 'absolute', top: '50%', transform: 'translateY(-50%)', left: '45px' }}>w15store</Link>
             </div>
   
             {/* Các trang con */}
