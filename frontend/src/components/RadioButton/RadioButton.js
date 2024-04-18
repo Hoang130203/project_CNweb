@@ -12,8 +12,8 @@ import {useState} from 'react';
 
 const cx = classNames.bind(styles);
 
-const RadioButton = ({ options, onOptionChange }) => {
-    const [selectedOption, setSelectedOption] = useState('Mới nhất');
+const RadioButton = ({ type, options, onOptionChange }) => {
+    const [selectedOption, setSelectedOption] = useState(options[0]);
 
     const handleOptionChange = (event) => {
         setSelectedOption(event.target.value);
@@ -31,7 +31,7 @@ const RadioButton = ({ options, onOptionChange }) => {
                 >
                     <input
                         className={cx('radio-input')}
-                        type="radio"
+                        type={type}
                         value={option}
                         checked={selectedOption === option}
                         onChange={handleOptionChange}
