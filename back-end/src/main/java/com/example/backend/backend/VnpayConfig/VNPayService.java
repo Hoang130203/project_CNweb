@@ -12,6 +12,8 @@ import java.util.*;
 @Service
 public class VNPayService {
 
+
+    //tạo đơn hàng để gửi tới VNPay
     public String createOrder(int total, String orderInfor, String urlReturn){
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
@@ -54,6 +56,7 @@ public class VNPayService {
         String vnp_ExpireDate = formatter.format(cld.getTime());
         vnp_Params.put("vnp_ExpireDate", vnp_ExpireDate);
 
+
         List fieldNames = new ArrayList(vnp_Params.keySet());
         Collections.sort(fieldNames);
         StringBuilder hashData = new StringBuilder();
@@ -88,6 +91,8 @@ public class VNPayService {
         return paymentUrl;
     }
 
+
+    //lấy ra trạng thái của đơn hàng được trả về  từ vnpay
     public int orderReturn(HttpServletRequest request){
         Map fields = new HashMap();
         for (Enumeration params = request.getParameterNames(); params.hasMoreElements();) {

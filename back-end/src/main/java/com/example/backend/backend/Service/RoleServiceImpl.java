@@ -16,6 +16,7 @@ import java.util.Optional;
 @Service
 @Transactional
 public class RoleServiceImpl implements RoleService{
+    //Khai báo các repository cần thiết
     private final RoleRepository roleRepository;
     private final UserRoleRepository userRoleRepository;
     public RoleServiceImpl(RoleRepository roleRepository, UserRoleRepository userRoleRepository) {
@@ -24,16 +25,19 @@ public class RoleServiceImpl implements RoleService{
     }
 
 
+    //Lấy role bằng ENum
     @Override
     public Optional<Role> getByName(ERole name) {
         return roleRepository.findByName(name);
     }
 
+    //lấy ra danh sách các role của người dùng
     @Override
     public List<UserRole> getByUser(User user) {
         return userRoleRepository.getUserRole(user);
     }
 
+    //tạo các role(dùng 1 lần khi khởi tạo csdl)
     @Override
     public void createRole() {
         Role roleUser= new Role();

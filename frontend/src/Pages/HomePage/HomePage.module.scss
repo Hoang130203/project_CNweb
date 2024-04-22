@@ -1,36 +1,40 @@
 .homepage {
-    min-height: 600px;
-    padding: 0 120px;
+    box-sizing: border-box;
+    display: block;
+    height: 100%;
+    margin: 0 auto;
+    position: relative;
+    width: 1500px;
+
 
     h1 {
         width: 544px;
         height: 188px;
-        top: 41px;
+        top: 40px;
         left: 198px;
         gap: 0px;
-        opacity: 0px;
         font-family: Inspiration;
         font-size: 96px;
         font-weight: 400;
         line-height: 121.92px;
         text-align: left;
         color: #230A6A;
-        margin: 61px 0;
+        margin: 100px 0;
     }
 
     .option {
-        height: 400px;
         display: flex;
         justify-content: space-between;
         margin-top: 100px;
 
         .option__item {
-            width: 295px;
+            width: 20%;
             cursor: pointer;
+            text-align: center;
 
             img {
-                max-width: 100%;
-                max-height: 100%;
+                max-width: 80%;
+                max-height: 80%;
             }
 
             h3 {
@@ -48,12 +52,20 @@
             font-family: Itim;
             font-size: 36px;
             font-weight: 400;
-
+            margin: 20px 0px 10px 0;
         }
 
         .item {
             display: flex;
             flex-wrap: wrap;
         }
+    }
+}
+
+@media only screen and (max-width: 1499px) {
+    .homepage {
+        max-width: 1500px !important;
+        padding: 0 10px;
+        width: 100% !important;
     }
 }

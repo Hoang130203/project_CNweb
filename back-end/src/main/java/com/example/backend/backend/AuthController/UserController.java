@@ -19,13 +19,16 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/user")
+//api liên quan tới người dùng
 public class UserController {
+    //tiêm các service cần thiết vào
     private final UserService userService;
     @Autowired
     private ModelMapper modelMapper;
     public UserController(UserService userService) {
         this.userService = userService;
     }
+    //thêm sản phẩm vào giỏ hàng
     @PostMapping("/cart")
     public ResponseEntity<?> postToCart(@RequestBody PostCart postCart){
 
@@ -36,6 +39,7 @@ public class UserController {
 
     }
 
+    //lấy ra các sản phẩm trong giỏ hàng
     @GetMapping("/carts")
     public ResponseEntity<?> getCarts(){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
@@ -44,6 +48,7 @@ public class UserController {
     }
 
 
+    //xóa 1 số sản phẩm đã chọn khỏi giỏ hàng
     @DeleteMapping("/cart")
     public ResponseEntity<?> deleteCart(@RequestBody List<PostCart> postCarts){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
@@ -60,6 +65,8 @@ public class UserController {
             return ResponseEntity.ok(new Message("Chưa xóa"));
         }
     }
+
+    //tạo đơn hàng
     @PostMapping("/order")
     public ResponseEntity<?> postOrder(@RequestBody OrderInfo orderInfo){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
@@ -67,6 +74,8 @@ public class UserController {
         String posted = userService.postOrder(orderInfo,getUserId(userDetails));
         return ResponseEntity.ok(new Message(posted));
     }
+
+    //hủy đơn hàng
     @PutMapping("/cancelOrder")
     public ResponseEntity<?> deleteOrder(@RequestParam("orderId") int orderid){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
@@ -75,6 +84,7 @@ public class UserController {
         return delete?ResponseEntity.ok(new Message("Đã hủy")):ResponseEntity.ok(new Message("Lỗi"));
     }
 
+    //Lấy ra các đơn hàng của người dùng
     @GetMapping("/orders")
     public ResponseEntity<?> getOrders(){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
@@ -82,6 +92,8 @@ public class UserController {
 
         return ResponseEntity.ok(userService.getOrders(getUserId(userDetails)));
     }
+
+    //Lấy thông tin người dùng
     @GetMapping("/info")
     public ResponseEntity<?> getInfo(){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
@@ -94,6 +106,7 @@ public class UserController {
         }
     }
 
+    //Update thông tin của người dùng
     @PutMapping("/update")
     public ResponseEntity<?> upDate(@RequestBody UserInfo userInfo){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
@@ -112,7 +125,7 @@ public class UserController {
     }
 
 
-
+    //lấy ra id người dùng
     public String getUserId(UserDetails userDetails){
 
         String userName = userDetails.getUsername();

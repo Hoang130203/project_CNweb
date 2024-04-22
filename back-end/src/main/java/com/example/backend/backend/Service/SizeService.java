@@ -13,7 +13,7 @@ public class SizeService {
 
     @Autowired
     private SizeRepository sizeRepository;
-
+    //Tạo ra các size của sản phẩm( dùng 1 lần khi khởi tạo csdl)
     public void createSizesFromEnum() {
         for (ESize eSize : ESize.values()) {
             // Kiểm tra xem kích thước đã tồn tại trong bảng hay chưa

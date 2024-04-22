@@ -10,11 +10,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+//lớp để xác thực người dùng qua spring security, implement interface Userdetails của spring security
 public class AuthUser implements UserDetails {
     private String userName;
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
 
+    //Khởi tạo
     public AuthUser(String userName, String password,
                     Collection<? extends GrantedAuthority> authorities){
         this.userName=userName;
@@ -22,11 +24,14 @@ public class AuthUser implements UserDetails {
         this.authorities=authorities;
 
     }
+    //build đối tượng AuthUser từ đối tượng người dùng gốc
     public static AuthUser build(User user){
         List<GrantedAuthority> authorities = user.getRoles().stream().map(role-> new SimpleGrantedAuthority(role.getName().name())).collect(Collectors.toList());
         return new AuthUser(user.getAccount(), user.getPassword(), authorities);
     }
 
+
+    //Các phương thức khác
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
