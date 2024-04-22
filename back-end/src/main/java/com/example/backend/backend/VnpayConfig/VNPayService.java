@@ -12,6 +12,7 @@ import java.util.*;
 @Service
 public class VNPayService {
 
+
     //tạo đơn hàng để gửi tới VNPay
     public String createOrder(int total, String orderInfor, String urlReturn){
         String vnp_Version = "2.1.0";
@@ -89,6 +90,7 @@ public class VNPayService {
         String paymentUrl = VNPayConfig.vnp_PayUrl + "?" + queryUrl;
         return paymentUrl;
     }
+
 
     //lấy ra trạng thái của đơn hàng được trả về  từ vnpay
     public int orderReturn(HttpServletRequest request){

@@ -16,6 +16,7 @@ import java.time.format.DateTimeFormatter;
 
 @Controller
 @RequestMapping("/vnpay")
+
 //api liên quan tới thanh toán đơn hàng online bằng vnpay
 //sử dụng thymeleaf để tạo các trang thông báo thành công/ thất bại
 public class VNPayController {
@@ -40,6 +41,7 @@ public class VNPayController {
     }
 
     //vnpay sẽ trả kết quả về api này để xử lý và trả kết quả tới người dùng
+
     @GetMapping("/vnpay-payment")
     public String GetMapping(HttpServletRequest request, Model model){
         int paymentStatus =vnPayService.orderReturn(request);
