@@ -6,6 +6,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
+//lớp chứa thông tin người dùng gửi tới front-end để đảm bảo che dấu các thông tin quan trọng, giảm dữ liệu truyền tải
 public class UserInfo {
     private String name;
     private String avatar;

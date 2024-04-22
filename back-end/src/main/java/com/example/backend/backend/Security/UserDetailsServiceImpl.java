@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+//Service để dùng cho việc xác thực người dùng
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
     private final UserService userService;

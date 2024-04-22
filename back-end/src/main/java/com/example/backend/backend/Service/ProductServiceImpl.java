@@ -24,6 +24,8 @@ import java.util.Optional;
 @Service
 @Transactional
 public class ProductServiceImpl implements ProductService {
+    //Khai báo các repository cần thiết
+
     @Autowired
     private ProductRepository productRepository;
     private final UserRepository userRepository;
@@ -35,27 +37,32 @@ public class ProductServiceImpl implements ProductService {
         this.commentRepository = commentRepository;
     }
 
+    //lưu sản phẩm
     @Override
     public Product save(Product product) {
         return productRepository.save(product);
     }
 
+    //lấy tất cả sản phẩm
     @Override
     public List<Product> getAllProducts() {
         return productRepository.findAll();
     }
 
+    //lấy ra 12 sản phẩm mới nhất
     @Override
     public List<Product> getNewest() {
         Pageable pageable = PageRequest.of(0, 12);
         return productRepository.findTop12Product(pageable);
     }
 
+    //Lấy ra các sản phẩm thuộc loại xác định
     @Override
     public List<Product> getProductByType(EType type) {
         return productRepository.findProductByType(type);
     }
 
+    //lấy sản phẩm chi tiết thông qua id sản phẩm
     @Override
     public Product getProduct(int id) {
         Optional<Product> o_product= productRepository.findById(id);
@@ -68,6 +75,7 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
+    //lấy thông tin đánh giá của người dùng
     @Override
     public Rate getRate(int productId, String userId) {
         User user = userRepository.findById(userId)
@@ -79,6 +87,8 @@ public class ProductServiceImpl implements ProductService {
         return rate.isPresent()?rate.get():null;
     }
 
+
+    //tạo đánh giá của người dùng và lưu
     @Override
     public Rate postRate(int productId, String userId, int rate) {
         User user = userRepository.findById(userId)
@@ -98,6 +108,7 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
+    //tạo bình luận và lưu vào csdl
     @Override
     public Comment postComment(String userId, CommentReq commentReq) {
         User user= userRepository.findById(userId)
@@ -110,6 +121,7 @@ public class ProductServiceImpl implements ProductService {
         return comment;
     }
 
+    //lấy ra dánh sách comment của 1 người đối vơi 1 sản phẩm
     @Override
     public List<Comment> getComments(String userId, int productId) {
         User user= userRepository.findById(userId)

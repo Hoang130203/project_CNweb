@@ -7,6 +7,8 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Data
+//Thông tin từng comment của sản phẩm chi tiết
+//bao gồm hình ảnh, người dùng, thời gian comment và comment
 public class CommentUserRes implements Serializable {
     private String name;
     private String avatar;
