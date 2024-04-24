@@ -6,10 +6,10 @@ import { AreaChart } from './component/AreaChart';
 const cx = classNames.bind(styles);
 function Dashboard() {
     return (
-        <div>
+        <div className='no_select'>
             <div className={cx('first_content')}>
                 <div className={cx('wrap_pie')}>
-                    <div>
+                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                         <h2 style={{ color: '#138ed6' }}>Doanh thu </h2>
                         <h3 style={{ color: '#138ed6' }}>hôm nay</h3>
                         <p style={{ color: '#36fadd' }}>15,000,000 vnđ</p>
@@ -19,7 +19,7 @@ function Dashboard() {
                     <PieChart parts={[{ value: 1 }, { value: 3 }, { value: 5 }]} />
                 </div>
                 <div className={cx('wrap_pie')}>
-                    <div>
+                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                         <h2 style={{ color: '#138ed6' }}>Doanh thu </h2>
                         <h3 style={{ color: '#138ed6' }}>tuần này</h3>
                         <p style={{ color: '#36fadd' }}>100,000,000 vnđ</p>
