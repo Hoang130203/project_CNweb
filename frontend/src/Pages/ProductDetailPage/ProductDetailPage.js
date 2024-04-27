@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import styles from './ProductDetailPage.module.scss'
 import classNames from 'classnames/bind'
 import ProductDetailComponent from '../../components/ProductDetailComponent/ProductDetailComponent'
 import ProductInformation from '../../components/ProductInformation/ProductInformation'
+import ProductReview, { ProductRating } from '../../components/ProductReview/ProductReview'
 
 const cx = classNames.bind(styles)
 
@@ -24,6 +25,8 @@ export default function ProductDetailPage() {
             </div>
           }
         />
+        <ProductRating />
+        <ProductReview />
     </div>
   )
 }
