@@ -1,5 +1,4 @@
 package com.example.backend.backend.AuthController;
-
 import com.example.backend.backend.Entity.Enum_Key.ERole;
 import com.example.backend.backend.Entity.Role;
 import com.example.backend.backend.Entity.User;
@@ -175,8 +174,10 @@ public class AuthController {
         return ResponseEntity.badRequest().body("error");
     }
 
+
     //quên mật khẩu, gửi tài khoản và mật khẩu được tạo mới gửi tới email người dùng đăng ký
     //1 email có thể có nhiều tài khoản
+
     @GetMapping("/forgotPassword")
     public ResponseEntity<?> sendNewPasswordToEmail(@RequestParam("email") String emailAddres)
     {

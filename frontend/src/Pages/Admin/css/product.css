@@ -1,0 +1,225 @@
+.product-management {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+.add-product-form {
+  margin-bottom: 20px;
+}
+
+.add-product-form label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.add-product-form input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+.product-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.product-table th,
+.product-table td {
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+.product-table th {
+  text-align: left;
+}
+
+.product-image {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
+
+.edit-button,
+.delete-button {
+  padding: 6px 10px;
+  margin-right: 5px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.edit-button {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.edit-button:hover {
+  background-color: #0056b3;
+}
+
+.delete-button {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.delete-button:hover {
+  background-color: #bd2130;
+}
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 110;
+  transition: all 0.3s ease-in-out;
+}
+
+.modal-main {
+  background-color: #ffffff;
+  padding: 10px;
+  border-radius: 5px;
+  width: 500px;
+  max-width: 90%;
+  height: 80%;
+  color: #333;
+}
+
+.display-flex {
+  display: flex;
+}
+
+.display-none {
+  display: none;
+}
+.add_button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 8px;
+  border: none;
+  cursor: pointer;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  border-radius: 20px;
+  font-size: 18px;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    background-color: #0056b3;
+    scale: 1.02;
+  }
+}
+.close_icon {
+  font-size: 22px;
+  transition: all 0.2s;
+  cursor: pointer;
+  &:hover {
+    color: #ac0e0e;
+    scale: 1.2;
+  }
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.page-link {
+  padding: 8px 16px;
+  margin: 0 4px;
+  border: none;
+  background-color: transparent;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+  border-radius: 10px;
+}
+
+.page-link:hover,
+.page-link.active {
+  background-color: #1632bc;
+}
+
+.page-link.active {
+  font-weight: bold;
+}
+
+.product-form {
+  max-width: 600px;
+  max-height: 80%;
+  overflow: auto;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+  h2 {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-size: 16px;
+    }
+
+    textarea {
+      height: 100px;
+    }
+
+    select {
+      height: 40px;
+    }
+  }
+
+  button {
+    display: block;
+    width: 100%;
+    padding: 12px 0;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
+}
+.color-checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.color-checkboxes > div {
+  margin-right: 10px;
+  margin-bottom: 10px;
+}

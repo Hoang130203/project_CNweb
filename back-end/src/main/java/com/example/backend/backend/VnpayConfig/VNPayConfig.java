@@ -12,6 +12,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 @Component
+
 //cấu hình vnpay
 public class VNPayConfig {
     //các thông tin cơ bản như url gọi tới, url trả về, mã khóa chứng thực....
@@ -77,6 +78,7 @@ public class VNPayConfig {
         }
         return hmacSHA512(vnp_HashSecret,sb.toString());
     }
+
 
     //Mã hóa dữ liệu
     public static String hmacSHA512(final String key, final String data) {
