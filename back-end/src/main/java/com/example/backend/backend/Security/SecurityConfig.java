@@ -57,6 +57,7 @@ public class SecurityConfig {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
+
     //Đối tượng lọc các request tới ứng dụng spring boot
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
