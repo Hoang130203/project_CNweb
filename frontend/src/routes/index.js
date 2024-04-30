@@ -15,6 +15,11 @@ import Chats from '../Pages/Admin/Chats';
 import Notifications from '../Pages/Admin/Notifications';
 import Setting from '../Pages/Admin/Setting';
 
+import UserProfile from '../Pages/User/UserProfile';
+import UserOrders from '../Pages/User/UserOrders';
+import UserNotification from '../Pages/User/UserNotification';
+import UserLayout from '../Layout/UserLayout/UserLayout';
+
 const publicRoutes = [
     { path: '/', component: HomePage },
     { path: '/login', component: Login },
@@ -24,6 +29,9 @@ const publicRoutes = [
     { path: '/new', component: New },
     { path: '/type', component: Type },
     { path: '/product-detail/:id', component: ProductDetailPage },
+    { path: '/user/profile', component: UserProfile, layout: UserLayout },
+    { path: '/user/orders', component: UserOrders, layout: UserLayout},
+    { path: '/user/notification', component: UserNotification, layout: UserLayout},
     { path: '/admin/dashboard', component: Dashboard, layout: AdminLayout },
     { path: '/admin/products', component: Products, layout: AdminLayout },
     { path: '/admin/orders', component: Orders, layout: AdminLayout },
