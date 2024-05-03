@@ -1,7 +1,54 @@
 .footer {
+    margin-top: 1%;
     width: 100%;
     height: 300px;
-    background: #ccc;
+    background: #E7E7E7;
+
+    .menu {
+        border-color: #1a1919;
+        margin-left: 0.25%;
+        width: 99%;
+        height: 100%;
+        padding: 0%;
+        display: flex;
+    }
+
+    .column1 {
+        height: 80%;
+        margin-left: 4%;
+        margin-right: 2%;
+        margin-top: 2%;
+        flex: 1;
+    }
+
+    .column2 {
+        height: 80%;
+        flex: 1;
+        margin-top: 2%;
+    }
+
+    .column3 {
+        height: 80%;
+        flex: 1.5;
+        margin-top: 2%;
+    }
+
+    .level1 {
+        font-size: 23px;
+        margin-bottom: 3%;
+    }
+
+    .level2 {
+        //marginleft: '9.6px',  fontFamily: 'Itim', fontSize: '25.6px', color: '#000000', textDecoration: 'none'
+        text-decoration: none;
+        display: block;
+        padding-left: 6%;
+        color: black;
+    }
+
+    .level2:hover {
+        text-decoration: underline; /* Gạch chân khi di chuột vào */
+    }
 }
 
 .header {
@@ -130,7 +177,7 @@
         top: 18.4px;
         left: 1348px;
         gap: 0px;
-        opacity: 0px;
+        opacity: 1;
 
     }
 

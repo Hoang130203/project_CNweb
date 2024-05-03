@@ -7,6 +7,16 @@
     width: fit-content;
     padding: 10px 20px;
     height: fit-content;
+    .button__icon {
+        display: flex;
+        margin-right: 5px;
+        font-size: 1.5rem;
+        align-items: center;
+        justify-content: center;
+    }
+    & + .button {
+        margin-left: 1rem;
+      }
 }
 
 .button:active {
@@ -38,4 +48,48 @@
 
 .small {
     padding: 5px 5px;
+}
+
+.button__buy {
+    background-color: #416EC5;
+    color: #fff;
+    padding: 0px 160px;
+    font-size: 1.5rem;
+    line-height: 60px;
+}
+
+.button__buy:active {
+    color: white;
+}
+
+.button__buy:hover:not(:disabled) {
+    background: green;
+    color: white;
+    text-shadow: 0 0.1rem #bcb4b4;
+}
+
+.button__buy:disabled {
+    cursor: auto;
+    color: grey;
+}
+.button__cart {
+    background-color: #C0DCFC5C;
+    color: #416ec5;
+    padding: 6px 16px;
+    font-size: 1.2rem;
+}
+
+.button__cart:active {
+    color: white;
+}
+
+.button__cart:hover:not(:disabled) {
+    background: green;
+    color: white;
+    text-shadow: 0 0.1rem #bcb4b4;
+}
+
+.button__cart:disabled {
+    cursor: auto;
+    color: grey;
 }

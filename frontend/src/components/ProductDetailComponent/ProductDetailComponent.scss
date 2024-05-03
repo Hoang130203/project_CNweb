@@ -1,0 +1,121 @@
+.image__container {
+  width: 50%;
+
+  .f-carousel {
+    max-width: 90%;
+    margin: 0;
+    --f-button-next-pos: 30px;
+    --f-button-prev-pos: 30px;
+
+    --f-button-width: 44px;
+    --f-button-height: 44px;
+    --f-button-border-radius: 50%;
+
+    --f-button-color: #fff;
+    --f-button-hover-color: #fff;
+    --f-button-active-color: #fff;
+
+    --f-button-bg: rgba(0, 0, 0, 0.5);
+    --f-button-hover-bg: rgba(0, 0, 0, 0.8);
+    --f-button-active-bg: rgba(0, 0, 0, 0.8);
+
+    --f-button-svg-width: 22px;
+    --f-button-svg-height: 22px;
+    --f-button-svg-stroke-width: 3;
+  }
+
+}
+
+.f-carousel__slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+.left__container {
+  width: 50%;
+  padding: 0 10px;
+  box-sizing: border-box;
+
+  .product__rating {
+    margin-right: 20px;
+
+    p {
+      display: inline-block;
+      vertical-align: top;
+      font-size: 18px;
+      margin-right: 5px;
+    }
+    .rating {
+      color: #FFCB45;
+    }
+    .rate__total {
+      font-size: 18px;
+      color: #000;
+      margin-right: 20px;
+    }
+
+    .sale__count {
+      font-size: 18px;
+      color: #000;
+    }
+  }
+
+  .price__container {
+    margin-top: 20px;
+
+    p {
+      display: inline-block;
+    }
+
+    .old__price {
+      font-size: 32px;
+      font-weight: 400;
+      line-height: 58px;
+      text-align: center;
+      color: #9C9C9C;
+      text-decoration: line-through;
+      margin-right: 10px;
+    }
+
+    .new__price {
+      font-size: 40px;
+      font-weight: 400;
+      line-height: 58px;
+      text-align: center;
+      color: #FF0C0C;
+      margin-right: 10px;
+    }
+  }
+
+  .type__container {
+    display: flex;
+
+    .type__title {
+      font-family: Itim;
+      font-size: 24px;
+      font-weight: 400;
+      line-height: 36px;
+      text-align: left;
+      width: 15%;
+      margin-right: 20px;
+      color: #6377AA;
+    }
+
+    .type__box {
+      width: 85%;
+    }
+  }
+
+  .button__container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}

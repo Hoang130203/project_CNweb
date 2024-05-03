@@ -1,7 +1,8 @@
 .radio-inputs {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    max-width: 350px;
+    max-width: 100%;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -9,6 +10,7 @@
 
     label {
         margin-right: 1rem;
+        margin-bottom: 1rem;
     }
 }
 .radio-icon {
@@ -53,7 +55,7 @@
     justify-content: center;
     width: fit-content;
     height: fit-content;
-    padding: 1rem 2rem;
+    padding: 0.8rem 1.6rem;
     border-radius: 0.5rem;
     border: 2px solid #b5bfd9;
     background-color: #fff;
@@ -97,7 +99,7 @@
 .radio-label {
     color: #707070;
     transition: 0.375s ease;
-    font-size: 23px;
+    font-size: 18px;
     display: flex;
     flex-direction: row;
     white-space: nowrap;

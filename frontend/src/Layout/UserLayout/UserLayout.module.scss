@@ -1,0 +1,11 @@
+.wrap {
+    box-sizing: border-box;
+    display: flex;
+    height: 100%;
+    margin: 0 auto;
+    position: relative;
+    max-width: 1300px;
+    width: 100%;
+    min-height: calc(100vh - 600px);
+    padding: 100px 10px 5px 10px;
+}
