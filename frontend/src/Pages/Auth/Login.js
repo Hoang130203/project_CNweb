@@ -1,7 +1,10 @@
 import "../Auth/Logger.css"
 import loggerImg from "../../Assets/Logger.png"
+import SocialButton from "./SocialLoginButton";
+import { Link } from "react-router-dom";
+
 function Login() {
-    return ( 
+    return (
         <div class="container">
             {/* ảnh nền */}
             <div class="ad-block">
@@ -40,25 +43,18 @@ function Login() {
                 </div>
                 {/* --------------------------------------- */}
                 {/* Đăng nhập bằng liên kết */}
-                <div class="external">
-                    <form method="post">
-                        <div class="button">
-                            <button class="logger-external" title="Đăng nhập qua Facebook" type="submit" id="Facebook">Đăng nhập bằng Facebook</button>
-                        </div>
-
-                        <div class="button">
-                            <button class="logger-external" title="Đăng nhập qua Google" type="submit" id="Google">Đăng nhập bằng Google</button>
-                        </div>
-                    </form>
-                </div>
+                <SocialButton />
                 {/* Chuyển hướng đăng nhập */}
                 <div class="other">
                     <p class="note">Chưa có tài khoản?</p>
-                    <a class="nav" href="../register">Đăng kí</a>
+                    <Link class="nav" to="/register">Đăng kí</Link>
+                </div>
+                <div class="other">
+                    <Link to='/reset_password' class="nav">Quên mật khẩu?</Link>
                 </div>
             </div>
-        </div>      
-     );
+        </div>
+    );
 }
 
 export default Login;
