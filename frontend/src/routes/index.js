@@ -1,5 +1,6 @@
 import Login from '../Pages/Auth/Login';
 import Register from '../Pages/Auth/Register';
+import ResetPassword from '../Pages/Auth/ResetPassword';
 import Following from '../Pages/Following/Following';
 import HomePage from '../Pages/HomePage/HomePage'
 import Type from '../Pages/Type/Type';
@@ -24,14 +25,15 @@ const publicRoutes = [
     { path: '/', component: HomePage },
     { path: '/login', component: Login },
     { path: '/register', component: Register },
+    { path: '/reset_password', component: ResetPassword },
     { path: '/following', component: Following },
     { path: '/mobile', component: Mobile },
     { path: '/new', component: New },
     { path: '/type', component: Type },
     { path: '/product-detail/:id', component: ProductDetailPage },
     { path: '/user/profile', component: UserProfile, layout: UserLayout },
-    { path: '/user/orders', component: UserOrders, layout: UserLayout},
-    { path: '/user/notification', component: UserNotification, layout: UserLayout},
+    { path: '/user/orders', component: UserOrders, layout: UserLayout },
+    { path: '/user/notification', component: UserNotification, layout: UserLayout },
     { path: '/admin/dashboard', component: Dashboard, layout: AdminLayout },
     { path: '/admin/products', component: Products, layout: AdminLayout },
     { path: '/admin/orders', component: Orders, layout: AdminLayout },

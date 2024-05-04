@@ -1,7 +1,9 @@
 import "../Auth/Logger.css"
 import loggerImg from "../../Assets/Logger.png"
+import SocialButton from "./SocialLoginButton";
+import { Link } from "react-router-dom";
 function Register() {
-    return ( 
+    return (
         <div class="container">
             {/* ảnh nền */}
             <div class="ad-block">
@@ -47,25 +49,15 @@ function Register() {
                 </div>
                 {/* --------------------------------------- */}
                 {/* Đăng nhập bằng liên kết */}
-                <div class="external">
-                    <form method="post">
-                        <div class="button">
-                            <button class="logger-external" title="Đăng nhập qua Facebook" type="submit" id="Facebook">Đăng nhập bằng Facebook</button>
-                        </div>
-
-                        <div class="button">
-                            <button class="logger-external" title="Đăng nhập qua Google" type="submit" id="Google">Đăng nhập bằng Google</button>
-                        </div>
-                    </form>
-                </div>
+                <SocialButton />
                 {/* Chuyển hướng đăng nhập */}
                 <div class="other">
                     <p class="note">Đã có tài khoản?</p>
-                    <a class="nav" href="../login">Đăng nhập</a>
+                    <Link class="nav" to="/login">Đăng nhập</Link>
                 </div>
             </div>
-        </div>        
-     );
+        </div>
+    );
 }
 
 export default Register;
