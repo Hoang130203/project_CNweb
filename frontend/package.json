@@ -11,12 +11,15 @@
     "@testing-library/user-event": "^13.5.0",
     "apexcharts": "^3.49.0",
     "classnames": "^2.3.2",
+    "dotenv": "^16.4.5",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.1",
     "react-dom": "^18.2.0",
     "react-icons": "^5.0.1",
     "react-scripts": "^5.0.1",
     "react-slider": "^2.0.6",
+    "react-toastify": "^10.0.5",
+    "reactjs-social-login": "^2.6.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -33,6 +36,7 @@
   },
   "devDependencies": {
     "babel-plugin-module-resolver": "^5.0.0",
+    "dotenv-webpack": "^8.1.0",
     "prettier": "^3.0.3",
     "react-router-dom": "^6.18.0",
     "sass": "^1.66.1"
