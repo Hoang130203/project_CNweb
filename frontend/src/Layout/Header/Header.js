@@ -145,7 +145,7 @@ function Header() {
 
       {/* Logo trở về home */}
       <div className={cx('group1')} style={{ position: 'relative' }}>
-        <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 70 70" fill="none" className={cx('icon')}>
+        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 70 70" fill="none" className={cx('icon')}>
           <g clip-path="url(#clip0_1_3)">
             <path d="M3.28125 70H33.9062C34.1963 70 34.4745 69.8848 34.6796 69.6796C34.8848 69.4745 35 69.1963 35 68.9062C35 68.6162 34.8848 68.338 34.6796 68.1329C34.4745 67.9277 34.1963 67.8125 33.9062 67.8125H3.28125C2.99117 67.8125 2.71297 67.6973 2.50785 67.4921C2.30273 67.287 2.1875 67.0088 2.1875 66.7188V3.28125C2.1875 2.99117 2.30273 2.71297 2.50785 2.50785C2.71297 2.30273 2.99117 2.1875 3.28125 2.1875H49.2188C49.5088 2.1875 49.787 2.30273 49.9921 2.50785C50.1973 2.71297 50.3125 2.99117 50.3125 3.28125V14.2188C50.3125 14.5088 50.4277 14.787 50.6329 14.9921C50.838 15.1973 51.1162 15.3125 51.4062 15.3125C51.6963 15.3125 51.9745 15.1973 52.1796 14.9921C52.3848 14.787 52.5 14.5088 52.5 14.2188V3.28125C52.5 1.47219 51.0278 0 49.2188 0H3.28125C1.47219 0 0 1.47219 0 3.28125V66.7188C0 68.5278 1.47219 70 3.28125 70Z" fill="black" />
             <path d="M39.375 22.9688V66.7188C39.375 68.5278 40.8472 70 42.6562 70H66.7188C68.5278 70 70 68.5278 70 66.7188V22.9688C70 21.1597 68.5278 19.6875 66.7188 19.6875H42.6562C40.8472 19.6875 39.375 21.1597 39.375 22.9688ZM67.8125 22.9688V66.7188C67.8125 67.0088 67.6973 67.287 67.4921 67.4921C67.287 67.6973 67.0088 67.8125 66.7188 67.8125H42.6562C42.3662 67.8125 42.088 67.6973 41.8829 67.4921C41.6777 67.287 41.5625 67.0088 41.5625 66.7188V22.9688C41.5625 22.6787 41.6777 22.4005 41.8829 22.1954C42.088 21.9902 42.3662 21.875 42.6562 21.875H66.7188C67.0088 21.875 67.287 21.9902 67.4921 22.1954C67.6973 22.4005 67.8125 22.6787 67.8125 22.9688Z" fill="black" />
@@ -173,7 +173,7 @@ function Header() {
         <div className={cx('group5')} >
           <div style={{ position: 'relative', display: 'inline-block' }} >
             <input id='myInput' className={cx('group4')} value={valueInput} onChange={e => setValueInput(e.target.value)} onFocus={inputClicked} onBlur={inputUnClicked} />
-            <p onClick={focusInput} style={{ display: search, position: 'absolute', top: '6%', transform: 'translateY(36%)', right: '230px', fontFamily: 'Itim', fontSize: '25.6px', color: '#9C9C9C' }}>Tìm kiếm</p>
+            <p onClick={focusInput} style={{ display: search, position: 'absolute', top: '1%', transform: 'translateY(36%)', right: '230px', fontFamily: 'Itim', fontSize: '25.6px', color: '#9C9C9C' }}>Tìm kiếm</p>
             <svg onClick={focusInput} className={cx('magnifier-icon')} xmlns="http://www.w3.org/2000/svg" width="32" height="28" viewBox="0 0 40 35" fill="none" style={{ display: search, position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)' }}>
               <g clipPath="url(#clip0_1_19)">
                 <path d="M18.6145 27.7083C25.8283 27.7083 31.6762 22.485 31.6762 16.0417C31.6762 9.59834 25.8283 4.375 18.6145 4.375C11.4008 4.375 5.55292 9.59834 5.55292 16.0417C5.55292 22.485 11.4008 27.7083 18.6145 27.7083Z" stroke="#717171" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
@@ -190,7 +190,7 @@ function Header() {
 
         {/* Giỏ hàng */}
         <div className={cx('shoping-bag')}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="43.2" viewBox="0 0 50 54" fill="none">
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 50 54" fill="none">
             <path d="M12.5 4.5L6.25 13.5V45C6.25 46.1935 6.68899 47.3381 7.47039 48.182C8.25179 49.0259 9.3116 49.5 10.4167 49.5H39.5833C40.6884 49.5 41.7482 49.0259 42.5296 48.182C43.311 47.3381 43.75 46.1935 43.75 45V13.5L37.5 4.5H12.5Z" stroke="#6B6B6B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
             <path d="M6.25 13.5H43.75" stroke="#6B6B6B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
             <path d="M33.3334 22.5C33.3334 24.887 32.4554 27.1761 30.8926 28.864C29.3298 30.5518 27.2102 31.5 25 31.5C22.7899 31.5 20.6703 30.5518 19.1075 28.864C17.5447 27.1761 16.6667 24.887 16.6667 22.5" stroke="#6B6B6B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />

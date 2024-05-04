@@ -57,7 +57,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 80px;
+    height: 70px;
     background-color: #E7E7E7;
     display: flex;
     justify-content: space-between;
@@ -65,8 +65,8 @@
 
     .group1 {
         position: absolute;
-        width: 244.8px;
-        height: 56.8px;
+        width: 240px;
+        height: 50px;
         left: 22.4px;
         top: 12px;
     }
@@ -76,7 +76,7 @@
         width: 639.2px;
         height: 40.8px;
         left: 252px;
-        top: 28px;
+        top: 14px;
         margin-left: 10px;
     }
 
@@ -91,9 +91,9 @@
     .group4 {
         border: none;
         outline: #1a1919;
-        width: 370.4px;
-        height: 56.8px;
-        top: 15.2px;
+        width: 365px;
+        height: 50px;
+        top: 16px;
         left: 923.2px;
         gap: 0px;
         background: #F1EFEF;
@@ -133,9 +133,9 @@
     }
 
     .accImg {
-        width: 60px;
-        height: 60px;
-        top: 8px;
+        width: 55px;
+        height: 55px;
+        top: 6px;
         left: 1429.6px;
         gap: 0px;
         // opacity: 0px;
@@ -176,7 +176,7 @@
         flex-shrink: 0;
         width: 40px;
         height: 43.2px;
-        top: 18.4px;
+        top: 15px;
         left: 1348px;
         gap: 0px;
         opacity: 1;
