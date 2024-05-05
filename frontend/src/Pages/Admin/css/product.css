@@ -19,7 +19,8 @@
   box-sizing: border-box;
 }
 
-.product-table {
+.product-table,
+.product-table-2 {
   width: 100%;
   border-collapse: collapse;
 }
@@ -30,6 +31,9 @@
   border-bottom: 1px solid #ddd;
 }
 
+.product-table-2 td {
+  border-bottom: 0px;
+}
 .product-table th {
   text-align: left;
 }
