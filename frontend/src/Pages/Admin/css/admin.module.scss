@@ -28,3 +28,34 @@
     }
 
 }
+
+/* Thiết kế cho table-header */
+.table-header {
+    font-weight: bold;
+}
+
+/* Thiết kế cho table-row */
+.table-row {
+    transition: background-color 0.3s ease;
+    /* Hiệu ứng màu nền chuyển động mềm mại */
+    text-align: center;
+}
+
+.table-row img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.table-row td {
+    padding: 3px 5px;
+}
+
+
+
+.table-row:hover {
+    background-color: #11bc8e;
+    /* Màu nền khi di chuột qua */
+    cursor: pointer;
+}

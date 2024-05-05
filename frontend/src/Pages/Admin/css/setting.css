@@ -1,0 +1,156 @@
+/* admin-settings.css */
+
+.admin-settings {
+  max-width: 400px;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.admin-settings h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #475fe9;
+}
+
+.admin-settings h3 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 20px;
+  color: #6385e2;
+}
+
+.admin-settings p {
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #ffffff;
+}
+
+.admin-settings form {
+  margin-top: 20px;
+}
+
+.admin-settings label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 16px;
+  color: #67dcab;
+}
+
+.admin-settings input[type="password"] {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #11345800;
+  color: #ffffff;
+}
+
+.admin-settings button {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.admin-settings button:hover {
+  background-color: #0056b3;
+}
+
+.admin-settings p.error {
+  margin-top: 10px;
+  color: #d9534f;
+}
+
+/* notification-page.css */
+
+.notification-page {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 20px;
+}
+
+.notification-receive,
+.notification-send {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.notification-receive h2,
+.notification-send h2 {
+  margin-bottom: 10px;
+}
+
+.notification-receive ul {
+  padding: 0;
+  list-style-type: none;
+}
+
+.notification-receive ul li {
+  margin-bottom: 10px;
+}
+
+.notification-send textarea {
+  width: 100%;
+  height: 100px;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #475fe900;
+  color: #ffffff;
+  font-size: 20px;
+}
+
+.notification-send button {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.notification-send button:hover {
+  background-color: #0056b3;
+}
+@media (max-width: 768px) {
+  .notification-page {
+    flex-direction: column; /* Xếp dọc các phần tử */
+    margin: 10px; /* Giảm margin */
+  }
+
+  .notification-receive,
+  .notification-send {
+    margin-right: 0; /* Xóa margin giữa các phần tử */
+    margin-bottom: 20px; /* Thêm margin dưới các phần tử */
+  }
+}
+
+.notification-receive button {
+  padding: 5px 10px;
+  margin-left: 5px;
+  font-size: 14px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.notification-receive button:hover {
+  background-color: #0056b3;
+}
+
+.notification-receive button.delete {
+  background-color: #dc3545;
+}
+
+.notification-receive button.delete:hover {
+  background-color: #c82333;
+}

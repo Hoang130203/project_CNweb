@@ -1,0 +1,38 @@
+/* Trạng thái mở rộng */
+.expanded-row {
+  /* background-color: #f9f9f9; */
+  transition: max-height 0.5s ease-in-out;
+}
+
+/* Nút mở rộng */
+.expand-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: rgb(0, 195, 255);
+  text-decoration: underline;
+  font-size: large;
+}
+
+/* Chi tiết đơn hàng */
+.order-details {
+  padding: 10px;
+}
+
+.status-select {
+  padding: 8px 12px;
+  border: 1px solid #a4a4a4;
+  border-radius: 5px;
+  background-color: #2f3769;
+  color: #fff;
+
+  cursor: pointer;
+}
+
+.status-select > option {
+  background-color: #2f3769;
+  font-size: 14px;
+  padding-top: 5px;
+  padding-bottom: 2px;
+  color: #fff;
+}
