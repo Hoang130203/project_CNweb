@@ -11,6 +11,12 @@
         padding: 10px 0px;
         border-bottom: 1px solid #9F9F9F;
         box-sizing: border-box;
+
+        span {
+            margin-left: 10px;
+            cursor: pointer;
+            color: #2E90EB;
+        }
     }
 
     .user-info {

@@ -3,6 +3,7 @@ import classNames from 'classnames/bind';
 import styles from './UserProfile.module.scss';
 
 import Button from '../../../components/Button/Button';
+import ChangePasswordPopup from '../../../components/ChangePassword/ChangPassword';
 
 const cx = classNames.bind(styles);
 
@@ -11,6 +12,13 @@ export default function UserProfile() {
   const [email, setEmail] = useState('nguyenvana@gmail.com');
   const [phone, setPhone] = useState('0123456789');
   const [address, setAddress] = useState('Số xx, Phường xx, Quận xx, Tỉnh xx');
+
+  const [showPopup, setShowPopup] = useState(false);
+
+  const handleShowPopup = () => {
+    setShowPopup(true);
+  }
+
 
   const handleNameChange = (e) => setName(e.target.value);
   const handleEmailChange = (e) => setEmail(e.target.value);
@@ -21,7 +29,10 @@ export default function UserProfile() {
     <div className={cx('wrapper')}>
       <div className={cx('header')}>
         <h2>Hồ sơ của tôi</h2>
-        <p>Thương xuyên thay đổi mật khẩu để bảo mật tài khoản! Đổi mật khẩu</p>
+        <p>
+          Thương xuyên thay đổi mật khẩu để bảo mật tài khoản!
+          <span onClick={handleShowPopup}>Đổi mật khẩu</span>
+        </p>      
       </div>
       <div className={cx('user-info')}>
         <div className={cx('avatar')}>
@@ -49,6 +60,7 @@ export default function UserProfile() {
       <div className={cx('actions')}>
         <Button className={'button__save'}>Lưu</Button>
       </div>
+      {showPopup && <ChangePasswordPopup onClose={() => setShowPopup(false)} />}
     </div>
   );
 }
