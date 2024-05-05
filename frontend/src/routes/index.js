@@ -16,7 +16,7 @@ import Chats from '../Pages/Admin/Chats';
 import Notifications from '../Pages/Admin/Notifications';
 import Setting from '../Pages/Admin/Setting';
 
-import UserProfile from '../Pages/User/UserProfile';
+import UserProfile from '../Pages/User/UserProfle/UserProfile';
 import UserOrders from '../Pages/User/UserOrders';
 import UserNotification from '../Pages/User/UserNotification';
 import UserLayout from '../Layout/UserLayout/UserLayout';
