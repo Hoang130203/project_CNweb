@@ -93,3 +93,25 @@
     cursor: auto;
     color: grey;
 }
+.button__save {
+    background-color: #416EC5;
+    color: #fff;
+    padding: 0px 20px;
+    font-size: 1.2rem;
+    line-height: 40px;
+}
+
+.button__save:active {
+    color: white;
+}
+
+.button__save:hover:not(:disabled) {
+    background: green;
+    color: white;
+    text-shadow: 0 0.1rem #bcb4b4;
+}
+
+.button__save:disabled {
+    cursor: auto;
+    color: grey;
+}
