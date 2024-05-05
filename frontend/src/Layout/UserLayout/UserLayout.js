@@ -8,16 +8,16 @@ import SideBar from './SideBar/SideBar';
 const cx = classNames.bind(styles);
 
 
-export default function UserLayout({children}) {
+export default function UserLayout({ children }) {
   return (
     <div className={cx('wrap')}>
       <Header />
       <SideBar />
       <div className={cx('children')}>
-                <div className={cx('content')}>
-                    {children}
-                </div>
-            </div>
+        <div className={cx('content')}>
+          {children}
+        </div>
+      </div>
     </div>
   )
 }
