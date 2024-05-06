@@ -15,3 +15,12 @@ code {
   user-select: none;
   -webkit-user-select: none;
 }
+html {
+  ::-webkit-scrollbar {
+    width: 5px; /* Độ rộng của thanh cuộn */
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #b1b1b1; /* Màu của nút cuộn */
+    border-radius: 5px; /* Độ cong của nút cuộn */
+  }
+}

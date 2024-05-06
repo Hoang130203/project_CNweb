@@ -1,0 +1,65 @@
+.wrapper {
+    background-color: #9F9F9F35;
+    margin-left: 20px;
+    width: 900px;
+    padding-bottom: 20px;
+    height: fit-content;
+    border-radius: 10px;
+
+    .header {
+        margin: 0 20px;
+        padding: 10px 0px;
+        border-bottom: 1px solid #9F9F9F;
+        box-sizing: border-box;
+
+        span {
+            margin-left: 10px;
+            cursor: pointer;
+            color: #2E90EB;
+        }
+    }
+
+    .user-info {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        padding: 20px 40px;
+
+        .avatar {
+            margin-right: 20px;
+
+            img {
+                width: 200px;
+                height: 200px;
+                object-fit: cover;
+                border-radius: 50%;
+            }
+        }
+
+        .form {
+            flex: 1;
+
+            .form-group {
+                margin-bottom: 10px;
+
+                label {
+                    display: block;
+                    font-weight: bold;
+                    margin-bottom: 5px;
+                }
+
+                input {
+                    width: 80%;
+                    padding: 8px;
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                }
+            }
+        }
+    }
+
+    .actions {
+        text-align: center;
+
+    }
+}
