@@ -1,8 +1,38 @@
 import "../Auth/Logger.css"
 import loggerImg from "../../Assets/Logger.png"
 import SocialButton from "./SocialLoginButton";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import UserApi from "../../Api/UserApi";
 function Register() {
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const navigate = useNavigate()
+    const handleSubmit = async (e) => {
+        if (password !== confirmPassword) {
+            toast.error("Mật khẩu xác nhận không khớp");
+            return;
+        }
+        e.preventDefault();
+        try {
+            const res = await UserApi.Register(username, password, "", "")
+                .then((res) => {
+                    if (res.status === 200 || res.status === 201) {
+                        toast.success("Đăng kí thành công");
+                        navigate("/login")
+                    }
+                    else
+                        toast.error("Đăng kí thất bại");
+                })
+            console.log(res);
+        }
+        catch (error) {
+            toast.error("Đăng kí thất bại");
+            console.log(error);
+        }
+    }
     return (
         <div class="container">
             {/* ảnh nền */}
@@ -14,34 +44,32 @@ function Register() {
                 <h1>Đăng kí</h1>
                 {/* form đăng kí */}
                 <div class="internal">
-                    <form method="post" action="">
-                        {/* tài khoản */}
-                        <div class="row">
-                            <div class="label">Tài khoản</div>
-                            <div class="input">
-                                <input type="text" name="UserName" placeholder="Số điện thoại hoặc Email..." id="UserName"></input>
-                            </div>
+                    {/* tài khoản */}
+                    <div class="row">
+                        <div class="label">Tài khoản</div>
+                        <div class="input">
+                            <input type="text" value={username} onChange={(e) => { setUsername(e.target.value) }} name="UserName" placeholder="Số điện thoại hoặc Email..." id="UserName"></input>
                         </div>
-                        {/* mật khẩu */}
-                        <div class="row">
-                            <div class="label">Mật khẩu</div>
-                            <div class="input">
-                                <input type="password" name="UserPassword" placeholder="*************" id="UserPassword"></input>
-                            </div>
+                    </div>
+                    {/* mật khẩu */}
+                    <div class="row">
+                        <div class="label">Mật khẩu</div>
+                        <div class="input">
+                            <input type="password" value={password} onChange={(e) => { setPassword(e.target.value) }} name="UserPassword" placeholder="*************" id="UserPassword"></input>
                         </div>
-                        {/* xác nhận mật khẩu */}
-                        <div class="row">
-                            <div class="label">Nhập lại mật khẩu</div>
-                            <div class="input">
-                                <input type="password" name="ConfirmUserPassword" placeholder="*************" id="ConfirmUserPassword"></input>
-                            </div>
+                    </div>
+                    {/* xác nhận mật khẩu */}
+                    <div class="row">
+                        <div class="label">Nhập lại mật khẩu</div>
+                        <div class="input">
+                            <input type="password" value={confirmPassword} onChange={(e) => { setConfirmPassword(e.target.value) }} name="ConfirmUserPassword" placeholder="*************" id="ConfirmUserPassword"></input>
                         </div>
-                        {/* nút đăng kí */}
-                        <div class="row">
-                            <button class="logger-btn" type="submit">Đăng kí</button>
-                        </div>
+                    </div>
+                    {/* nút đăng kí */}
+                    <div class="row">
+                        <button class="logger-btn" onClick={handleSubmit}>Đăng kí</button>
+                    </div>
 
-                    </form>
                 </div>
                 {/* Hoặc */}
                 <div class="break-line">
