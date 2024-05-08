@@ -15,6 +15,8 @@ function TotalMoney() {
     return formattedPrice;
   };
 
+  // Test commnit
+
   return (
     <div>
       <div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-end'}}>
