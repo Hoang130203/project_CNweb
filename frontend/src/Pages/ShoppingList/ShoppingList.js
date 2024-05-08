@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './User.module.scss';
+import styles from './ShoppingList.scss';
 import classNames from 'classnames/bind';
 import products from '../../components/ProductData/ProductData';
 import { Link } from 'react-router-dom';
@@ -100,7 +100,7 @@ function Order() {
   )
 }
 
-export default function UserOrders() {
+export default function ShoppingList() {
 
   const [selectedLink, setSelectedLink] = useState('all');
 
@@ -109,45 +109,10 @@ export default function UserOrders() {
   };
 
   return (
-    <div className={cx('userOrder')}>
-      {/* Title */}
-      <div className={cx('title')}>
-        <Link
-          style={{ textDecoration: selectedLink === 'all' ? 'underline' : 'none', color: selectedLink === 'all' ? '#D37B29' : 'black', fontSize: '22px' }}
-          onClick={() => handleLinkClick('all')}
-        >
-          Tất cả
-        </Link>
-        <Link
-          style={{ textDecoration: selectedLink === 'unconfirmed' ? 'underline' : 'none', color: selectedLink === 'unconfirmed' ? '#D37B29' : 'black', fontSize: '22px' }}
-          onClick={() => handleLinkClick('unconfirmed')}
-        >
-          Chưa xác nhận
-        </Link>
-        <Link
-          style={{ textDecoration: selectedLink === 'shipping' ? 'underline' : 'none', color: selectedLink === 'shipping' ? '#D37B29' : 'black', fontSize: '22px' }}
-          onClick={() => handleLinkClick('shipping')}
-        >
-          Đang vận chuyển
-        </Link>
-        <Link
-          style={{ textDecoration: selectedLink === 'success' ? 'underline' : 'none', color: selectedLink === 'success' ? '#D37B29' : 'black', fontSize: '22px' }}
-          onClick={() => handleLinkClick('success')}
-        >
-          Thành công
-        </Link>
-        <Link
-          style={{ textDecoration: selectedLink === 'cancelled' ? 'underline' : 'none', color: selectedLink === 'cancelled' ? '#D37B29' : 'black', fontSize: '22px' }}
-          onClick={() => handleLinkClick('cancelled')}
-        >
-          Đã hủy
-        </Link>
-      </div>
-
-      <hr style={{ border: '0.1px solid #B6B6B6', width: 'auto', paddingLeft: '4px', margin: '22px 0px 0px 12px' }} />
-
-      <Order />
-      <Order />
+    <div className={cx('shoppingList')}>
+        <div className={cx('userOrder')}>
+          <Order />
+        </div>
     </div>
   )
 }
