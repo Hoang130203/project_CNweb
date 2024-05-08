@@ -13,6 +13,45 @@
     width: 1300px;
 }
 
+.shoppingList1 {
+    box-sizing: border-box;
+    display: block;
+    height: auto;
+    margin: 0 auto;
+    padding-top: 80px;
+    padding-left: auto;
+    padding-right: auto;
+    display: flex;
+    justify-content: space-around;
+
+    z-index: 1000;
+    width: 1300px;
+}
+
+.userOrder1 {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 1.5rem;
+    background-color: #E7E7E7;
+    width: 60vw;
+    margin-left: 2%;
+    box-shadow: 
+        0 1px 2px 0 rgba(60,64,67,.1), 
+        0 2px 6px 2px rgba(60,64,67,.15);
+    .order {
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 1.5rem;
+        background-color: #ffffff;
+        margin-left: 1%;
+        margin-top: 1%;
+        box-shadow: 
+            0 1px 2px 0 rgba(60,64,67,.1), 
+            0 2px 6px 2px rgba(60,64,67,.15);
+    }
+}
+
+
 .userOrder {
     border: 1px solid #ccc;
     border-radius: 8px;
