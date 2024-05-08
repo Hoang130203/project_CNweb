@@ -13,7 +13,8 @@ function Chats() {
     useEffect(() => {
         let client = null;
 
-        axios.get('http://localhost:8080/api/test', {
+        axios.get('http://localhost:8081/api/test', {
+            withCredentials: true,
             headers: {
                 'Content-Type': 'application/json',
             }
@@ -25,7 +26,8 @@ function Chats() {
         })
 
         const connectToWebSocket = async () => {
-            const socket = new SockJS('http://localhost:8081/ws');
+            const socket = new SockJS('http://localhost:8081/ws', { withCredentials: true });
+            socket.withCredentials = true;
             client = Stomp.over(socket);
 
             await new Promise((resolve, reject) => {

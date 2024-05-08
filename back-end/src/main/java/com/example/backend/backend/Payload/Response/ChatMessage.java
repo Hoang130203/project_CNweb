@@ -15,4 +15,5 @@ public class ChatMessage {
     private String nickname;
     private String content;
     private Date timestamp;
+    private String sender;
 }
