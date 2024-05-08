@@ -14,7 +14,7 @@ function TotalMoney() {
     const formattedPrice = Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
     return formattedPrice;
   };
-  //test
+  //test 2
 
   return (
     <div>
