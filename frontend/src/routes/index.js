@@ -20,6 +20,7 @@ import UserProfile from '../Pages/User/UserProfle/UserProfile';
 import UserOrders from '../Pages/User/UserOrders';
 import UserNotification from '../Pages/User/UserNotification';
 import UserLayout from '../Layout/UserLayout/UserLayout';
+import ShoppingList from '../Pages/ShoppingList/ShoppingList';
 
 const publicRoutes = [
     { path: '/', component: HomePage },
@@ -29,6 +30,7 @@ const publicRoutes = [
     { path: '/following', component: Following },
     { path: '/mobile', component: Mobile },
     { path: '/new', component: New },
+    { path: '/shoppingList', component: ShoppingList },
     { path: '/type', component: Type },
     { path: '/product-detail/:id', component: ProductDetailPage },
     { path: '/user/profile', component: UserProfile, layout: UserLayout },

@@ -1,5 +1,5 @@
-import React from 'react';
-import styles from './User.module.scss';
+import React, { useEffect } from 'react';
+import styles from './ShoppingList.scss';
 import classNames from 'classnames/bind';
 import products from '../../components/ProductData/ProductData';
 import { Link } from 'react-router-dom';
@@ -14,7 +14,6 @@ function TotalMoney() {
     const formattedPrice = Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
     return formattedPrice;
   };
-  //test 2
 
   return (
     <div>
@@ -101,7 +100,7 @@ function Order() {
   )
 }
 
-export default function UserOrders() {
+export default function ShoppingList() {
 
   const [selectedLink, setSelectedLink] = useState('all');
 
@@ -109,46 +108,48 @@ export default function UserOrders() {
     setSelectedLink(link);
   };
 
+  const [isSticky, setIsSticky] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const heheDiv = document.getElementById('hehe');
+      const distanceFromTop = heheDiv.getBoundingClientRect().top;
+
+      if (distanceFromTop < 0) {
+        setIsSticky(false);
+      } else {
+        setIsSticky(true);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+
   return (
-    <div className={cx('userOrder')}>
-      {/* Title */}
-      <div className={cx('title')}>
-        <Link
-          style={{ textDecoration: selectedLink === 'all' ? 'underline' : 'none', color: selectedLink === 'all' ? '#D37B29' : 'black', fontSize: '22px' }}
-          onClick={() => handleLinkClick('all')}
-        >
-          Tất cả
-        </Link>
-        <Link
-          style={{ textDecoration: selectedLink === 'unconfirmed' ? 'underline' : 'none', color: selectedLink === 'unconfirmed' ? '#D37B29' : 'black', fontSize: '22px' }}
-          onClick={() => handleLinkClick('unconfirmed')}
-        >
-          Chưa xác nhận
-        </Link>
-        <Link
-          style={{ textDecoration: selectedLink === 'shipping' ? 'underline' : 'none', color: selectedLink === 'shipping' ? '#D37B29' : 'black', fontSize: '22px' }}
-          onClick={() => handleLinkClick('shipping')}
-        >
-          Đang vận chuyển
-        </Link>
-        <Link
-          style={{ textDecoration: selectedLink === 'success' ? 'underline' : 'none', color: selectedLink === 'success' ? '#D37B29' : 'black', fontSize: '22px' }}
-          onClick={() => handleLinkClick('success')}
-        >
-          Thành công
-        </Link>
-        <Link
-          style={{ textDecoration: selectedLink === 'cancelled' ? 'underline' : 'none', color: selectedLink === 'cancelled' ? '#D37B29' : 'black', fontSize: '22px' }}
-          onClick={() => handleLinkClick('cancelled')}
-        >
-          Đã hủy
-        </Link>
+    <div>
+      <div className={cx('shoppingList')}>
+        <div className={cx('userOrder')}>
+          <Order />
+          <Order />
+          <Order />
+          <Order />
+
+          <div id='hehe' className={cx('order')} style={{ display: 'flex', position: isSticky ? 'sticky' : 'static', bottom: '10px'  }}>
+            <div style={{ flex: '1', paddingLeft: '30px', display: 'flex', flexDirection: 'column' }}>
+              <p style={{ fontSize: '24px', marginBottom: '0px' }}>Tạm tính</p>
+              <p style={{ fontSize: '20px', fontWeight: '400', lineHeight: '58px', color: '#FF0C0C' }}>50000đ</p>
+            </div>
+
+            <div style={{ flex: '0.2', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <button style={{ border: 'none', margin: '0px 0px 0px 0px', backgroundColor: 'rgb(226, 58, 58)', color: 'white', borderRadius: '6px', width: '150px', height: '35px', fontSize: '16px' }}>Mua ngay (2)</button>
+            </div>
+          </div>
+        </div>
       </div>
-
-      <hr style={{ border: '0.1px solid #B6B6B6', width: 'auto', paddingLeft: '4px', margin: '22px 0px 0px 12px' }} />
-
-      <Order />
-      <Order />
     </div>
   )
 }
