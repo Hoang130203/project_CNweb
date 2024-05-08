@@ -17,9 +17,13 @@ import Notifications from '../Pages/Admin/Notifications';
 import Setting from '../Pages/Admin/Setting';
 
 import UserProfile from '../Pages/User/UserProfle/UserProfile';
+import UserAddress from '../Pages/User/UserProfle/UserAddress';
 import UserOrders from '../Pages/User/UserOrders';
 import UserNotification from '../Pages/User/UserNotification';
 import UserLayout from '../Layout/UserLayout/UserLayout';
+
+import CartLayout from '../Layout/CartLayout/CartLayout';
+import Checkout from '../Pages/Cart/Checkout';
 
 const publicRoutes = [
     { path: '/', component: HomePage },
@@ -32,6 +36,7 @@ const publicRoutes = [
     { path: '/type', component: Type },
     { path: '/product-detail/:id', component: ProductDetailPage },
     { path: '/user/profile', component: UserProfile, layout: UserLayout },
+    { path: '/user/profile/address', component: UserAddress, layout: UserLayout },
     { path: '/user/orders', component: UserOrders, layout: UserLayout },
     { path: '/user/notification', component: UserNotification, layout: UserLayout },
     { path: '/admin/dashboard', component: Dashboard, layout: AdminLayout },
@@ -40,6 +45,8 @@ const publicRoutes = [
     { path: '/admin/users', component: Users, layout: AdminLayout },
     { path: '/admin/chat', component: Chats, layout: AdminLayout },
     { path: '/admin/notification', component: Notifications, layout: AdminLayout },
-    { path: '/admin/setting', component: Setting, layout: AdminLayout }
+    { path: '/admin/setting', component: Setting, layout: AdminLayout },
+    { path: '/cart/checkout', component: Checkout, layout: CartLayout }
+
 ]
 export { publicRoutes };
