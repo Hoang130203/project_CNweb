@@ -45,5 +45,13 @@ class UserApi {
             "hasProvider": true
         }, headers)
     }
+    GetUserID() {
+        return axios.get(`${base_api}/api/userId`, {
+            withCredentials: true,
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+    }
 }
 export default new UserApi();   
