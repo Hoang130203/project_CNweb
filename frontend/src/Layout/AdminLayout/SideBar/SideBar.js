@@ -10,11 +10,21 @@ import { MdOutlineNotificationsActive } from "react-icons/md";
 import { TbInfoHexagonFilled } from "react-icons/tb";
 import { SiAdminer } from "react-icons/si";
 import { IoMdLogOut } from "react-icons/io";
-import { useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { SocketContext } from '../../../Pages/Admin/Context/context';
 
 const cx = classNames.bind(styles);
 function SideBar() {
     const navigate = useNavigate()
+    const [messages] = useContext(SocketContext);
+    const [showMessageNotification, setShowMessageNotification] = useState(false);
+    useEffect(() => {
+        if (window.location.pathname === '/admin/chat' || messages.length === 0) {
+            setShowMessageNotification(false);
+        } else {
+            setShowMessageNotification(true);
+        }
+    }, [messages])
     const handleLogout = () => {
         // localStorage.removeItem('token');
         navigate('/login')
@@ -41,9 +51,11 @@ function SideBar() {
                     <NavLink to="/admin/users" className={(nav) => cx('nav_item', { active: nav.isActive })}>
                         <FaUsersGear style={{ marginRight: '5px' }} />
                         Người dùng</NavLink>
-                    <NavLink to="/admin/chat" className={(nav) => cx('nav_item', { active: nav.isActive })}>
+                    <NavLink to="/admin/chat" className={(nav) => cx('nav_item', { active: nav.isActive })} onClick={() => { setShowMessageNotification(false) }}>
                         <FaFacebookMessenger style={{ marginRight: '5px' }} />
-                        Chat</NavLink>
+                        Chat
+                        <div className={cx('notification')} style={{ display: showMessageNotification ? '' : 'none' }}></div>
+                    </NavLink>
                     <NavLink to="/admin/notification" className={(nav) => cx('nav_item', { active: nav.isActive })}>
                         <MdOutlineNotificationsActive style={{ marginRight: '5px' }} />
                         Thông báo</NavLink>

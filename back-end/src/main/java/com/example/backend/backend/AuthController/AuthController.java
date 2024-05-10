@@ -7,6 +7,7 @@ import com.example.backend.backend.Payload.Request.ProviderRegister;
 import com.example.backend.backend.Payload.Request.RegisterUser;
 import com.example.backend.backend.Payload.Response.Email;
 import com.example.backend.backend.Payload.Response.Message;
+import com.example.backend.backend.Payload.Response.NotificationMessage;
 import com.example.backend.backend.Payload.User.UserInfo;
 import com.example.backend.backend.Security.CookieUtil;
 import com.example.backend.backend.Security.JwtProvider;
@@ -19,6 +20,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -48,6 +50,8 @@ public class AuthController {
     @Value("${jwt.accessTokenCookieName}")
     //lấy giá trị từ tệp properties
     private String cookieName;
+    @Autowired
+    private SimpMessageSendingOperations messagingTemplate;
 
     //Khởi tạo
     @Autowired
@@ -124,6 +128,9 @@ public class AuthController {
         }
         user.setRoles(roles);
         userService.save(user);
+        NotificationMessage notificationMessage= new NotificationMessage("1 tài khoản vừa được đăng ký",new Date(),"System",true);
+        messagingTemplate.convertAndSend("/topic-admin", notificationMessage);
+
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
