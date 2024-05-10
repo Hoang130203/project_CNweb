@@ -190,16 +190,18 @@ function Header() {
 
         {/* Giỏ hàng */}
         <div className={cx('shoping-bag')}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 50 54" fill="none">
-            <path d="M12.5 4.5L6.25 13.5V45C6.25 46.1935 6.68899 47.3381 7.47039 48.182C8.25179 49.0259 9.3116 49.5 10.4167 49.5H39.5833C40.6884 49.5 41.7482 49.0259 42.5296 48.182C43.311 47.3381 43.75 46.1935 43.75 45V13.5L37.5 4.5H12.5Z" stroke="#6B6B6B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
-            <path d="M6.25 13.5H43.75" stroke="#6B6B6B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
-            <path d="M33.3334 22.5C33.3334 24.887 32.4554 27.1761 30.8926 28.864C29.3298 30.5518 27.2102 31.5 25 31.5C22.7899 31.5 20.6703 30.5518 19.1075 28.864C17.5447 27.1761 16.6667 24.887 16.6667 22.5" stroke="#6B6B6B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
+          <Link to='/shoppingList'>
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 50 54" fill="none">
+              <path d="M12.5 4.5L6.25 13.5V45C6.25 46.1935 6.68899 47.3381 7.47039 48.182C8.25179 49.0259 9.3116 49.5 10.4167 49.5H39.5833C40.6884 49.5 41.7482 49.0259 42.5296 48.182C43.311 47.3381 43.75 46.1935 43.75 45V13.5L37.5 4.5H12.5Z" stroke="#6B6B6B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M6.25 13.5H43.75" stroke="#6B6B6B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M33.3334 22.5C33.3334 24.887 32.4554 27.1761 30.8926 28.864C29.3298 30.5518 27.2102 31.5 25 31.5C22.7899 31.5 20.6703 30.5518 19.1075 28.864C17.5447 27.1761 16.6667 24.887 16.6667 22.5" stroke="#6B6B6B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </Link>
         </div>
 
         {/* Tài khoản */}
         <button className={cx('acc')} onClick={() => handleClickAcc(clickAcc)}>
-          <img className={cx('accImg')} alt='accImg' src={avatar || 'https://s3-alpha-sig.figma.com/img/0e69/55b5/ac6bae2245e3befa7985f1a3d42889b3?Expires=1714348800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=a53ArzCCmnybP0ZdfwRV0M3pBSXSE3kFrjRKaK1HamAz6hv5hie5F7aBRMhsEejpw2xCwE7kFKt9Ruvuf7H2D1zF6hn5LhkvcXlkV-f-uBzXYgIWrlj9vwyTkaNc9LN~G2Y5RxYHXfmB5RoWHwWwVofBJotF9tDEK55gwRyOOaWz3qhXHvSBfor3PMGvGatCO2a4w0Ez5X6fAfGATD8AqdJVuMggYpv7F1DEQCnQSh3wFiDOWT6QCIA0PpJ1XuLFqMmsE2XbPBS3H3MC3mmmV5jpuNvYQWm9Kq90HvoQMN-Y70U4RQrW0IPM4ceDt1z7Hcva6LO9UXfAw4zauP5jQw__'} />
+          <img className={cx('accImg')} alt='accImg' src={avatar?.length > 10 ? avatar : 'https://cdn.sforum.vn/sforum/wp-content/uploads/2023/10/avatar-trang-4.jpg'} />
         </button>
 
         {/* Điều hướng khi bấm vào icon tài khoản */}

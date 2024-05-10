@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './UserProfile.module.scss';
+import { Link } from 'react-router-dom';
 
 import Button from '../../../components/Button/Button';
 import ChangePasswordPopup from '../../../components/ChangePassword/ChangPassword';
@@ -32,7 +33,7 @@ export default function UserProfile() {
         <p>
           Thương xuyên thay đổi mật khẩu để bảo mật tài khoản!
           <span onClick={handleShowPopup}>Đổi mật khẩu</span>
-        </p>      
+        </p>
       </div>
       <div className={cx('user-info')}>
         <div className={cx('avatar')}>
@@ -53,7 +54,15 @@ export default function UserProfile() {
           </div>
           <div className={cx('form-group')}>
             <label>Địa chỉ</label>
-            <input type="text" value={address} onChange={handleAddressChange} />
+            <Link to="/user/profile/address">
+              <input
+                type="text"
+                value={address}
+                onChange={handleAddressChange}
+                readOnly
+                style={{ cursor: 'pointer' }}
+              />
+            </Link>
           </div>
         </div>
       </div>
