@@ -1,12 +1,10 @@
 package com.example.backend.backend.AuthController;
 
+import com.example.backend.backend.Entity.User;
 import com.example.backend.backend.Payload.Response.ChatMessage;
+import com.example.backend.backend.Service.UserService;
 import com.example.backend.backend.Websocket.ChatRoomManager;
-import com.example.backend.backend.Websocket.WebSocketEventListener;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -16,20 +14,22 @@ import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor;
 
 import java.security.Principal;
 import java.util.Date;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin
 public class ChatController {
 //    private static final Logger logger = LoggerFactory.getLogger(WebSocketEventListener.class);
+    private final UserService userService;
 
     @Autowired
     private SimpMessageSendingOperations messagingTemplate;
@@ -37,7 +37,11 @@ public class ChatController {
     @Autowired
     private ChatRoomManager chatRoomManager;
 
-//    @MessageMapping("/chat")
+    public ChatController(UserService userService) {
+        this.userService = userService;
+    }
+
+    //    @MessageMapping("/chat")
 //    @SendTo("/topic/messages")
 //    public ChatMessage sendMessages(@Payload ChatMessage chatMessage){
 //        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
@@ -50,27 +54,57 @@ public class ChatController {
 //        return chatMessage;
 //    }
     @MessageMapping("/chat")
-    @SendTo("/topic/messages")
+//    @SendTo("/topic/messages")
     public ChatMessage sendMessages(@Payload ChatMessage chatMessage, Principal principal) {
         String username = null;
+        boolean isAdmin=false;
         if (principal instanceof UsernamePasswordAuthenticationToken) {
             Authentication authentication = (Authentication) principal;
             UserDetails userDetails= (UserDetails) authentication.getPrincipal();
+            for (GrantedAuthority authority : userDetails.getAuthorities()) {
+                // Kiểm tra xem có role "admin" không
+                if (authority.getAuthority().equals("ROLE_ADMIN")) {
+                    isAdmin=true;
+                    chatMessage.setAdmin(true);
+                    System.out.println("dasfjsdlf");
+
+                }
+            }
             username = userDetails.getUsername();
         } else if (principal instanceof UserDetails) {
             UserDetails userDetails = (UserDetails) principal;
+            for (GrantedAuthority authority : userDetails.getAuthorities()) {
+                // Kiểm tra xem có role "admin" không
+                if (authority.getAuthority().equals("ROLE_ADMIN")) {
+                    isAdmin=true;
+                    chatMessage.setAdmin(true);
+                    System.out.println("dasfjsdlf");
+
+                }
+            }
             username = userDetails.getUsername();
         }
         System.out.println(username);
+        chatMessage.setSender(username);
         chatMessage.setTimestamp(new Date());
-        messagingTemplate.convertAndSend("/topic/" + username, chatMessage);
+
+        if(chatMessage.isAdmin()){
+            messagingTemplate.convertAndSend("/topic-admin", chatMessage);
+            messagingTemplate.convertAndSend(String.format("/topic/%s", chatMessage.getTopic()), chatMessage);
+
+        }else{
+            messagingTemplate.convertAndSend("/topic-admin", chatMessage);
+            messagingTemplate.convertAndSend(String.format("/topic/%s", username), chatMessage);
+        }
 
         return chatMessage;
     }
 
-    @GetMapping("/api/test")
+    @GetMapping("/api/userId")
     public ResponseEntity<?> test(){
-        return ResponseEntity.ok("abc");
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        return ResponseEntity.ok(userDetails.getUsername());
     }
 
     @MessageMapping("/chat/{roomId}/sendMessage")
@@ -87,6 +121,17 @@ public class ChatController {
         chatRoomManager.addUserToRoom(roomId, username);
         headerAccessor.getSessionAttributes().put("username", username);
         headerAccessor.getSessionAttributes().put("room_id", roomId);
+    }
+    //lấy ra id người dùng
+    public String getUserId(UserDetails userDetails){
+
+        String userName = userDetails.getUsername();
+        Optional<User> user= this.userService.getByAccount(userName);
+        if (!user.isPresent()) {
+            return null;
+        }
+
+        return user.get().getId() ;
     }
 }
 

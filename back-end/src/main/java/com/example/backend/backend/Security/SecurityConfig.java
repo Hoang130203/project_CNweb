@@ -86,6 +86,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET,"/vnpay/**").permitAll()
                         .requestMatchers(HttpMethod.GET,"/ws/**").permitAll()
                         .requestMatchers(HttpMethod.GET,"/api/test").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/api/userId").hasRole("USER")
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling((exceptions) -> exceptions.authenticationEntryPoint(jwtException))

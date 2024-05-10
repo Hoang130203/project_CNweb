@@ -5,6 +5,7 @@ import { publicRoutes } from './routes/index'
 import DefaultLayout from './Layout/DefaultLayout';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ChatBox from './components/ChatBox/ChatBox';
 
 function App() {
   return (

@@ -1,9 +1,6 @@
 package com.example.backend.backend.Payload.Response;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.Date;
 
@@ -12,8 +9,10 @@ import java.util.Date;
 @Data
 @ToString
 public class ChatMessage {
-    private String nickname;
+    private String topic;
     private String content;
     private Date timestamp;
     private String sender;
+    @Getter @Setter
+    private boolean isAdmin;
 }

@@ -3,22 +3,19 @@ import React, { useEffect, useRef, useState } from "react";
 import SockJsClient from 'react-stomp';
 import SockJS from "sockjs-client";
 import Stomp from 'stompjs';
-
+import UserApi from '../../Api/UserApi'
+import { base_api } from "../../Api/UserApi";
 function Chats() {
     const [messages, setMessages] = useState([])
     const [message, setMessage] = useState('')
     const [nickname, setNickname] = useState('')
     const [stompClient, setStompClient] = useState(null)
     const [content, setContent] = useState('')
+
     useEffect(() => {
         let client = null;
 
-        axios.get('http://localhost:8081/api/test', {
-            withCredentials: true,
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        }).then((response) => {
+        UserApi.GetUserID().then((response) => {
             console.log(response.data)
             setContent(response.data)
         }).catch((error) => {
@@ -26,7 +23,7 @@ function Chats() {
         })
 
         const connectToWebSocket = async () => {
-            const socket = new SockJS('http://localhost:8081/ws', { withCredentials: true });
+            const socket = new SockJS(`${base_api}/ws`, { withCredentials: true });
             socket.withCredentials = true;
             client = Stomp.over(socket);
 
@@ -45,7 +42,7 @@ function Chats() {
             connectToWebSocket();
         } else {
             // Khi stompClient được thiết lập, chỉ thực hiện subscribe một lần
-            const subscription = stompClient.subscribe('/topic/messages', (response) => {
+            const subscription = stompClient.subscribe('/topic-admin', (response) => {
                 setMessages(prevMessages => [...prevMessages, JSON.parse(response.body)]);
             });
 
@@ -67,7 +64,7 @@ function Chats() {
         console.log(messages)
         if (message.trim() && stompClient) {
             stompClient.send("/app/chat", {}, JSON.stringify({
-                nickname: nickname,
+                sender: nickname,
                 content: message
             }))
             setMessage('')
@@ -80,7 +77,7 @@ function Chats() {
                 return (
                     <div key={index} style={{ display: 'flex' }}>
 
-                        <p >{message.nickname}</p>
+                        <p >{message.sender}</p>
                         &nbsp;&nbsp;&nbsp;
                         <p>{message.content}</p>
                     </div>
