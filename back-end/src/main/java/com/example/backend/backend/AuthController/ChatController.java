@@ -53,6 +53,8 @@ public class ChatController {
 //        chatMessage.setTimestamp(new Date());
 //        return chatMessage;
 //    }
+
+
     @MessageMapping("/chat")
 //    @SendTo("/topic/messages")
     public ChatMessage sendMessages(@Payload ChatMessage chatMessage, Principal principal) {
@@ -61,6 +63,9 @@ public class ChatController {
         if (principal instanceof UsernamePasswordAuthenticationToken) {
             Authentication authentication = (Authentication) principal;
             UserDetails userDetails= (UserDetails) authentication.getPrincipal();
+            User user= getUserInfo(userDetails);
+            chatMessage.setName(user.getName());
+            chatMessage.setAvatar(user.getAvatar());
             for (GrantedAuthority authority : userDetails.getAuthorities()) {
                 // Kiểm tra xem có role "admin" không
                 if (authority.getAuthority().equals("ROLE_ADMIN")) {
@@ -73,6 +78,9 @@ public class ChatController {
             username = userDetails.getUsername();
         } else if (principal instanceof UserDetails) {
             UserDetails userDetails = (UserDetails) principal;
+            User user= getUserInfo(userDetails);
+            chatMessage.setName(user.getName());
+            chatMessage.setAvatar(user.getAvatar());
             for (GrantedAuthority authority : userDetails.getAuthorities()) {
                 // Kiểm tra xem có role "admin" không
                 if (authority.getAuthority().equals("ROLE_ADMIN")) {
@@ -91,7 +99,7 @@ public class ChatController {
         if(chatMessage.isAdmin()){
             messagingTemplate.convertAndSend("/topic-admin", chatMessage);
             messagingTemplate.convertAndSend(String.format("/topic/%s", chatMessage.getTopic()), chatMessage);
-
+            System.out.println(chatMessage.getTopic());
         }else{
             messagingTemplate.convertAndSend("/topic-admin", chatMessage);
             messagingTemplate.convertAndSend(String.format("/topic/%s", username), chatMessage);
@@ -132,6 +140,17 @@ public class ChatController {
         }
 
         return user.get().getId() ;
+    }
+    //lấy ra info người dùng
+    public User getUserInfo(UserDetails userDetails){
+
+        String userName = userDetails.getUsername();
+        Optional<User> user= this.userService.getByAccount(userName);
+        if (!user.isPresent()) {
+            return null;
+        }
+
+        return user.get();
     }
 }
 

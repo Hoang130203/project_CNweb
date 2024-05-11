@@ -1,5 +1,6 @@
 package com.example.backend.backend.Payload.Response;
 
+
 import lombok.*;
 
 import java.util.Date;
@@ -8,16 +9,12 @@ import java.util.Date;
 @AllArgsConstructor
 @Data
 @ToString
-public class ChatMessage {
-    private String topic;
+public class NotificationMessage {
     private String content;
     private Date timestamp;
     private String sender;
-    private String name;
-    private String avatar;
-    private String image;
-    @Getter @Setter
+    @Getter
+    @Setter
     private boolean isAdmin;
-
-    final private String type="MESSAGE";
+    final private String type="NOTIFICATION";
 }
