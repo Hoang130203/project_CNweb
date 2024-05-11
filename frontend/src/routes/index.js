@@ -19,7 +19,7 @@ import Setting from '../Pages/Admin/Setting';
 import UserProfile from '../Pages/User/UserProfle/UserProfile';
 import UserAddress from '../Pages/User/UserProfle/UserAddress';
 import UserOrders from '../Pages/User/UserOrders';
-import UserNotification from '../Pages/User/UserNotification';
+import UserNotification from '../Pages/User/UserNotification/UserNotification';
 import UserLayout from '../Layout/UserLayout/UserLayout';
 import ShoppingList from '../Pages/ShoppingList/ShoppingList';
 

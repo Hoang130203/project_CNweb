@@ -1,0 +1,26 @@
+.container{
+    width: 100%;
+    border: 1px solid #333;
+    padding: 10px 0px 0 20px;
+    display: flex;
+    .flex-line{
+        display: flex;
+        p{
+            margin-left: 5px;
+            margin-top: 0px;
+        }
+    }
+    .notification-id{
+
+    }
+
+    .notification-content{
+        margin-left: 30%;
+    }
+
+    p{
+        margin: 5px 0px;
+    }
+
+
+}
