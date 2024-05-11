@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const headers = {
+export const headers = {
     withCredentials: true,
     headers: {
         'Content-Type': 'application/json',
@@ -53,6 +53,9 @@ class UserApi {
                 'Content-Type': 'application/json',
             }
         })
+    }
+    GetOldMessages() {
+        return axios.get(`${base_api}/oldMessage`, headers)
     }
 }
 export default new UserApi();   

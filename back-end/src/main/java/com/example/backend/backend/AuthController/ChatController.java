@@ -1,7 +1,9 @@
 package com.example.backend.backend.AuthController;
 
+import com.example.backend.backend.Entity.Message;
 import com.example.backend.backend.Entity.User;
 import com.example.backend.backend.Payload.Response.ChatMessage;
+import com.example.backend.backend.Service.MessageService;
 import com.example.backend.backend.Service.UserService;
 import com.example.backend.backend.Websocket.ChatRoomManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +24,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.Optional;
 
 @RestController
@@ -30,15 +32,16 @@ import java.util.Optional;
 public class ChatController {
 //    private static final Logger logger = LoggerFactory.getLogger(WebSocketEventListener.class);
     private final UserService userService;
-
+    private final MessageService messageService;
     @Autowired
     private SimpMessageSendingOperations messagingTemplate;
 
     @Autowired
     private ChatRoomManager chatRoomManager;
 
-    public ChatController(UserService userService) {
+    public ChatController(UserService userService, MessageService messageService) {
         this.userService = userService;
+        this.messageService = messageService;
     }
 
     //    @MessageMapping("/chat")
@@ -54,16 +57,27 @@ public class ChatController {
 //        return chatMessage;
 //    }
 
+    @GetMapping("/oldMessage")
+    public ResponseEntity<?> getOldMessageForUser(){
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        return ResponseEntity.ok(messageService.getAllByUser(getUserId(userDetails)));
+    }
+    @GetMapping("/oldMessageAdmin")
+    public ResponseEntity<?> getOldMessageAdmin(){
+        return ResponseEntity.ok(messageService.getAll());
+    }
 
     @MessageMapping("/chat")
 //    @SendTo("/topic/messages")
     public ChatMessage sendMessages(@Payload ChatMessage chatMessage, Principal principal) {
         String username = null;
         boolean isAdmin=false;
+        User user = new User();
         if (principal instanceof UsernamePasswordAuthenticationToken) {
             Authentication authentication = (Authentication) principal;
             UserDetails userDetails= (UserDetails) authentication.getPrincipal();
-            User user= getUserInfo(userDetails);
+            user= getUserInfo(userDetails);
             chatMessage.setName(user.getName());
             chatMessage.setAvatar(user.getAvatar());
             for (GrantedAuthority authority : userDetails.getAuthorities()) {
@@ -78,7 +92,7 @@ public class ChatController {
             username = userDetails.getUsername();
         } else if (principal instanceof UserDetails) {
             UserDetails userDetails = (UserDetails) principal;
-            User user= getUserInfo(userDetails);
+            user= getUserInfo(userDetails);
             chatMessage.setName(user.getName());
             chatMessage.setAvatar(user.getAvatar());
             for (GrantedAuthority authority : userDetails.getAuthorities()) {
@@ -94,7 +108,7 @@ public class ChatController {
         }
         System.out.println(username);
         chatMessage.setSender(username);
-        chatMessage.setTimestamp(new Date());
+        chatMessage.setTimestamp(new Timestamp(System.currentTimeMillis()));
 
         if(chatMessage.isAdmin()){
             messagingTemplate.convertAndSend("/topic-admin", chatMessage);
@@ -104,7 +118,8 @@ public class ChatController {
             messagingTemplate.convertAndSend("/topic-admin", chatMessage);
             messagingTemplate.convertAndSend(String.format("/topic/%s", username), chatMessage);
         }
-
+        Message message = new Message(chatMessage.getContent(),chatMessage.getImage(),isAdmin?true:false,chatMessage.getTimestamp(),isAdmin?chatMessage.getTopic():username);
+        messageService.insert(message,chatMessage.getTopic());
         return chatMessage;
     }
 

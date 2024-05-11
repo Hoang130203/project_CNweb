@@ -72,7 +72,13 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
     private List<Cart> carts =new ArrayList<>();
 
+    @JsonIgnore
+    @Column(name = "message_count")
+    private int messageCount;
 
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
+    private List<Message> messages =new ArrayList<>();
 
     @Override
     public String toString() {
