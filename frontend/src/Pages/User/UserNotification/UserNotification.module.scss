@@ -1,10 +1,14 @@
 .notification{
     width: 50rem;
-    border: 1px solid #333;
+    border-left: 3px solid #d9d4d4;
     padding: 50px;
     height: 50rem;
     .notification-title{
         text-align: center;
-        
+        margin-bottom: 30px;
+        background-color: rgb(239, 241, 255);
+        color: rgb(104, 117, 210);
     }
+
+    
 }

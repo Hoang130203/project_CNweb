@@ -9,13 +9,15 @@ export default function UserNotification({
 ) {
   return (
     <div className={cx('notification')}>
+      {/* tiêu đề */}
       <div className={cx('notification-title')}>
         <h1>
         Thông báo
         </h1>
       </div>
+      {/* thông báo */}
       <div className='element'>
-      <Notification ID={"123"} time={"456"} content={"789"} orderCode={"899"} typeOf={"123"}></Notification>
+        <Notification ID={"123"} time={"456"} content={"789"} orderCode={"899"} typeOf={"123"}></Notification>
       </div>
       
     </div>

@@ -1,8 +1,11 @@
 .container{
     width: 100%;
-    border: 1px solid #333;
+    border: 2px solid #1d77b3;
     padding: 10px 0px 0 20px;
     display: flex;
+    margin-top: 5px;
+    box-shadow: 0px 0px 10px rgba(38, 139, 176, 0.5);
+    border-radius: 25px;
     .flex-line{
         display: flex;
         p{
