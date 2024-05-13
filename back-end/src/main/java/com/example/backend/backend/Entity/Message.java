@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.sql.Timestamp;
+
 @Entity
 @Table(name = "message")
 @Getter
@@ -30,7 +32,27 @@ public class Message {
     @Column(name = "owner")
     private boolean owner;
 
-    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @Column(name = "time",columnDefinition = "datetime")
+    private Timestamp time;
+
+    @Column(name = "topic")
+    private String topic;
+
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @PrePersist
+    public void setNumOrder() {
+        this.numOrder = this.user.getMessageCount() + 1;
+        this.user.setMessageCount(this.numOrder);
+    }
+
+    public Message(String content, String image, boolean owner, Timestamp time, String topic) {
+        this.content = content;
+        this.image = image;
+        this.owner = owner;
+        this.time = time;
+        this.topic = topic;
+    }
 }

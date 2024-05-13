@@ -10,19 +10,36 @@ import { useContext } from "react";
 import './css/chat.css'
 import { FaSearch } from "react-icons/fa";
 import { TiAttachment } from "react-icons/ti";
-
+const mergerTopic = (oldTopicDict, newTopicsDict) => {
+    let old = oldTopicDict.filter(oldTopic => {
+        const newTopicIndex = newTopicsDict.findIndex(newTopic => newTopic.topic === oldTopic.topic);
+        if (newTopicIndex === -1) {
+            return true;
+        }
+        // const newMessages = newTopicsDict[newTopicIndex].messages;
+        // const oldMessages = oldTopic.messages;
+        // const lastNewMessage = newMessages[newMessages.length - 1];
+        // const lastOldMessage = oldMessages[oldMessages.length - 1];
+        // if (lastNewMessage.timestamp !== lastOldMessage.timestamp) {
+        //     return true;
+        // }
+        return false;
+    }
+    );
+    return [...old, ...newTopicsDict];
+}
 function Chats() {
     // const [messages, setMessages] = useState([])
     const [message, setMessage] = useState('')
     // const [stompClient, setStompClient] = useState(null)
-    const [content, setContent] = useState('')
-    const [messages, setMessages, stompClient, username] = useContext(SocketContext);
-    const [topicsDict, setTopicsDict] = useState([])
+    const [messages, setMessages, stompClient, username, oldTopicDict] = useContext(SocketContext);
     const [currentTopic, setCurrentTopic] = useState({})
     const messagesEndRef = useRef(null);
     const [messageList, setMessageList] = useState([])
     const [file, setFile] = useState(null)
     const [image, setImage] = useState(null)
+    const [key, setKey] = useState(0)
+    const [key2, setKey2] = useState(0)
     const scroll = () => {
         if (messagesEndRef.current) {
             messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -30,74 +47,25 @@ function Chats() {
     }
     useEffect(() => {
         scroll()
-        console.log('messages', messages)
-    }, [messages, messageList]);
-    const [listUser, setListUser] = useState([
-        // {
-        //     topic: 'hoangmm06',
-        //     name: 'Nguyễn Văn A',
-        //     message: 'Chào bạn ......................................'
-        // },
 
-
-    ])
+        setKey2(prevKey => prevKey + 1);
+    }, [key])
 
     useEffect(() => {
-        console.log(messages)
-        const newTopicsDict = JSON.parse(JSON.stringify(topicsDict)); // Sao chép sâu vào
-        if (messages.length === 0) return;
-        if (newTopicsDict.length === 0) {
-            for (let i = 0; i < messages.length; i++) {
-                const topicIndex = newTopicsDict.findIndex(topic => topic.topic === messages[i].topic);
-                if (topicIndex === -1) {
-                    newTopicsDict.push({
-                        topic: messages[i].topic,
-                        messages: [messages[i]],
-                        name: messages[i].name,
-                        avatar: messages[i].avatar,
-                    });
-                } else {
-                    newTopicsDict[topicIndex].messages.push(messages[i]);
-                }
-            }
-            setTopicsDict(newTopicsDict);
-            return;
-        }
-        const message = messages[messages.length - 1];
-        // messages.forEach(message => {
-        const topicIndex = newTopicsDict.findIndex(topic => topic.topic === message.topic);
-        if (topicIndex === -1) {
-            newTopicsDict.push({
-                topic: message.topic,
-                name: message.name,
-                avatar: message.avatar,
-                messages: [message]
-            });
-        } else {
-            newTopicsDict[topicIndex].messages.push(message);
-        }
-        // });
-
-        newTopicsDict.sort((a, b) => {
-            const lastMessageTimeA = new Date(a.messages[a.messages.length - 1].timestamp);
-            const lastMessageTimeB = new Date(b.messages[b.messages.length - 1].timestamp);
-            return lastMessageTimeA - lastMessageTimeB;
-        });
-
-        console.log(newTopicsDict);
-
-        setTopicsDict(newTopicsDict);
-        // setCurrentTopic(prev => prev)
-        const currentTopicIndex = newTopicsDict.findIndex(topic => topic?.topic === currentTopic?.topic);
-        setMessageList(newTopicsDict[currentTopicIndex]?.messages)
-    }, [messages]);
+        scroll()
+        setKey(prevKey => prevKey + 1);
+    }, [messageList, messages]);
 
     useEffect(() => {
-        setMessageList(currentTopic.messages)
+        const index = oldTopicDict.findIndex(topic => topic.topic === currentTopic.topic)
+        setMessageList(oldTopicDict[index]?.messages)
     }, [currentTopic])
+
+
     const handleMessageChange = (e) => {
         setMessage(e.target.value)
     }
+
     const sendMessage = async () => {
         // console.log(messages)
         if (message.trim() && stompClient) {
@@ -145,29 +113,16 @@ function Chats() {
                     </div>
                 </div>
                 <div className="list">
-                    {topicsDict.slice().reverse().map((topic, index) => (
-                        <div className="item" key={index} onClick={() => { setCurrentTopic(topic) }}>
-                            <div className="wrap_avatar">
-                                <img className="avatar" src={(topic.avatar && (topic.avatar.length > 10)) ? topic.avatar : "https://picsum.photos/200"} alt="" />
-                            </div>
-                            <div className="info">
-                                <h4 className="name">{topic.name}</h4>
-                                <p className="message">{topic.messages[topic.messages.length - 1].content}</p>
-                            </div>
-                        </div>
-                    ))}
-
-
 
                     {
-                        listUser.map((item, index) => (
-                            <div className="item" key={index}>
+                        oldTopicDict.slice().reverse().map((topic, index) => (
+                            <div className="item" key={index} onClick={() => { setCurrentTopic(topic) }}>
                                 <div className="wrap_avatar">
-                                    <img className="avatar" src="https://picsum.photos/200" alt="" />
+                                    <img className="avatar" src={(topic.avatar && (topic.avatar.length > 10)) ? topic.avatar : "https://picsum.photos/200"} alt="" />
                                 </div>
                                 <div className="info">
-                                    <h4 className="name">{item.name}</h4>
-                                    <p className="message">{item.message}</p>
+                                    <h4 className="name">{topic.name}</h4>
+                                    <p className="message">{topic.messages[topic.messages.length - 1].content}</p>
                                 </div>
                             </div>
                         ))
@@ -186,7 +141,7 @@ function Chats() {
                 <div className="chat">
                     {
                         messageList?.map((message, index) => (
-                            message.sender == username ? (
+                            message.admin ? (
                                 <>
                                     <div className="message_user" key={index}>
                                         <div className="text">

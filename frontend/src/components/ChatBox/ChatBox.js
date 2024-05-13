@@ -20,7 +20,7 @@ function ChatBox() {
     const [file, setFile] = useState(null)
     const [image, setImage] = useState(null)
     const messagesEndRef = useRef(null);
-
+    const [oldMessages, setOldMessages] = useState([]);
     useEffect(() => {
         setKey(prevKey => prevKey + 1); // Update key when ref changes
         console.log(messages);
@@ -69,23 +69,15 @@ function ChatBox() {
         }).catch((error) => {
             console.log(error);
         });
-        setMessages([
-            {
-                "type": 'MESSAGE',
-                "topic": null,
-                "content": "sdf",
-                "timestamp": "2024-05-09T07:46:56.475+00:00",
-                "sender": "B5zwUgg4JDpXUoM",
-                "admin": true
-            },
-            {
-                "topic": null,
-                "content": "Hi",
-                "timestamp": "2024-05-09T07:47:04.196+00:00",
-                "sender": "B5zwUgg4JDpXUoM",
-                "admin": false
-            }
-        ]);
+        UserApi.GetOldMessages().then((response) => {
+            let messages = response.data;
+            messages.sort((a, b) => a.numOrder - b.numOrder);
+            setOldMessages(messages);
+            console.log(messages);
+        }).catch((error) => {
+            console.log(error);
+        });
+
     }, []);
 
     useEffect(() => {
@@ -158,6 +150,24 @@ function ChatBox() {
                     </div>
                 </div>
                 <div className="content">
+                    {oldMessages.map((message, index) => (
+                        (message.owner) ? (
+                            <div className="message" key={index}>
+                                <img className="avatar" src="https://www.vietnamworks.com/hrinsider/wp-content/uploads/2023/12/hinh-nen-dien-thoai-dep-danh-cho-nhung-ai-thich-phong-cach-co-trang.jpg" alt="Avatar" />
+                                <div className="text">
+                                    {message.content}
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="message_user" key={index}>
+                                <div className="text">
+                                    {message.content}
+                                </div>
+                                <img className="avatar" src="https://www.w3schools.com/howto/img_avatar.png" alt="Avatar" />
+                            </div>
+                        )
+                    ))}
+
                     {messages.map((message, index) => (
                         message.type === 'MESSAGE' ? (
                             (message.admin) ? (

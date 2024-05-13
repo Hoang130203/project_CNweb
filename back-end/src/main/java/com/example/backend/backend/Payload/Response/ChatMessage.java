@@ -2,6 +2,7 @@ package com.example.backend.backend.Payload.Response;
 
 import lombok.*;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 @NoArgsConstructor
@@ -11,7 +12,7 @@ import java.util.Date;
 public class ChatMessage {
     private String topic;
     private String content;
-    private Date timestamp;
+    private Timestamp timestamp;
     private String sender;
     private String name;
     private String avatar;
