@@ -1,0 +1,16 @@
+.addpage_image {
+  width: auto;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 10px;
+  border: 1px solid #aae5eb;
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+}
+.addpage_image:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}

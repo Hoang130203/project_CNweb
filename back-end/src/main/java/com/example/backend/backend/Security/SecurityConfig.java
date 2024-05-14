@@ -89,6 +89,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET,"/api/userId").hasRole("USER")
                         .requestMatchers(HttpMethod.GET,"/oldMessage").hasRole("USER")
                         .requestMatchers(HttpMethod.GET,"/oldMessageAdmin").hasRole("ADMIN")
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling((exceptions) -> exceptions.authenticationEntryPoint(jwtException))

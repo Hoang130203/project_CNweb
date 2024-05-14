@@ -7,5 +7,8 @@ class AdminApi {
     GetOldMessages() {
         return axios.get(`${base_api}/oldMessageAdmin`, headers)
     }
+    CreateProduct(product) {
+        return axios.post(`${base_api}/api/admin/product`, product, headers)
+    }
 }
 export default new AdminApi();
