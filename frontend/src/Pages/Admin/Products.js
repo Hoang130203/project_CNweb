@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import './css/product.css'
 import AddProduct from "./component/AddProductComponent";
 import { IoIosAddCircle } from "react-icons/io";
-
+import AdminApi from "../../Api/AdminApi";
+import { convertColor } from "../../Api/OtherFunction";
 function Products() {
+
+    // Khởi tạo trạng thái cho 1 product
     const initialProduct = {
         id: '',
         name: '',
@@ -12,28 +15,34 @@ function Products() {
         colors: [],
         sizes: []
     };
+
+    // Trạng thái cho các sản phẩm đang được hiển thị trên trang, tổng số trang, danh sách sản phẩm
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(3);
 
-    const [products, setProducts] = useState([
-        { id: 1, name: 'iPhone 12 ', image: 'https://tymovietnam.com/wp-content/uploads/2022/10/iphone-12-do-1-1-org.jpg', price: 15000000, colors: ['red', 'green'], sizes: ['8GB/256GB'] },
-        { id: 2, name: 'Samsung Galaxy S21', image: 'https://www.cnet.com/a/img/resize/e86ed31479fadef10d6e252105bf38142ec54ce9/hub/2011/05/06/23768db3-cbf2-11e2-9a4a-0291187b029a/orig-1200x900_1.jpg?auto=webp&fit=crop&height=675&width=1200', price: 12000000, colors: ['black', 'white'], sizes: ['8GB/256GB'] },
-        { id: 3, name: 'Oppo Reno 5', image: 'https://cdn.tgdd.vn/Products/Images/42/220438/Slider/oppo-reno5-thumbvideo-780x433.jpg', price: 10000000, colors: ['black', 'white'], sizes: ['8GB/256GB'] },
-        { id: 4, name: 'iPhone 12 ', image: 'https://tymovietnam.com/wp-content/uploads/2022/10/iphone-12-do-1-1-org.jpg', price: 15000000, colors: ['red', 'green'], sizes: ['8GB/256GB'] },
-        { id: 5, name: 'Samsung Galaxy S21', image: 'https://www.cnet.com/a/img/resize/e86ed31479fadef10d6e252105bf38142ec54ce9/hub/2011/05/06/23768db3-cbf2-11e2-9a4a-0291187b029a/orig-1200x900_1.jpg?auto=webp&fit=crop&height=675&width=1200', price: 12000000, colors: ['black', 'white'], sizes: ['8GB/256GB'] },
-        { id: 6, name: 'Oppo Reno 5', image: 'https://cdn.tgdd.vn/Products/Images/42/220438/Slider/oppo-reno5-thumbvideo-780x433.jpg', price: 10000000, colors: ['black', 'white'], sizes: ['8GB/256GB'] },
-        { id: 7, name: 'iPhone 12 ', image: 'https://tymovietnam.com/wp-content/uploads/2022/10/iphone-12-do-1-1-org.jpg', price: 15000000, colors: ['red', 'green'], sizes: ['8GB/256GB'] },
-        { id: 8, name: 'Samsung Galaxy S21', image: 'https://www.cnet.com/a/img/resize/e86ed31479fadef10d6e252105bf38142ec54ce9/hub/2011/05/06/23768db3-cbf2-11e2-9a4a-0291187b029a/orig-1200x900_1.jpg?auto=webp&fit=crop&height=675&width=1200', price: 12000000, colors: ['black', 'white'], sizes: ['8GB/256GB'] },
-        { id: 9, name: 'Oppo Reno 5', image: 'https://cdn.tgdd.vn/Products/Images/42/220438/Slider/oppo-reno5-thumbvideo-780x433.jpg', price: 10000000, colors: ['black', 'white'], sizes: ['8GB/256GB'] },
-        { id: 10, name: 'iPhone 12 ', image: 'https://tymovietnam.com/wp-content/uploads/2022/10/iphone-12-do-1-1-org.jpg', price: 15000000, colors: ['red', 'green'], sizes: ['8GB/256GB'] },
-        { id: 11, name: 'Samsung Galaxy S21', image: 'https://www.cnet.com/a/img/resize/e86ed31479fadef10d6e252105bf38142ec54ce9/hub/2011/05/06/23768db3-cbf2-11e2-9a4a-0291187b029a/orig-1200x900_1.jpg?auto=webp&fit=crop&height=675&width=1200', price: 12000000, colors: ['black', 'white'], sizes: ['8GB/256GB'] },
-        { id: 12, name: 'Oppo Reno 5', image: 'https://cdn.tgdd.vn/Products/Images/42/220438/Slider/oppo-reno5-thumbvideo-780x433.jpg', price: 10000000, colors: ['black', 'white'], sizes: ['8GB/256GB'] },
-    ]);
+    const [products, setProducts] = useState([]);
 
+    // Lấy tất cả sản phẩm qua API
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const response = await AdminApi.GetAllProducts();
+                setProducts(response.data);
+                setTotalPages(Math.ceil(response.data.length / 8));
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            }
+        };
+
+        fetchProducts();
+    }, []);
+    
+    // Xóa một sản phẩm
     const handleDeleteProduct = (productId) => {
         const updatedProducts = products.filter(product => product.id !== productId);
         setProducts(updatedProducts);
     };
+    
     const [showModal, setShowModal] = useState(false);
 
     const handleCloseModal = () => {
@@ -50,6 +59,7 @@ function Products() {
     return (
         <div className="product-management">
 
+            {/* Thêm sản phẩm */}
             <button onClick={handleShowModal} className="add_button">
                 <IoIosAddCircle />
                 Thêm sản phẩm
@@ -57,6 +67,7 @@ function Products() {
 
             <AddProduct show={showModal} handleClose={handleCloseModal} />
 
+            {/* Danh sách sản phẩm */}
             <table className={["product-table", 'no_select'].join(' ')}>
                 <thead>
                     <tr>
@@ -74,11 +85,11 @@ function Products() {
                         <tr key={product.id}>
                             <td>{product.id}</td>
                             <td>{product.name}</td>
-                            <td><img src={product.image} alt={product.name} className="product-image" /></td>
-                            <td>{product.price?.toLocaleString()}</td>
-                            <td>{product.colors.join(', ')}</td>
-                            <td>{product.sizes.join(', ')}</td>
-                            <td>
+                            <td><img src={product.images[0]?.url} alt={product.name} className="product-image" /></td>
+                            <td>{product.cost?.toLocaleString()}</td>
+                            <td>{product.colors?.map(color => convertColor(color.name)).join(', ')}</td>
+                            <td>{product.sizes?.map(size => size.name).join(', ')}</td>
+                            <td style={{ minWidth: '100px' }}>
                                 <button className="edit-button">Sửa</button>
                                 <button className="delete-button" onClick={() => handleDeleteProduct(product.id)}>Xóa</button>
                             </td>
