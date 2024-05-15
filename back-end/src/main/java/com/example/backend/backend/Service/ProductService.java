@@ -5,6 +5,7 @@ import com.example.backend.backend.Entity.Enum_Key.EType;
 import com.example.backend.backend.Entity.Product;
 import com.example.backend.backend.Entity.Rate;
 import com.example.backend.backend.Payload.Product.CommentReq;
+import com.example.backend.backend.Payload.Product.ProductCreateReq;
 
 import java.util.List;
 
@@ -18,4 +19,5 @@ public interface ProductService {
     Rate postRate(int productId,String userId,int rate);
     Comment postComment(String userId, CommentReq commentReq);
     List<Comment> getComments(String userId,int productId);
+    Product createProduct(ProductCreateReq productCreateReq);
 }

@@ -1,16 +1,11 @@
 package com.example.backend.backend.Service;
 
-import com.example.backend.backend.Entity.Comment;
+import com.example.backend.backend.Entity.*;
 import com.example.backend.backend.Entity.Enum_Key.EType;
 import com.example.backend.backend.Entity.Enum_Key.RateKey;
-import com.example.backend.backend.Entity.Product;
-import com.example.backend.backend.Entity.Rate;
-import com.example.backend.backend.Entity.User;
 import com.example.backend.backend.Payload.Product.CommentReq;
-import com.example.backend.backend.Repository.CommentRepository;
-import com.example.backend.backend.Repository.ProductRepository;
-import com.example.backend.backend.Repository.RateRepository;
-import com.example.backend.backend.Repository.UserRepository;
+import com.example.backend.backend.Payload.Product.ProductCreateReq;
+import com.example.backend.backend.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,10 +27,16 @@ public class ProductServiceImpl implements ProductService {
     private final UserRepository userRepository;
     private final RateRepository rateRepository;
     private final CommentRepository commentRepository;
-    public ProductServiceImpl(UserRepository userRepository, RateRepository rateRepository, CommentRepository commentRepository) {
+    private final ProductImageRepository productImageRepository;
+    private final ColorRepository colorRepository;
+    private final SizeRepository sizeRepository;
+    public ProductServiceImpl(UserRepository userRepository, RateRepository rateRepository, CommentRepository commentRepository, ProductImageRepository productImageRepository, ColorRepository colorRepository, SizeRepository sizeRepository) {
         this.userRepository = userRepository;
         this.rateRepository = rateRepository;
         this.commentRepository = commentRepository;
+        this.productImageRepository = productImageRepository;
+        this.colorRepository = colorRepository;
+        this.sizeRepository = sizeRepository;
     }
 
     //lưu sản phẩm
@@ -130,5 +132,41 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(()->new RuntimeException("Product not found"));
         List<Comment> comments= commentRepository.findCommentsByUserAndProduct(user,product);
         return comments;
+    }
+
+    @Override
+    public Product createProduct(ProductCreateReq productCreateReq) {
+        Product product= new Product();
+        product.setBrand(productCreateReq.getBrand());
+        product.setName(productCreateReq.getName());
+        product.setCost(productCreateReq.getCost());
+        product.setPromotion(productCreateReq.getPromotion());
+        product.setOrigin(productCreateReq.getOrigin());
+        product.setDescription(productCreateReq.getDescription());
+        product.setType(productCreateReq.getType());
+        List<Size> sizes= new ArrayList<>();
+        for (Size size:productCreateReq.getSizes()
+             ) {
+            Size size1= sizeRepository.findById(size.getId())
+                    .orElseThrow(()->new RuntimeException("size not found"));
+            sizes.add(size1);
+        }
+        product.setSizes(sizes);
+        List<Color> colors= new ArrayList<>();
+        for (Color color:productCreateReq.getColors()
+             ) {
+            Color color1= colorRepository.findById(color.getId())
+                    .orElseThrow(()->new RuntimeException("color not found"));
+            colors.add(color1);
+        }
+        product.setColors(colors);
+        productRepository.save(product);
+        for (ProductImage productImage:productCreateReq.getImages()
+             ) {
+            productImage.setProduct(product);
+            productImageRepository.save(productImage);
+        }
+
+        return product;
     }
 }

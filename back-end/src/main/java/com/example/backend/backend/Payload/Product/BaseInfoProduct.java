@@ -14,5 +14,5 @@ public class BaseInfoProduct {
     private String name;
     private String cost;
     private List<ProductImage> images;
-    private String promotion;
+    private int promotion;
 }
