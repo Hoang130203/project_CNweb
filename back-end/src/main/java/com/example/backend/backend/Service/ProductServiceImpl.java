@@ -30,13 +30,15 @@ public class ProductServiceImpl implements ProductService {
     private final ProductImageRepository productImageRepository;
     private final ColorRepository colorRepository;
     private final SizeRepository sizeRepository;
-    public ProductServiceImpl(UserRepository userRepository, RateRepository rateRepository, CommentRepository commentRepository, ProductImageRepository productImageRepository, ColorRepository colorRepository, SizeRepository sizeRepository) {
+    private final ProductQuantityRepository productQuantityRepository;
+    public ProductServiceImpl(UserRepository userRepository, RateRepository rateRepository, CommentRepository commentRepository, ProductImageRepository productImageRepository, ColorRepository colorRepository, SizeRepository sizeRepository, ProductQuantityRepository productQuantityRepository) {
         this.userRepository = userRepository;
         this.rateRepository = rateRepository;
         this.commentRepository = commentRepository;
         this.productImageRepository = productImageRepository;
         this.colorRepository = colorRepository;
         this.sizeRepository = sizeRepository;
+        this.productQuantityRepository = productQuantityRepository;
     }
 
     //lưu sản phẩm
@@ -167,6 +169,18 @@ public class ProductServiceImpl implements ProductService {
             productImageRepository.save(productImage);
         }
 
+        // Tạo và lưu số lượng sản phẩm tương ứng với các kích thước và màu sắc
+        for (Color color : colors) {
+            for (Size size : sizes) {
+                ProductQuantity productQuantity = new ProductQuantity(product,size, color, 1);
+                productQuantityRepository.save(productQuantity);
+            }
+        }
         return product;
+    }
+
+    @Override
+    public List<Size> getAllSize() {
+        return sizeRepository.findAll();
     }
 }

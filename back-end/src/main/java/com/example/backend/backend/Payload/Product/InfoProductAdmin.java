@@ -1,15 +1,17 @@
 package com.example.backend.backend.Payload.Product;
 
-import com.example.backend.backend.Entity.*;
+import com.example.backend.backend.Entity.Color;
 import com.example.backend.backend.Entity.Enum_Key.EType;
+import com.example.backend.backend.Entity.ProductImage;
+import com.example.backend.backend.Entity.ProductQuantity;
+import com.example.backend.backend.Entity.Size;
 import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
-//lớp chừa thông tin chi tiết của sản phẩm dùng khi người dùng vào trang xem chi tiết...
-public class DetailInfoProduct {
+public class InfoProductAdmin {
     private int id;
     private EType type;
     private String description;
@@ -21,6 +23,5 @@ public class DetailInfoProduct {
     private int promotion;
     private Long cost;
     private String brand;
-    private List<?> comments= new ArrayList<>();
-    private List<RateReq> rates= new ArrayList<>();
+    private List<ProductQuantity> productQuantities;
 }

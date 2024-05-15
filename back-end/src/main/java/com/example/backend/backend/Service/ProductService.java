@@ -4,6 +4,7 @@ import com.example.backend.backend.Entity.Comment;
 import com.example.backend.backend.Entity.Enum_Key.EType;
 import com.example.backend.backend.Entity.Product;
 import com.example.backend.backend.Entity.Rate;
+import com.example.backend.backend.Entity.Size;
 import com.example.backend.backend.Payload.Product.CommentReq;
 import com.example.backend.backend.Payload.Product.ProductCreateReq;
 
@@ -20,4 +21,6 @@ public interface ProductService {
     Comment postComment(String userId, CommentReq commentReq);
     List<Comment> getComments(String userId,int productId);
     Product createProduct(ProductCreateReq productCreateReq);
+    List<Size> getAllSize();
+
 }

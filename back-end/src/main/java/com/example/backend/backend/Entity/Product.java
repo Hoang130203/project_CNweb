@@ -70,4 +70,7 @@ public class Product {
     @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL,mappedBy = "product")
     private List<Rate> rates= new ArrayList<>();
 
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "product")
+    private List<ProductQuantity> productQuantities;
 }
