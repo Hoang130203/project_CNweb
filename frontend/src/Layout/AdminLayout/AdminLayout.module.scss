@@ -2,7 +2,8 @@
     padding-left: 300px;
     transition: all 0.3s;
     padding-top: 60px;
-    background-color: rgba(28, 39, 90, 0.833);
+    // background-color: rgba(28, 39, 90, 0.833);
+    background-color: #000;
     min-height: calc(100vh - 60px);
 
 
@@ -31,7 +32,8 @@
     min-height: calc(100vh - 60px);
     transition: all 0.3s;
     border-top-left-radius: 10px;
-    background-color: #19263efe;
+    // background-color: #19263efe;
+    background: linear-gradient(to bottom, #353535, #121212);
     color: #fff;
 
     @media (max-width: 768px) {

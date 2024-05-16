@@ -1,6 +1,7 @@
 package com.example.backend.backend.Entity;
 
 import com.example.backend.backend.Entity.Enum_Key.ProductQuantityKey;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,6 +17,7 @@ public class ProductQuantity {
     @Id
     @ManyToOne
     @JoinColumn(name = "product_id")
+    @JsonIgnore
     private Product product;
 
     @Id
@@ -30,4 +32,5 @@ public class ProductQuantity {
 
     @Column(name = "quantity")
     private int quantity;
+
 }

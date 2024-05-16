@@ -37,6 +37,9 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private EType type;
 
+    @Column(name = "brand",columnDefinition = "nvarchar(255)")
+    private String brand;
+
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinTable(name = "product_size",joinColumns = @JoinColumn(name = "product_id"),
@@ -56,8 +59,8 @@ public class Product {
     private List<ProductImage> images= new ArrayList<>();
 
     @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL,mappedBy = "product")
-    private Promotion promotion;
+    @Column
+    private int promotion=0;
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL,mappedBy = "product")
@@ -67,4 +70,7 @@ public class Product {
     @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL,mappedBy = "product")
     private List<Rate> rates= new ArrayList<>();
 
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "product")
+    private List<ProductQuantity> productQuantities;
 }
