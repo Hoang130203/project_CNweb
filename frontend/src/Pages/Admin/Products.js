@@ -1,27 +1,41 @@
 import { useEffect, useState } from "react";
 import './css/product.css'
+import { motion } from "framer-motion"
+
 import AddProduct from "./component/AddProductComponent";
 import { IoIosAddCircle } from "react-icons/io";
 import AdminApi from "../../Api/AdminApi";
 import { convertColor } from "../../Api/OtherFunction";
+import DeleteBox from "./component/DeleteBox";
+import FixProduct from "./component/FixProduct";
+import QuantityComponent from "./component/QuantityComponent";
+import FixImageComponent from "./component/FixImageComponent";
 function Products() {
 
     // Khởi tạo trạng thái cho 1 product
     const initialProduct = {
         id: '',
         name: '',
-        image: '',
-        price: '',
+        types: 'MOBILE',
+        images: [],
+        description: '',
+        sizes: [],
         colors: [],
-        sizes: []
+        origin: '',
+        brand: '',
+        cost: '',
+        promotion: 0
     };
 
     // Trạng thái cho các sản phẩm đang được hiển thị trên trang, tổng số trang, danh sách sản phẩm
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(3);
-
+    const [product, setProduct] = useState(initialProduct);
+    const [showDelete, setShowDelete] = useState(false);
+    const [showFixProduct, setShowFixProduct] = useState(false);
     const [products, setProducts] = useState([]);
-
+    const [showQuantity, setShowQuantity] = useState(false);
+    const [showFixImage, setShowFixImage] = useState(false);
     // Lấy tất cả sản phẩm qua API
     useEffect(() => {
         const fetchProducts = async () => {
@@ -36,15 +50,39 @@ function Products() {
 
         fetchProducts();
     }, []);
-    
+
+    useEffect(() => {
+    }, [products])
     // Xóa một sản phẩm
     const handleDeleteProduct = (productId) => {
-        const updatedProducts = products.filter(product => product.id !== productId);
-        setProducts(updatedProducts);
+        // const updatedProducts = products.filter(product => product.id !== productId);
+        // setProducts(updatedProducts);
+        setProduct(prev => products.find(product => product.id === productId));
+        setShowDelete(true);
     };
-    
-    const [showModal, setShowModal] = useState(false);
 
+    const handleFixProduct = (productId) => {
+        setProduct(prev => products.find(product => product.id === productId));
+        setShowFixProduct(true);
+    }
+
+    const handleQuantity = (productId) => {
+        setProduct(prev => products.find(product => product.id === productId));
+        setShowQuantity(true);
+    }
+
+    const handleImage = (productId) => {
+        setProduct(prev => products.find(product => product.id === productId));
+        setShowFixImage(true);
+    }
+    const deleteProduct = () => {
+        const updatedProducts = products.filter(product_ => product_.id !== product.id);
+        setProducts(updatedProducts);
+    }
+    const [showModal, setShowModal] = useState(false);
+    const handleCloseFixImage = () => {
+        setShowFixImage(false);
+    }
     const handleCloseModal = () => {
         setShowModal(false);
     };
@@ -56,15 +94,41 @@ function Products() {
     const onPageChange = (page) => {
         setCurrentPage(page);
     }
+    const updateProducts = () => {
+        const fetchProducts = async () => {
+            try {
+                const response = await AdminApi.GetAllProducts();
+                setProducts(response.data);
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            }
+        };
+
+        fetchProducts();
+    }
     return (
         <div className="product-management">
-
+            <motion.div animate={{ opacity: showDelete ? 1 : 0, transition: { duration: 0.5 } }}
+            >
+                <DeleteBox product={product} show={showDelete} setHidden={() => { setShowDelete(false) }} handleDelete={deleteProduct} />
+            </motion.div>
+            <motion.div animate={{ opacity: showFixProduct ? 1 : 0, transition: { duration: 0.5 } }}
+            >
+                <FixProduct product={product} show={showFixProduct} handleClose={() => setShowFixProduct(false)} />
+            </motion.div>
+            <motion.div animate={{ opacity: showQuantity ? 1 : 0, transition: { duration: 0.5 } }}
+            >
+                <QuantityComponent product={product} show={showQuantity} setHidden={() => { setShowQuantity(false) }} updateProduct={updateProducts} />
+            </motion.div>
+            <motion.div animate={{ opacity: showFixImage ? 1 : 0, transition: { duration: 0.5 } }}
+            >
+                <FixImageComponent product={product} show={showFixImage} setHidden={handleCloseFixImage} updateProduct={updateProducts} />
+            </motion.div>
             {/* Thêm sản phẩm */}
             <button onClick={handleShowModal} className="add_button">
                 <IoIosAddCircle />
                 Thêm sản phẩm
             </button>
-
             <AddProduct show={showModal} handleClose={handleCloseModal} />
 
             {/* Danh sách sản phẩm */}
@@ -85,12 +149,13 @@ function Products() {
                         <tr key={product.id}>
                             <td>{product.id}</td>
                             <td>{product.name}</td>
-                            <td><img src={product.images[0]?.url} alt={product.name} className="product-image" /></td>
+                            <td><img onClick={() => { handleImage(product.id) }} style={{ cursor: 'pointer' }} src={product.images[0]?.url} alt={product.name} className="product-image" /></td>
                             <td>{product.cost?.toLocaleString()}</td>
                             <td>{product.colors?.map(color => convertColor(color.name)).join(', ')}</td>
                             <td>{product.sizes?.map(size => size.name).join(', ')}</td>
-                            <td style={{ minWidth: '100px' }}>
-                                <button className="edit-button">Sửa</button>
+                            <td style={{ minWidth: '150px' }}>
+                                <button className="quantity-button" onClick={() => { handleQuantity(product.id) }}>Kho</button>
+                                <button className="edit-button" onClick={() => { handleFixProduct(product.id) }}>Sửa</button>
                                 <button className="delete-button" onClick={() => handleDeleteProduct(product.id)}>Xóa</button>
                             </td>
                         </tr>

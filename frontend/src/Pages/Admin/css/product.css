@@ -43,7 +43,7 @@
   height: 50px;
   object-fit: cover;
 }
-
+.quantity-button,
 .edit-button,
 .delete-button {
   padding: 6px 10px;
@@ -51,6 +51,14 @@
   border: none;
   cursor: pointer;
   border-radius: 5px;
+}
+
+.quantity-button {
+  background-color: #1bcf75;
+  color: #fff;
+}
+.quantity-button:hover {
+  background-color: #028041;
 }
 
 .edit-button {
@@ -65,6 +73,7 @@
 .delete-button {
   background-color: #dc3545;
   color: #fff;
+  cursor: pointer;
 }
 
 .delete-button:hover {
@@ -150,7 +159,7 @@
 
 .page-link:hover,
 .page-link.active {
-  background-color: #1632bc;
+  background-color: #007bff;
 }
 
 .page-link.active {
@@ -226,4 +235,8 @@
 .color-checkboxes > div {
   margin-right: 10px;
   margin-bottom: 10px;
+}
+.product-quantity-list {
+  max-height: 80%;
+  overflow-y: auto;
 }

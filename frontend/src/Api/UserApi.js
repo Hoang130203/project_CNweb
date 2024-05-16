@@ -57,5 +57,9 @@ class UserApi {
     GetOldMessages() {
         return axios.get(`${base_api}/oldMessage`, headers)
     }
+
+    GetNewProducts() {
+        return axios.get(`${base_api}/api/product/TopNewest`, headers)
+    }
 }
 export default new UserApi();   

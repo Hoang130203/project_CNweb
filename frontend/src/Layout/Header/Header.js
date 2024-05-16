@@ -164,9 +164,9 @@ function Header() {
       {/* Các trang con */}
       <div className={cx('group2')} style={{ color: '#fff', padding: '5px' }}>
         <Link to='/mobile' className={cx('headerText')} style={{ color: '#403F3F', marginRight: '30px' }}>Mobile</Link>
-        <Link to='/new' className={cx('headerText')} style={{ color: '#403F3F', marginRight: '30px' }}>New</Link>
-        <Link to='/type' className={cx('headerText')} style={{ color: '#403F3F', marginRight: '30px' }}>Thể loại</Link>
-        <Link to='/following' className={cx('headerText')} style={{ color: '#403F3F', marginRight: '30px' }}>Theo dõi</Link>
+        <Link to='/laptop' className={cx('headerText')} style={{ color: '#403F3F', marginRight: '30px' }}>Laptop</Link>
+        <Link to='/watch' className={cx('headerText')} style={{ color: '#403F3F', marginRight: '30px' }}>Đồng hồ</Link>
+        <Link to='/accessory' className={cx('headerText')} style={{ color: '#403F3F', marginRight: '30px' }}>Phụ kiện</Link>
       </div>
       {user && (<div>
         {/* Tìm kiếm */}

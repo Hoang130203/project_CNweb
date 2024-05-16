@@ -5,12 +5,20 @@ import laptopImg from '../../Assets/Laptop.png';
 import watchImg from '../../Assets/Watch.png';
 import accessoryImg from '../../Assets/Accessory.png';
 import CardProduct from '../../components/CardProduct/CardProduct';
-import products from '../../components/ProductData/ProductData';
+// import products from '../../components/ProductData/ProductData';
+import { useEffect, useState } from 'react';
+import UserApi from '../../Api/UserApi';
 
 
 const cx = classNames.bind(styles);
 function HomePage() {
-
+    const [products, setProducts] = useState([])
+    useEffect(() => {
+        UserApi.GetNewProducts().then(res => {
+            setProducts(res.data)
+        }
+        )
+    }, [])
     return (
         <div className={cx('homepage')} >
             <h1>
@@ -41,11 +49,11 @@ function HomePage() {
                         <CardProduct
                             key={product.id}
                             id={product.id}
-                            image={product.image}
+                            image={product.images[0]?.url}
                             name={product.name}
-                            discount={product.discount}
-                            oldPrice={product.oldPrice}
-                            newPrice={product.newPrice}
+                            discount={product.promotion > 0 ? 'Giảm ' + product.promotion + '%' : null}
+                            oldPrice={product.promotion > 0 ? product.cost : null}
+                            newPrice={product.cost - product.cost * product.promotion / 100}
                         />
                     ))}
                 </div>

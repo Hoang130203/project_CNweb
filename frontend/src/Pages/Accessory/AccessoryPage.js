@@ -1,4 +1,4 @@
-function Following() {
+function AccessoryPage() {
     return (
         <h1>
             Following
@@ -6,4 +6,4 @@ function Following() {
     );
 }
 
-export default Following;
+export default AccessoryPage;

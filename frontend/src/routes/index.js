@@ -1,10 +1,10 @@
 import Login from '../Pages/Auth/Login';
 import Register from '../Pages/Auth/Register';
 import ResetPassword from '../Pages/Auth/ResetPassword';
-import Following from '../Pages/Following/Following';
+import AccessoryPage from '../Pages/Accessory/AccessoryPage';
 import HomePage from '../Pages/HomePage/HomePage'
-import Type from '../Pages/Type/Type';
-import New from '../Pages/New/New';
+import WatchPage from '../Pages/Watch/WatchPage';
+import LaptopPage from '../Pages/Laptop/LaptopPage';
 import Mobile from '../Pages/Mobile/Mobile';
 import ProductDetailPage from '../Pages/ProductDetailPage/ProductDetailPage';
 import AdminLayout from '../Layout/AdminLayout/AdminLayout';
@@ -31,11 +31,11 @@ const publicRoutes = [
     { path: '/login', component: Login },
     { path: '/register', component: Register },
     { path: '/reset_password', component: ResetPassword },
-    { path: '/following', component: Following },
+    { path: '/accessory', component: AccessoryPage },
     { path: '/mobile', component: Mobile },
-    { path: '/new', component: New },
+    { path: '/laptop', component: LaptopPage },
     { path: '/shoppingList', component: ShoppingList },
-    { path: '/type', component: Type },
+    { path: '/watch', component: WatchPage },
     { path: '/product-detail/:id', component: ProductDetailPage },
     { path: '/user/profile', component: UserProfile, layout: UserLayout },
     { path: '/user/profile/address', component: UserAddress, layout: UserLayout },
