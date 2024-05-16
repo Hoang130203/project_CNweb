@@ -13,6 +13,7 @@
     overflow-x: hidden;
     transition: all 0.3s;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
     padding-top: 60px;
 
     @media (max-width: 768px) {
@@ -58,7 +59,9 @@
 
 .content {
     height: calc(100% - 60px);
-    background-color: #19263efe;
+    // background-color: #19263efe;
+    background: linear-gradient(to bottom, #1f1f1f, #121212);
+
     border-top-right-radius: 10px;
     padding: 20px 10px;
     color: #fff;
@@ -72,7 +75,8 @@
     transition: all 0.3s;
     padding-left: 20px;
     font-size: 25px;
-    color: #afeeee;
+    // color: #afeeee;
+    color: #ffffff;
 }
 
 .hr {

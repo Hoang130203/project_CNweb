@@ -21,7 +21,7 @@ function Header() {
             </Link>
             <div style={{ display: 'flex', marginRight: '35px' }}>
                 <div className={cx('notification')}>
-                    <IoNotificationsCircle className={cx('icon')} style={{ fontSize: '40px', color: '#b9e1df' }} />
+                    <IoNotificationsCircle className={cx('icon')} style={{ fontSize: '40px' }} />
                     <div className={cx('number')}>5</div>
                 </div>
                 <div className={cx('wrap_menu')}>

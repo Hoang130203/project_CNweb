@@ -16,5 +16,14 @@ class AdminApi {
     GetAllProducts() {
         return axios.get(`${base_api}/api/admin/products`, headers)
     }
+    PutBaseInfoProduct(product) {
+        return axios.put(`${base_api}/api/admin/product`, product, headers)
+    }
+    PutQuantityProduct(productQuantities) {
+        return axios.put(`${base_api}/api/admin/quantity`, productQuantities, headers)
+    }
+    PutImageProduct(productImages) {
+        return axios.put(`${base_api}/api/admin/images`, productImages, headers)
+    }
 }
 export default new AdminApi();

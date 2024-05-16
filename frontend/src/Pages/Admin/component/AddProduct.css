@@ -14,3 +14,15 @@
   transform: scale(1.05);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
+.fix-image {
+  width: auto;
+  height: 100px;
+  border-radius: 10px;
+  border: 1px solid #aae5eb;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 5px;
+}
+.fix-image:hover {
+  transform: scale(1.05);
+}

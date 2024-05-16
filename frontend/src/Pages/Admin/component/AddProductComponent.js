@@ -1,10 +1,13 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
+import { motion } from "framer-motion";
 import './AddProduct.css';
 import UserApi from "../../../Api/UserApi";
 import AdminApi from "../../../Api/AdminApi";
 import { toast } from "react-toastify";
+import { GrPowerReset } from "react-icons/gr";
+
 function AddProduct({ handleClose, show }) {
   const showHideClassName = show ? "modal display-flex" : "modal display-none";
   const colors = [
@@ -19,13 +22,29 @@ function AddProduct({ handleClose, show }) {
     { "id": '9', "name": "BLACK", "viName": "ĐEN" }
   ]
 
-  const sizes = [
-    { "id": '1', "name": "XS" },
-    { "id": '2', "name": "S" }
-  ]
-  const [productInfo, setProductInfo] = useState({
+  const [sizes, setSizes] = useState([])
+  useEffect(() => {
+    const fetchSizes = async () => {
+      try {
+        const res = await AdminApi.GetAllSizes();
+        const allSizes = res.data;
+
+        const formattedSizes = allSizes.map(size => ({
+          id: size.id.toString(),
+          name: size.name
+        }));
+
+        setSizes(formattedSizes);
+      } catch (error) {
+        console.error("Error fetching sizes:", error);
+      }
+    };
+
+    fetchSizes();
+  }, [])
+  const baseinfo = {
     name: '',
-    category: '',
+    category: 'MOBILE',
     images: [],
     description: '',
     sizes: [],
@@ -34,7 +53,8 @@ function AddProduct({ handleClose, show }) {
     brand: '',
     price: '',
     promotion: 0
-  });
+  }
+  const [productInfo, setProductInfo] = useState(baseinfo);
   const [files, setFiles] = useState([]);
   const handleChange = (e) => {
     const { name, value, checked } = e.target;
@@ -110,94 +130,99 @@ function AddProduct({ handleClose, show }) {
     })
   }
   return (
-    <div className={showHideClassName} onClick={handleClose}>
-      <section className="modal-main" onClick={(e) => { e.stopPropagation() }}>
-        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <div onClick={handleClose}>
-            <IoCloseOutline className="close_icon" />
+    <motion.div animate={{ opacity: show ? 1 : 0 }}>
+      <div className={showHideClassName} onClick={handleClose}>
+        <section className="modal-main" onClick={(e) => { e.stopPropagation() }}>
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <div onClick={handleClose}>
+              <IoCloseOutline className="close_icon" />
+            </div>
           </div>
-        </div>
-        <h2>Add New Product</h2>
-        <div className="product-form">
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label>Name:</label>
-              <input type="text" name="name" value={productInfo.name} onChange={handleChange} />
-            </div>
-            <div className="form-group">
-              <label>Category:</label>
-              <select name="category" value={productInfo.category} onChange={handleChange}>
-                <option value="MOBILE">dien thoai</option>
-                <option value="LAPTOP">laptop</option>
-                <option value="WATCH">dong ho</option>
-                <option value="ACCESSORY">phu kien</option>
-              </select>
-            </div>
-
-            <div className="form-group">
-              <label>Image:</label>
-              <input id="add_image" type="file" name="image" style={{ display: 'none' }} onChange={handleChangeImage} />
-              <div>
-                {
-                  productInfo.images?.map((image, index) => (
-                    <img key={index} src={image} alt={productInfo.name} className="addpage_image" onClick={() => { removeImage(index) }} />
-                  ))
-                }
-                <label htmlFor="add_image" style={{ cursor: 'pointer', display: 'inline-block' }}>
-                  <img src={'https://static.vecteezy.com/system/resources/thumbnails/001/500/603/small/add-icon-free-vector.jpg'} className="addpage_image" alt={productInfo.name} />
-                </label>
+          <h2>Add New Product</h2>
+          <div className="product-form">
+            <form onSubmit={handleSubmit}>
+              <div onClick={() => { setProductInfo(baseinfo) }}>
+                <GrPowerReset color="blue" cursor='pointer' />
               </div>
-            </div>
-            <div className="form-group">
-              <label>Description:</label>
-              <textarea name="description" value={productInfo.description} onChange={handleChange} />
-            </div>
-            <div className="form-group">
-              <label>Sizes:</label>
-              <div className="color-checkboxes">
-                {
-                  sizes.map((size, index) => (
+              <div className="form-group">
+                <label>Name:</label>
+                <input type="text" name="name" value={productInfo.name} onChange={handleChange} />
+              </div>
+              <div className="form-group">
+                <label>Category:</label>
+                <select name="category" value={productInfo.category} onChange={handleChange}>
+                  <option value="MOBILE">dien thoai</option>
+                  <option value="LAPTOP">laptop</option>
+                  <option value="WATCH">dong ho</option>
+                  <option value="ACCESSORY">phu kien</option>
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label>Image:</label>
+                <input id="add_image" type="file" name="image" style={{ display: 'none' }} onChange={handleChangeImage} />
+                <div>
+                  {
+                    productInfo.images?.map((image, index) => (
+                      <img key={index} src={image} alt={productInfo.name} className="addpage_image" onClick={() => { removeImage(index) }} />
+                    ))
+                  }
+                  <label htmlFor="add_image" style={{ cursor: 'pointer', display: 'inline-block' }}>
+                    <img src={'https://static.vecteezy.com/system/resources/thumbnails/001/500/603/small/add-icon-free-vector.jpg'} className="addpage_image" alt={productInfo.name} />
+                  </label>
+                </div>
+              </div>
+              <div className="form-group">
+                <label>Description:</label>
+                <textarea name="description" value={productInfo.description} onChange={handleChange} />
+              </div>
+              <div className="form-group">
+                <label>Sizes:</label>
+                <div className="color-checkboxes">
+                  {
+                    sizes.map((size, index) => (
+                      <div key={index}>
+                        <input id={`"size"+${index}`} type="checkbox" name="sizes" value={size.id} checked={productInfo.sizes.includes(size.id)} onChange={handleChange} />
+                        <label htmlFor={`"size"+${index}`}>{size.name}</label>
+                      </div>
+                    ))
+                  }
+                </div>
+              </div>
+              <div className="form-group">
+                <label>Colors:</label>
+                <div className="color-checkboxes">
+                  {colors.map((color, index) => (
                     <div key={index}>
-                      <input id={`"size"+${index}`} type="checkbox" name="sizes" value={size.id} checked={productInfo.sizes.includes(size.id)} onChange={handleChange} />
-                      <label htmlFor={`"size"+${index}`}>{size.name}</label>
+                      <input id={`"color"+${index}`} type="checkbox" name="colors" value={color.id} checked={productInfo.colors.includes(color.id)} onChange={handleChange} />
+                      <label htmlFor={`"color"+${index}`}>{color.viName}</label>
                     </div>
                   ))
-                }
+                  }
+                </div>
               </div>
-            </div>
-            <div className="form-group">
-              <label>Colors:</label>
-              <div className="color-checkboxes">
-                {colors.map((color, index) => (
-                  <div key={index}>
-                    <input id={`"color"+${index}`} type="checkbox" name="colors" value={color.id} checked={productInfo.colors.includes(color.id)} onChange={handleChange} />
-                    <label htmlFor={`"color"+${index}`}>{color.viName}</label>
-                  </div>
-                ))
-                }
+              <div className="form-group">
+                <label>Origin:</label>
+                <input type="text" name="origin" value={productInfo.origin} onChange={handleChange} />
               </div>
-            </div>
-            <div className="form-group">
-              <label>Origin:</label>
-              <input type="text" name="origin" value={productInfo.origin} onChange={handleChange} />
-            </div>
-            <div className="form-group">
-              <label>Brand:</label>
-              <input type="text" name="brand" value={productInfo.brand} onChange={handleChange} />
-            </div>
-            <div className="form-group">
-              <label>Price:</label>
-              <input type="text" name="price" value={productInfo.price} onChange={handleChange} />
-            </div>
-            <div className="form-group">
-              <label>Promotion:</label>
-              <input type="text" name="promotion" value={productInfo.promotion} onChange={handleChange} />
-            </div>
-            <button type="submit" onClick={handleSubmit}>Submit</button>
-          </form>
-        </div>
-      </section>
-    </div>
+              <div className="form-group">
+                <label>Brand:</label>
+                <input type="text" name="brand" value={productInfo.brand} onChange={handleChange} />
+              </div>
+              <div className="form-group">
+                <label>Price:</label>
+                <input type="text" name="price" value={productInfo.price} onChange={handleChange} />
+              </div>
+              <div className="form-group">
+                <label>Promotion:</label>
+                <input type="text" name="promotion" value={productInfo.promotion} onChange={handleChange} />
+              </div>
+              <button type="submit" onClick={handleSubmit}>Submit</button>
+            </form>
+          </div>
+        </section>
+      </div>
+    </motion.div>
   );
 }
 
