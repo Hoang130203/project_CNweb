@@ -127,3 +127,4 @@ function FixProduct({ product, show, handleClose }) {
 }
 
 export default FixProduct;
+productinfo.id

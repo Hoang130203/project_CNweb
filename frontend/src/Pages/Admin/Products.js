@@ -61,20 +61,25 @@ function Products() {
         setShowDelete(true);
     };
 
+    // Sửa sản phẩm
     const handleFixProduct = (productId) => {
         setProduct(prev => products.find(product => product.id === productId));
         setShowFixProduct(true);
     }
 
+    // Số lượng
     const handleQuantity = (productId) => {
         setProduct(prev => products.find(product => product.id === productId));
         setShowQuantity(true);
     }
 
+    // Ảnh
     const handleImage = (productId) => {
         setProduct(prev => products.find(product => product.id === productId));
         setShowFixImage(true);
     }
+
+    // Xóa sản phẩm
     const deleteProduct = () => {
         const updatedProducts = products.filter(product_ => product_.id !== product.id);
         setProducts(updatedProducts);
@@ -94,6 +99,8 @@ function Products() {
     const onPageChange = (page) => {
         setCurrentPage(page);
     }
+
+    // Cập nhật sản phẩm
     const updateProducts = () => {
         const fetchProducts = async () => {
             try {

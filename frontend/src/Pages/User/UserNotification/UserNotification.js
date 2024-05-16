@@ -19,9 +19,6 @@ export default function UserNotification({
       <div className='element'>
         <Notification ID={"123"} time={"456"} content={"789"} orderCode={"899"} typeOf={"123"}></Notification>
       </div>
-      
-
-
     </div>
   )
 }
