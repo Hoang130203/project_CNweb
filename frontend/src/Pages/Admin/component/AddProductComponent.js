@@ -78,6 +78,8 @@ function AddProduct({ handleClose, show }) {
 
 
   const handleChangeImage = (e) => {
+    console.log('sdfasdfasd')
+
     if (!e.target.files.length) return;
 
     const file = e.target.files[0];
@@ -160,14 +162,14 @@ function AddProduct({ handleClose, show }) {
 
               <div className="form-group">
                 <label>Image:</label>
-                <input id="add_image" type="file" name="image" style={{ display: 'none' }} onChange={handleChangeImage} />
+                <input id="add_images" type="file" name="image" style={{ display: 'none' }} onChange={handleChangeImage} />
                 <div>
                   {
                     productInfo.images?.map((image, index) => (
                       <img key={index} src={image} alt={productInfo.name} className="addpage_image" onClick={() => { removeImage(index) }} />
                     ))
                   }
-                  <label htmlFor="add_image" style={{ cursor: 'pointer', display: 'inline-block' }}>
+                  <label htmlFor="add_images" style={{ cursor: 'pointer', display: 'inline-block' }}>
                     <img src={'https://static.vecteezy.com/system/resources/thumbnails/001/500/603/small/add-icon-free-vector.jpg'} className="addpage_image" alt={productInfo.name} />
                   </label>
                 </div>
