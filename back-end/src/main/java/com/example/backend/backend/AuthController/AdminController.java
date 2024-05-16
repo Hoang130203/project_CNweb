@@ -1,7 +1,7 @@
 package com.example.backend.backend.AuthController;
 
-import com.example.backend.backend.Payload.Product.InfoProductAdmin;
-import com.example.backend.backend.Payload.Product.ProductCreateReq;
+import com.example.backend.backend.Entity.ProductQuantity;
+import com.example.backend.backend.Payload.Product.*;
 import com.example.backend.backend.Service.ProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,5 +32,21 @@ public class AdminController {
     @GetMapping("/products")
     public ResponseEntity<?> getAllProduct(){
         return ResponseEntity.ok(productService.getAllProducts().stream().map(product -> modelMapper.map(product, InfoProductAdmin.class)));
+    }
+
+    @PutMapping("/product")
+    public ResponseEntity<?> putProduct(@RequestBody InfoProduct infoProduct){
+        return ResponseEntity.ok(modelMapper.map(productService.putBaseInfo(infoProduct),InfoProduct.class));
+    }
+
+    @PutMapping("/quantity")
+    public ResponseEntity<?> putQuantity(@RequestBody ProductQuantityChange productQuantityChange)
+    {
+        return ResponseEntity.ok(productService.putQuantity(productQuantityChange));
+    }
+
+    @PutMapping("/images")
+    public ResponseEntity<?> putImages(@RequestBody ImageChangeReq imageChangeReq){
+        return ResponseEntity.ok(productService.putImages(imageChangeReq));
     }
 }

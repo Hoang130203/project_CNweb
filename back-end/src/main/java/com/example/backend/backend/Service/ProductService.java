@@ -1,12 +1,8 @@
 package com.example.backend.backend.Service;
 
-import com.example.backend.backend.Entity.Comment;
+import com.example.backend.backend.Entity.*;
 import com.example.backend.backend.Entity.Enum_Key.EType;
-import com.example.backend.backend.Entity.Product;
-import com.example.backend.backend.Entity.Rate;
-import com.example.backend.backend.Entity.Size;
-import com.example.backend.backend.Payload.Product.CommentReq;
-import com.example.backend.backend.Payload.Product.ProductCreateReq;
+import com.example.backend.backend.Payload.Product.*;
 
 import java.util.List;
 
@@ -22,5 +18,7 @@ public interface ProductService {
     List<Comment> getComments(String userId,int productId);
     Product createProduct(ProductCreateReq productCreateReq);
     List<Size> getAllSize();
-
+    Product putBaseInfo(InfoProduct infoProduct);
+    List<ProductQuantity> putQuantity(ProductQuantityChange productQuantityChange);
+    List<ProductImage> putImages(ImageChangeReq imageChangeReq);
 }
