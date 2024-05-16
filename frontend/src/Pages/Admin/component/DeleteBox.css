@@ -1,0 +1,204 @@
+.delete-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 550px;
+    max-width: 80%;
+    min-height: 200px;
+    padding: 20px;
+    gap: 20px;
+    border: 1px solid rgb(195, 195, 195);
+    border-radius: 10px;
+    background-color: rgba(1, 13, 40, 0.932);
+    .delete-box-button {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      gap: 20px;
+      justify-content: center;
+    }
+    .delete-button,
+    .cancel-button {
+      width: 100px;
+      height: 40px;
+      cursor: pointer;
+      border-radius: 10px;
+      font-size: 25px;
+      border: 1px solid white;
+    }
+    .delete-button {
+      color: white;
+      background-color: rgb(240, 68, 68);
+    }
+    .delete-button:hover {
+      background-color: rgb(245, 0, 0);
+    }
+    .cancel-button {
+      color: white;
+      background-color: rgb(68, 171, 240);
+    }
+    .cancel-button:hover {
+      background-color: rgb(13, 148, 238);
+    }
+    .delete-button-2,
+    .cancel-button-2 {
+      width: 100px;
+      height: 25px;
+      cursor: pointer;
+      border-radius: 10px;
+      font-size: 15px;
+      border: 1px solid white;
+    }
+    .delete-button-2 {
+      color: white;
+      background-color: rgb(31, 188, 41);
+    }
+    .delete-button-2:hover {
+      background-color: rgb(3, 81, 3);
+    }
+    .cancel-button-2 {
+      color: white;
+      background-color: rgb(188, 31, 31);
+    }
+    .cancel-button-2:hover {
+      background-color: rgb(255, 0, 0);
+    }
+  }
+  .delete-wrap {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    background-color: rgba(9, 19, 29, 0.378);
+    /* animation: image_abc 10s infinite linear; */
+  }
+  .wrap-quantity-button {
+    display: flex;
+    gap: 20px;
+    padding-left: 20px;
+  
+    .quantity-add-button {
+      background-color: #28a745;
+      color: #fff;
+      padding: 6px;
+      border: none;
+      cursor: pointer;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      border-radius: 20px;
+      font-size: 18px;
+      transition: all 0.2s ease-in-out;
+      &:hover {
+        background-color: #218838;
+        scale: 1.02;
+      }
+    }
+    .quantity-save-button {
+      background-color: #007bff;
+      color: #fff;
+      padding: 3px 16px;
+      border: none;
+      cursor: pointer;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      border-radius: 20px;
+      font-size: 18px;
+      transition: all 0.2s ease-in-out;
+      &:hover {
+        background-color: #0056b3;
+        scale: 1.02;
+      }
+    }
+    .quantity-cancel-button {
+      background-color: #dc3545;
+      color: #fff;
+      padding: 3px 16px;
+      border: none;
+      cursor: pointer;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      border-radius: 20px;
+      font-size: 18px;
+      transition: all 0.2s ease-in-out;
+      &:hover {
+        background-color: #bd2130;
+        scale: 1.02;
+      }
+    }
+  }
+  .select-quantity {
+    border-radius: 10px;
+    padding: 5px;
+    height: 40px;
+    font-size: 16px;
+    margin-left: 20px;
+  }
+  .input-quantity {
+    border-radius: 10px;
+    padding: 5px;
+    height: 20px;
+    font-size: 16px;
+    margin-left: 20px;
+    width: 120px;
+  }
+  .image-box {
+    display: inline-block;
+    width: 550px;
+    max-width: 80%;
+    min-height: 200px;
+    max-height: 70%;
+    overflow-y: auto;
+    padding: 20px;
+    gap: 20px;
+    border: 1px solid rgb(195, 195, 195);
+    border-radius: 10px;
+    background-color: rgba(1, 13, 40, 0.932);
+    .save-button {
+      width: 80px;
+      height: 30px;
+      cursor: pointer;
+      border-radius: 10px;
+      font-size: 20px;
+      border: 1px solid white;
+      color: white;
+      background-color: rgb(31, 188, 41);
+      margin-right: 20px;
+    }
+    .save-button:hover {
+      background-color: rgb(3, 81, 3);
+    }
+    .cancel-button {
+      width: 80px;
+      height: 30px;
+      cursor: pointer;
+      border-radius: 10px;
+      font-size: 20px;
+      border: 1px solid white;
+      color: white;
+      background-color: rgb(188, 31, 31);
+    }
+    .cancel-button:hover {
+      background-color: rgb(255, 0, 0);
+    }
+  }
+  @keyframes image_abc {
+    from {
+      filter: hue-rotate(0deg);
+    }
+    to {
+      filter: hue-rotate(360deg);
+    }
+  }
