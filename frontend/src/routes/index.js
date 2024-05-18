@@ -48,7 +48,7 @@ const publicRoutes = [
     { path: '/admin/chat', component: Chats, layout: AdminLayout },
     { path: '/admin/notification', component: Notifications, layout: AdminLayout },
     { path: '/admin/setting', component: Setting, layout: AdminLayout },
-    { path: '/cart/checkout', component: Checkout, layout: CartLayout }
+    { path: '/cart/checkout', component: Checkout }
 
 ]
 export { publicRoutes };

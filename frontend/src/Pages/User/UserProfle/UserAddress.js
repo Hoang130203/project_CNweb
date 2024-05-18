@@ -1,44 +1,20 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import styles from './UserAddress.module.scss';
 import Button from '../../../components/Button/Button';
 import { FaArrowLeft } from "react-icons/fa6";
 import ChangeAddress from '../../../components/ChangeAddress/ChangeAddress';
+import { OrderContext } from '../../ContextOrder/OrderContext';
 
 const cx = classNames.bind(styles);
 
 const UserAddress = () => {
-    const [addresses, setAddresses] = useState([
-        {
-            address: 'Số 6, Ngách 12/36 Phố Nguyễn Văn Trỗi, Phường Phương Liệt, Quận Thanh Xuân, Hà Nội',
-            isDefault: true,
-        },
-        {
-            address: 'Thôn Phú Trì, Xã Kim Hoa, Huyện Mê Linh, Hà Nội',
-            isDefault: false,
-        },
-    ]);
+    const [products, setProducts, address, setAddress] = useContext(OrderContext)
+    useEffect(() => {
+        console.log(address + "asdf");
+    }, [address])
 
-    const handleSetDefaultAddress = (index) => {
-        const updatedAddresses = addresses.map((address) => ({ ...address, isDefault: false }));
-        updatedAddresses[index].isDefault = true;
-        setAddresses(updatedAddresses);
-    };
-
-    const sortAddresses = (addresses) => {
-        return addresses.sort((a, b) => {
-            if (a.isDefault && !b.isDefault) {
-                return -1;
-            }
-            if (!a.isDefault && b.isDefault) {
-                return 1;
-            }
-            return 0;
-        });
-    };
-
-    const sortedAddresses = sortAddresses(addresses);
     const [showPopup, setShowPopup] = useState(false);
     const [isAddingNewAddress, setIsAddingNewAddress] = useState(false);
 
@@ -48,7 +24,7 @@ const UserAddress = () => {
     };
 
     const handleAddNewAddress = (newAddress) => {
-        setAddresses([...addresses, { address: newAddress, isDefault: false }]);
+        // setAddresses([...addresses, { address: newAddress, isDefault: false }]);
         setShowPopup(false);
     };
 
@@ -61,20 +37,13 @@ const UserAddress = () => {
                 <h2>Địa chỉ của tôi</h2>
 
             </div>
-            {sortedAddresses.map((address, index) => (
-                <div className={cx('address-item')} key={index}>
-                    <div className={cx('address-details')}>
-                        <p>{address.address}</p>
-                        {address.isDefault && <span className={cx('default-label')}>mặc định</span>}
-                    </div>
-                    <div className={cx('address-actions')}>
-                        <Button onClick={() => handleShowPopup(false)}>Cập nhật</Button>
-                        {!address.isDefault && (
-                            <Button onClick={() => handleSetDefaultAddress(index)}>Thiết lập mặc định</Button>
-                        )}
-                    </div>
+            <div className={cx('address-item')}>
+                <div className={cx('address-details')}>
+                    <p>{address}</p>
+
                 </div>
-            ))}
+            </div>
+
             <div className={cx('new__address')}>
                 <Button onClick={() => handleShowPopup(true)}>
                     Thêm địa chỉ
@@ -83,6 +52,7 @@ const UserAddress = () => {
             {showPopup && (
                 <ChangeAddress
                     onClose={() => setShowPopup(false)}
+                    setAddress={setAddress}
                     isAddingNewAddress={isAddingNewAddress}
                     onAddNewAddress={handleAddNewAddress}
                 />

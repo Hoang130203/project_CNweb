@@ -1,155 +1,189 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import styles from './ShoppingList.scss';
 import classNames from 'classnames/bind';
-import products from '../../components/ProductData/ProductData';
-import { Link } from 'react-router-dom';
+import { MdDeleteForever } from "react-icons/md";
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import UserApi from '../../Api/UserApi';
+import { OrderContext } from '../ContextOrder/OrderContext';
+import { toast } from 'react-toastify';
 
 const cx = classNames.bind(styles);
 
-function TotalMoney() {
-
-  const product = products[0]
-  const formatPrice = (price) => {
-    const formattedPrice = Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
-    return formattedPrice;
-  };
-
-  return (
-    <div>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-        <div style={{ display: 'flex', height: '35px' }}>
-          <p style={{ marginTop: '18px' }}>Phí vận chuyển:</p>
-          <span style={{ marginRight: '5px' }}></span>
-          <p style={{}} className={cx('new__price')}>{formatPrice(product.newPrice)}</p>
-        </div>
-        <div style={{ display: 'flex', height: '35px' }}>
-          <p style={{ marginTop: '18px' }}>Thành tiền:</p>
-          <span style={{ marginRight: '5px' }}></span>
-          <p style={{}} className={cx('new__price')}>{formatPrice(product.newPrice)}</p>
-        </div>
-
-        <div style={{ marginTop: '18px' }}>
-          <button style={{ border: 'none', margin: '0px 0px 0px 0px', backgroundColor: 'rgb(226, 58, 58)', color: 'white', borderRadius: '6px', width: '150px', height: '35px', fontSize: '16px' }}>Hủy đơn hàng</button>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function Product() {
-  const product = products[0]
-  const formatPrice = (price) => {
-    const formattedPrice = Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
-    return formattedPrice;
-  };
-
-  return (
-    <div>
-      <div style={{ display: 'flex' }}>
-        <div style={{ flex: '0.2' }}>
-          <img alt='Product' style={{ width: '170px' }} src='https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/l/a/laptop-asus-vivobook-s-14-flip-tp3402va-lz025w-thumbnails.png' />
-        </div>
-        <div style={{ flex: '0.95' }}>
-          <p style={{ margin: '20px 0px 0px 20px', fontSize: '22px' }}>{product.name}</p>
-          <p style={{ margin: '8px 0px 0px 20px', fontSize: '20px' }}>(Newseal)</p>
-          <p style={{ margin: '36px 0px 0px 20px', fontSize: '20px' }}>x2</p>
-        </div>
-        <div style={{ flex: '0.55' }}>
-          <div className={cx('price__container')} style={{ paddingRight: '0%', display: 'flex', paddingTop: '40%' }}>
-            {product.oldPrice && <p style={{}} className={cx('old__price')}>{formatPrice(product.oldPrice)}</p>}
-            <p style={{}} className={cx('new__price')}>{formatPrice(product.newPrice)}</p>
-          </div>
-        </div>
-      </div>
-      <div style={{ margin: '15px 0px 0px 0px' }}>
-        <button style={{ border: 'none', margin: '0px 0px 0px 520px', backgroundColor: 'rgb(226, 58, 58)', color: 'white', borderRadius: '6px', width: '150px', height: '35px', fontSize: '16px' }}>Đánh giá</button>
-        <button style={{ border: 'none', margin: '0px 0px 0px 10px', backgroundColor: 'rgb(81, 191, 228)', color: 'white', borderRadius: '6px', width: '150px', height: '35px', fontSize: '16px' }}>Bình luận</button>
-      </div>
-
-      <hr style={{ borderTop: '2px solid #B6B6B6', width: 'auto', margin: '18px 0px 0px 0px' }} />
-    </div>
-  )
-}
-
-function Order() {
-
-  const s = "Thanh toán khi nhận hàng"
-
-  return (
-    <div className={cx('order')}>
-      <div style={{ display: 'flex' }}>
-        <div style={{ display: 'flex', flex: '1' }}>
-          <p style={{ display: 'flex', flex: '0.06' }}>#1</p>
-          <p style={{ display: 'flex', flex: '0.31' }}>Hình thức thanh toán: </p>
-          <p style={{ display: 'flex', flex: '1', color: 'blue' }}>{s}</p>
-        </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <p style={{}}>Trạng thái:</p>
-          <span style={{ marginRight: '5px' }}></span>
-          <p style={{ color: '#888080' }}>Chờ xác nhận</p>
-        </div>
-      </div>
-
-      <hr style={{ borderTop: '2px solid #B6B6B6', width: 'auto', margin: '18px 0px 0px 0px' }} />
-
-      <Product />
-      <Product />
-      <TotalMoney />
-    </div>
-  )
-}
-
 export default function ShoppingList() {
-
+  const [carts, setCarts] = useState([]);
   const [selectedLink, setSelectedLink] = useState('all');
-
+  const [products, setProducts] = useContext(OrderContext);
   const handleLinkClick = (link) => {
     setSelectedLink(link);
   };
 
   const [isSticky, setIsSticky] = useState(false);
-
+  const navigate = useNavigate();
   useEffect(() => {
-    const handleScroll = () => {
-      const heheDiv = document.getElementById('hehe');
-      const distanceFromTop = heheDiv.getBoundingClientRect().top;
 
-      if (distanceFromTop < 0) {
-        setIsSticky(false);
-      } else {
-        setIsSticky(true);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    setProducts([]);
+    UserApi.GetCart().then((response) => {
+      setCarts(response.data);
+    }).catch((error) => {
+      console.log(error);
+    }
+    );
   }, []);
+  const handleRemoveFromCart = (product) => {
+    if (products.length === 0) {
+      UserApi.RemoveFromCart([{ productId: product.product.id, colorId: product.color.id, sizeId: product.size.id }]).then((response) => {
+        if (response.status === 200) {
+          console.log('Xóa thành công');
+          toast.success('Xóa thành công 1 sản phẩm khỏi giỏ hàng');
+          setCarts(carts.filter(item => item !== product));
+        }
+      }).catch((error) => {
+        toast.error('Xóa thất bại');
+        console.log(error);
+      });
+      return;
+    }
+    let productToDeletes = []
+    for (let i = 0; i < products.length; i++) {
+      productToDeletes.push({ productId: products[i].product.id, colorId: products[i].color.id, sizeId: products[i].size.id });
+    }
+    // console.log(productToDeletes);
+    // console.log(products);
+    UserApi.RemoveFromCart(productToDeletes).then((response) => {
+      if (response.status === 200) {
+        console.log('Xóa thành công');
+        toast.success('Xóa thành công ' + products.length + ' sản phẩm khỏi giỏ hàng');
+        setProducts([]);
+        setCarts(carts.filter(item => !products.includes(item)));
+      }
+    })
+    // UserApi.RemoveFromCart(productToDeletes).then((response) => {
+    //   if (response.status === 200) {
+    //     console.log('Xóa thành công');
+    //     toast.success('Xóa thành công ' + products.length + ' sản phẩm khỏi giỏ hàng');
+    //     setCarts(carts.filter(item => !products.includes(item)));
+    //     setProducts([]);
+    //   }
+    // }).catch((error) => {
+    //   toast.error('Xóa thất bại');
+    //   console.log(productToDeletes);
+    //   console.log(error);
+    // });
+  };
 
+  const handleQuantityChange = (uniqueKey, change) => {
+    const item = carts.find(item => getItemUniqueKey(item) === uniqueKey);
+    if (item) {
+      if (item.quantity + change <= 0) {
+        handleRemoveFromCart(item);
+      } else {
 
+        // updateCart({ id: item.id, quantity: item.quantity + change });
+        let newCarts = [...carts];
+        const index = newCarts.findIndex(item => getItemUniqueKey(item) === uniqueKey);
+        if (index !== -1) {
+          newCarts[index] = { ...newCarts[index], quantity: newCarts[index].quantity + change };
+          setCarts(newCarts);
+          setProducts(
+            products.map(product => {
+              if (getItemUniqueKey(product) === uniqueKey) {
+                return { ...product, quantity: product.quantity + change };
+              }
+              return product;
+            }
+            ))
+        }
+      }
+    }
+  };
+
+  const handleSelected = (item) => {
+    const uniqueKey = getItemUniqueKey(item);
+    const index = products.findIndex(product => getItemUniqueKey(product) === uniqueKey);
+    if (index === -1) {
+      setProducts([...products, item]);
+      console.log([...products, item]);
+    } else {
+      setProducts(products.filter(product => getItemUniqueKey(product) !== uniqueKey));
+      console.log(products.filter(product => getItemUniqueKey(product) !== uniqueKey));
+    }
+  };
+
+  const getItemUniqueKey = (item) => {
+    return `${item.product.id}_${item.color.id}_${item.size.id}`;
+  };
+  const handleBuy = () => {
+    if (products.length === 0) {
+      toast.warn('Vui lòng chọn sản phẩm để mua');
+      return;
+    }
+    let productLists = [];
+    for (let i = 0; i < products.length; i++) {
+      productLists.push({
+        id: products[i].product.id,
+        name: products[i].product.name,
+        cost: products[i].product.cost,
+        promotion: products[i].product.promotion,
+        quantity: products[i].quantity,
+        size: products[i].size,
+        color: products[i].color,
+        images: products[i].product.images
+      });
+    }
+    setProducts(productLists);
+    navigate('/cart/checkout');
+  }
   return (
     <div>
       <div className={cx('shoppingList')}>
-        <div className={cx('userOrder')}>
-          <Order />
-          <Order />
-          <Order />
-          <Order />
+        <div className={cx('cart-items')}>
+          {carts.map((item) => {
+            const uniqueKey1 = getItemUniqueKey(item);
+            return (
+              <div key={item?.product?.id + item?.color?.id + item?.size?.id} className={cx("cart-item")}>
 
-          <div id='hehe' className={cx('order')} style={{ display: 'flex', position: isSticky ? 'sticky' : 'static', bottom: '10px'  }}>
-            <div style={{ flex: '1', paddingLeft: '30px', display: 'flex', flexDirection: 'column' }}>
-              <p style={{ fontSize: '24px', marginBottom: '0px' }}>Tạm tính</p>
-              <p style={{ fontSize: '20px', fontWeight: '400', lineHeight: '58px', color: '#FF0C0C' }}>50000đ</p>
-            </div>
+                <input type="checkbox" onChange={() => handleSelected(item)} style={{ width: '20px', height: '20px', marginRight: '20px', cursor: 'pointer' }}
+                />
+                <div className={cx('image-wrap')}>
+                  <img src={item.product?.images[0]?.url} alt={item?.product?.name} className={cx('image')} />
+                </div>
+                <div className={cx("cart-item-details")}>
+                  <h2>{item.product?.name}</h2>
+                  <p>Màu sắc: {item.color?.name || 'N/A'}</p>
+                  <p>Kích thước: {item.size?.name || 'N/A'}</p>
+                  <p>Giá: <span style={{ color: 'blue' }}>{item.product?.cost?.toLocaleString()}</span></p>
+                  <p>Giảm:  <span style={{ color: 'red' }}>{(item.product?.promotion / 100 * item.product?.cost).toLocaleString()}</span></p>
+                </div>
 
-            <div style={{ flex: '0.2', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              <button style={{ border: 'none', margin: '0px 0px 0px 0px', backgroundColor: 'rgb(226, 58, 58)', color: 'white', borderRadius: '6px', width: '150px', height: '35px', fontSize: '16px' }}>Mua ngay (2)</button>
-            </div>
+                <div className={cx("price-details")}>
+                  <div className={cx('quantity-wrap')}>
+                    <div className={cx("quantity")}>
+
+                      <button onClick={() => handleQuantityChange(uniqueKey1, -1)}>-</button>
+                      <button>{item.quantity}</button>
+                      <button onClick={() => handleQuantityChange(uniqueKey1, 1)}>+</button>
+
+                    </div>
+
+                    <MdDeleteForever style={{ color: 'red', cursor: 'pointer', fontSize: '25px', paddingLeft: '20px' }} onClick={() => handleRemoveFromCart(item)} />
+                  </div>
+
+                  <div className="total-price">Tổng tiền: {((item.product?.cost - item.product?.promotion / 100 * item.product?.cost) * item.quantity).toLocaleString()}</div>
+                </div>
+              </div>
+
+            )
+          })
+          }
+
+
+          <div style={{ flex: '0.2', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <button style={{ border: 'none', margin: '0px 0px 0px 0px', backgroundColor: 'blue', color: 'white', borderRadius: '6px', width: '150px', height: '35px', fontSize: '16px', marginRight: '20px' }}>Lưu</button>
+            <button style={{ border: 'none', margin: '0px 0px 0px 0px', backgroundColor: 'rgb(226, 58, 58)', color: 'white', borderRadius: '6px', width: '150px', height: '35px', fontSize: '16px' }} onClick={handleBuy}>Mua ngay ({products.length})</button>
           </div>
         </div>
       </div>
-    </div>
+    </div >
   )
 }

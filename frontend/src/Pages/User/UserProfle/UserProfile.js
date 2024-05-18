@@ -1,21 +1,37 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './UserProfile.module.scss';
 import { Link } from 'react-router-dom';
 
 import Button from '../../../components/Button/Button';
 import ChangePasswordPopup from '../../../components/ChangePassword/ChangPassword';
+import { OrderContext } from '../../ContextOrder/OrderContext';
+import UserApi from '../../../Api/UserApi';
+import { toast } from 'react-toastify';
 
 const cx = classNames.bind(styles);
 
 export default function UserProfile() {
-  const [name, setName] = useState('Nguyễn Văn A');
-  const [email, setEmail] = useState('nguyenvana@gmail.com');
-  const [phone, setPhone] = useState('0123456789');
-  const [address, setAddress] = useState('Số xx, Phường xx, Quận xx, Tỉnh xx');
-
+  const [name, setName] = useState(' ');
+  const [email, setEmail] = useState(' ');
+  const [phone, setPhone] = useState('');
+  const [products, setProducts, address, setAddress] = useContext(OrderContext);
+  const [avatar, setAvatar] = useState();
   const [showPopup, setShowPopup] = useState(false);
-
+  const [file, setFile] = useState(null);
+  useEffect(() => {
+    document.title = 'Hồ sơ của tôi';
+    let user = localStorage.getItem('w15store_user');
+    if (user) {
+      user = JSON.parse(user);
+      setName(user.name);
+      setEmail(user.email);
+      setPhone(user.phone);
+      // setAddress(user.address);
+      setAvatar(user.avatar);
+      console.log(user);
+    }
+  }, []);
   const handleShowPopup = () => {
     setShowPopup(true);
   }
@@ -24,8 +40,31 @@ export default function UserProfile() {
   const handleNameChange = (e) => setName(e.target.value);
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePhoneChange = (e) => setPhone(e.target.value);
-  const handleAddressChange = (e) => setAddress(e.target.value);
-
+  const handleChangImage = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setAvatar(reader.result);
+    }
+    reader.readAsDataURL(file);
+    setFile(file);
+  }
+  const handleSave = async () => {
+    let url = avatar
+    if (file != null) {
+      await UserApi.PostImage(file).then(res => {
+        url = res.data?.url;
+        console.log(res);
+      });
+    }
+    UserApi.PutInfo(name, email, phone, address, url).then(res => {
+      if (res.status === 200) {
+        toast.success('Cập nhật thông tin thành công');
+        localStorage.setItem('w15store_user', JSON.stringify({ name, email, phone, address, avatar: url }));
+        localStorage.setItem('w15store_avatar', url);
+      }
+    });
+  }
   return (
     <div className={cx('wrapper')}>
       <div className={cx('header')}>
@@ -36,9 +75,12 @@ export default function UserProfile() {
         </p>
       </div>
       <div className={cx('user-info')}>
-        <div className={cx('avatar')}>
-          <img src="https://i.imgur.com/8Km9tLL.jpg" alt="User Profile" />
-        </div>
+        <input id='profile_image' type="file" onChange={handleChangImage} style={{ display: 'none' }} />
+        <label htmlFor='profile_image' style={{ cursor: 'pointer' }}>
+          <div className={cx('avatar')}>
+            <img src={avatar || ''} alt="User Profile" />
+          </div>
+        </label>
         <div className={cx('form')}>
           <div className={cx('form-group')}>
             <label>Họ và tên</label>
@@ -58,7 +100,6 @@ export default function UserProfile() {
               <input
                 type="text"
                 value={address}
-                onChange={handleAddressChange}
                 readOnly
                 style={{ cursor: 'pointer' }}
               />
@@ -67,7 +108,7 @@ export default function UserProfile() {
         </div>
       </div>
       <div className={cx('actions')}>
-        <Button className={'button__save'}>Lưu</Button>
+        <Button className={'button__save'} onClick={handleSave}>Lưu</Button>
       </div>
       {showPopup && <ChangePasswordPopup onClose={() => setShowPopup(false)} />}
     </div>
