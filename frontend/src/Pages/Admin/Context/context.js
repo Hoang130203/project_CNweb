@@ -90,7 +90,8 @@ export const SocketProvider = (props) => {
         } else {
             // Khi stompClient được thiết lập, chỉ thực hiện subscribe một lần
             const subscription = stompClient.subscribe('/topic-admin', (response) => {
-                setMessages(prevMessages => [...prevMessages, JSON.parse(response.body)]);
+                if (JSON.parse(response.body)?.type == 'MESSAGE')
+                    setMessages(prevMessages => [...prevMessages, JSON.parse(response.body)]);
             });
 
             return () => {

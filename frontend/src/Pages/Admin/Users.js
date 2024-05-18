@@ -2,121 +2,39 @@ import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import PieChart from './component/PieChart';
 import styles from './css/admin.module.scss';
+import AdminApi from '../../Api/AdminApi';
 
 const cx = classNames.bind(styles);
 function Users() {
+    const [base, setBase] = useState({});
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(3);
     const [pages, setPages] = useState([1]);
     const itemsPerPage = 5; // Số lượng item trên mỗi trang
+    const [transactions, setTransactions] = useState([
+    ]);
+    const [users, setUsers] = useState([
 
+    ]);
 
+    useEffect(() => {
+        AdminApi.GetUserDashboardBase().then((response) => {
+            setBase(response.data);
+        }).catch((error) => {
+            console.log(error);
+        });
+        AdminApi.GetCurrentTransaction().then((res) => {
+            console.log(res.data)
+            setTransactions(res.data)
+        })
+        AdminApi.GetALlUsers().then((res) => {
+            console.log(res.data)
+            setUsers(res.data)
+        })
+    }, []);
     const onPageChange = (page) => {
         setCurrentPage(page);
     }
-    const [transactions, setTransactions] = useState([
-        {
-            orderId: 1,
-            userName: "John Doe",
-            userImage: "https://cdn.sforum.vn/sforum/wp-content/uploads/2023/11/avatar-dep-81.jpg",
-            totalAmount: 100000,
-            time: "2021-01-01 10:00:00",
-
-        },
-        {
-            orderId: 2,
-            userName: "Jane Doe",
-            userImage: "https://gcs.tripi.vn/public-tripi/tripi-feed/img/474072oeB/anh-dai-dien-buon-ngau_023706184.jpg",
-            totalAmount: 200000,
-            time: "2021-01-02 10:00:00",
-        },
-        {
-            orderId: 3,
-            userName: "John Smith",
-            userImage: "https://moc247.com/wp-content/uploads/2023/10/suu-tam-50-anh-avatar-ngau-cho-nam-dep-buon-an-tuong-nhat_1.jpg",
-            totalAmount: 300000,
-            time: "2021-01-03 10:00:00",
-        },
-        {
-            orderId: 4,
-            userName: "Jane Smith",
-            userImage: "https://chungculuxuryparkviews.com/wp-content/uploads/2022/10/anh-avatar-dep-cho-con-gai-ngau-9.jpg",
-            totalAmount: 4000000,
-            time: "2021-01-04 10:00:00",
-        },
-        {
-            orderId: 5,
-            userName: "John Doe",
-            userImage: "https://hoanghamobile.com/tin-tuc/wp-content/uploads/2023/07/avatar-dep-10-1.jpg",
-            totalAmount: 50000,
-            time: "2021-01-05 10:00:00",
-        }]);
-    const [users, setUsers] = useState([
-        {
-            id: 1,
-            name: "John Doe",
-            image: "https://cdn.sforum.vn/sforum/wp-content/uploads/2023/11/avatar-dep-81.jpg",
-            email: "",
-            phone: "",
-            address: "",
-            totalAmount: 100000,
-        },
-        {
-            id: 2,
-            name: "Jane Doe",
-            image: "https://gcs.tripi.vn/public-tripi/tripi-feed/img/474072oeB/anh-dai-dien-buon-ngau_023706184.jpg",
-            email: "",
-            phone: "",
-            address: "",
-            totalAmount: 200000,
-        },
-        {
-            id: 3,
-            name: "John Smith",
-            image: "https://moc247.com/wp-content/uploads/2023/10/suu-tam-50-anh-avatar-ngau-cho-nam-dep-buon-an-tuong-nhat_1.jpg",
-            email: "",
-            phone: "",
-            address: "",
-            totalAmount: 300000,
-        },
-        {
-            id: 4,
-            name: "Jane Smith",
-            image: "https://chungculuxuryparkviews.com/wp-content/uploads/2022/10/anh-avatar-dep-cho-con-gai-ngau-9.jpg",
-            email: "",
-            phone: "",
-            address: "",
-            totalAmount: 4000000,
-        },
-        {
-            id: 5,
-            name: "John Doe",
-            image: "https://hoanghamobile.com/tin-tuc/wp-content/uploads/2023/07/avatar-dep-10-1.jpg",
-            email: "",
-            phone: "",
-            address: "",
-            totalAmount: 50000,
-        },
-        {
-            id: 6,
-            name: "Jane Doe",
-            image: "https://gcs.tripi.vn/public-tripi/tripi-feed/img/474072oeB/anh-dai-dien-buon-ngau_023706184.jpg",
-            email: "",
-            phone: "",
-            address: "",
-            totalAmount: 200000,
-        },
-
-        {
-            id: 7,
-            name: "John Smith",
-            image: "https://moc247.com/wp-content/uploads/2023/10/suu-tam-50-anh-avatar-ngau-cho-nam-dep-buon-an-tuong-nhat_1.jpg",
-            email: "",
-            phone: "",
-            address: "",
-            totalAmount: 300000,
-        },
-    ]);
     useEffect(() => {
         let totalPage = Math.ceil(users.length / itemsPerPage);
         setTotalPages(totalPage);
@@ -129,11 +47,11 @@ function Users() {
                 <div className={cx('wrap_pie')}>
                     <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                         <h4 style={{ color: '#138ed6' }}>Thống kê người dùng </h4>
-                        <p>Tổng số người dùng:  <span style={{ color: 'red' }}>300</span> người </p>
+                        <p>Tổng số người dùng:  <span style={{ color: 'red' }}>{base.countUser}</span> người </p>
                         <br />
-                        <p>Số người đã từng mua hàng: <span style={{ color: 'red' }}>100</span> người</p>
+                        <p>Số người đã từng mua hàng: <span style={{ color: 'red' }}>{base.countUserpay}</span> người</p>
                         <br />
-                        <p>Số lượt đánh giá: <span style={{ color: 'red' }}>500 </span>đánh giá </p>
+                        <p>Số lượt đánh giá: <span style={{ color: 'red' }}>{base.countComment} </span>đánh giá </p>
                     </div>
                     <PieChart parts={[{ value: 100 }, { value: 200 }]} />
                 </div>
@@ -151,13 +69,13 @@ function Users() {
                         <tbody>
                             {transactions.map((transaction, index) => (
                                 <tr key={index} className={cx('table-row')}>
-                                    <td>{transaction.orderId}</td>
+                                    <td>{transaction.id}</td>
                                     <td>
                                         <div style={{ display: 'flex', alignItems: 'center' }}>
-                                            <img src={transaction.userImage} alt="User" />{transaction.userName}
+                                            <img src={transaction?.user?.avatar} alt="User" />{transaction?.user?.name}
                                         </div>
                                     </td>
-                                    <td>{transaction.totalAmount?.toLocaleString()}</td>
+                                    <td>{transaction.money?.toLocaleString()}</td>
                                     <td>{transaction.time}</td>
                                 </tr>
                             ))}
@@ -179,15 +97,15 @@ function Users() {
                         </tr>
                     </thead>
                     <tbody>
-                        {users.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map(user => (
-                            <tr key={user.id}>
-                                <td>{user.id}</td>
-                                <td><img src={user.image} alt={user.name} className="product-image" /></td>
+                        {users.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((user, index) => (
+                            <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td><img src={user.avatar} alt={user.name} className="product-image" /></td>
                                 <td>{user.name}</td>
                                 <td>{user.email}</td>
                                 <td>{user.address}</td>
                                 <td>{user.phone}</td>
-                                <td>{user.totalAmount?.toLocaleString()}</td>
+                                <td>{user.paid?.toLocaleString()}</td>
 
                             </tr>
                         ))}
