@@ -1,9 +1,15 @@
 package com.example.backend.backend.AuthController;
 
+import com.example.backend.backend.Entity.User;
+import com.example.backend.backend.Payload.Response.NotificationMessage;
+import com.example.backend.backend.Service.UserService;
 import com.example.backend.backend.VnpayConfig.VNPayService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/vnpay")
@@ -23,6 +30,14 @@ public class VNPayController {
     //tiêm Vnpayservice vào
     @Autowired
     private VNPayService vnPayService;
+    @Autowired
+    private SimpMessageSendingOperations messagingTemplate;
+
+    private final UserService userService;
+
+    public VNPayController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("")
     //trang thanh toán thành công(không gọi trực tiếp tới, chỉ dùng để test)
@@ -32,24 +47,32 @@ public class VNPayController {
 
     //khởi tạo đơn thanh toán online, chứa thông tin tổng tiền và thông tin đơn hàng
     @PostMapping("/submitOrder")
-    public ResponseEntity<String> submidOrder2(@RequestParam("amount") int orderTotal,
+    public ResponseEntity<String> submidOrder2(@RequestParam("amount") Long orderTotal,
                                                @RequestParam("orderInfo") String orderInfo,
                                                HttpServletRequest request){
-        String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
-        String vnpayUrl = vnPayService.createOrder(orderTotal, orderInfo, baseUrl);
-        return ResponseEntity.ok(vnpayUrl);
+            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                    .getPrincipal();
+            User user= userService.getById(getUserId(userDetails))
+                    .orElseThrow(()->new RuntimeException("user not found"));
+            userService.createTransaction(user,orderTotal,Integer.parseInt(orderInfo));
+            String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+            String vnpayUrl = vnPayService.createOrder(orderTotal, user.getId()+"_"+Integer.parseInt(orderInfo), baseUrl);
+            return ResponseEntity.ok(vnpayUrl);
     }
 
     //vnpay sẽ trả kết quả về api này để xử lý và trả kết quả tới người dùng
 
     @GetMapping("/vnpay-payment")
     public String GetMapping(HttpServletRequest request, Model model){
+        User user = userService.getById(request.getParameter("vnp_OrderInfo").split("_")[0])
+                .orElseThrow(()->new RuntimeException("transaction not found"));
+        boolean status= userService.completeTransaction(user,Long.parseLong(String.valueOf(request.getParameter("vnp_Amount").substring(0,request.getParameter("vnp_Amount").length()-2))),Integer.parseInt(request.getParameter("vnp_OrderInfo").split("_")[1]));
         int paymentStatus =vnPayService.orderReturn(request);
 
         String orderInfo = request.getParameter("vnp_OrderInfo");
         String paymentTime = request.getParameter("vnp_PayDate");
         String transactionId = request.getParameter("vnp_TransactionNo");
-        String totalPrice = request.getParameter("vnp_Amount");
+        String totalPrice = request.getParameter("vnp_Amount").substring(0,request.getParameter("vnp_Amount").length()-2);
         // Định dạng lại thời gian thanh toán
         LocalDateTime paymentDateTime = LocalDateTime.parse(paymentTime, DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
         String formattedPaymentTime = paymentDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
@@ -58,7 +81,22 @@ public class VNPayController {
         model.addAttribute("totalPrice", totalPrice);
         model.addAttribute("paymentTime", formattedPaymentTime);
         model.addAttribute("transactionId", transactionId);
+        if(paymentStatus == 1 && status){
+            NotificationMessage notificationMessage= new NotificationMessage();
+            notificationMessage.setContent(user.getName()+" vừa thanh toán thành công "+ totalPrice+" đồng");
+            messagingTemplate.convertAndSend("/topic-admin", notificationMessage);
+        }
+        return (paymentStatus == 1 && status) ? "ordersuccess" : "orderfail";
+    }
 
-        return paymentStatus == 1 ? "ordersuccess" : "orderfail";
+    public String getUserId(UserDetails userDetails){
+
+        String userName = userDetails.getUsername();
+        Optional<User> user= userService.getByAccount(userName);
+        if (!user.isPresent()) {
+            return null;
+        }
+
+        return user.get().getId() ;
     }
 }

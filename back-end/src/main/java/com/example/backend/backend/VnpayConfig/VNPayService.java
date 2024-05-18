@@ -9,29 +9,28 @@ import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+
 @Service
 public class VNPayService {
 
-
-    //tạo đơn hàng để gửi tới VNPay
-    public String createOrder(int total, String orderInfor, String urlReturn){
+    public String createOrder(Long total, String orderInfor, String urlReturn){
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
         String vnp_TxnRef = VNPayConfig.getRandomNumber(8);
 //        String vnp_IpAddr = "127.0.0.1";
-        String serverIpAddress = "13.228.225.19";
-        String vnp_IpAddr = serverIpAddress;
+        String serverIpAddress = "13.228.225.19"; // Thay thế bằng địa chỉ IP thực tế của máy chủ
 
+        String vnp_IpAddr = serverIpAddress;
         String vnp_TmnCode = VNPayConfig.vnp_TmnCode;
         String orderType = "order-type";
-        
+
         Map<String, String> vnp_Params = new HashMap<>();
         vnp_Params.put("vnp_Version", vnp_Version);
         vnp_Params.put("vnp_Command", vnp_Command);
         vnp_Params.put("vnp_TmnCode", vnp_TmnCode);
         vnp_Params.put("vnp_Amount", String.valueOf(total*100));
         vnp_Params.put("vnp_CurrCode", "VND");
-        
+
         vnp_Params.put("vnp_TxnRef", vnp_TxnRef);
         vnp_Params.put("vnp_OrderInfo", orderInfor);
         vnp_Params.put("vnp_OrderType", orderType);
@@ -45,17 +44,15 @@ public class VNPayService {
 
 //        Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
 //        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-//        String vnp_CreateDate = formatter.format(cld.getTime());
         Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Asia/Ho_Chi_Minh")); // Sử dụng múi giờ chính xác cho Việt Nam
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
         formatter.setTimeZone(TimeZone.getTimeZone("Asia/Ho_Chi_Minh")); // Đảm bảo định dạng thời gian cũng theo múi giờ chính xác
         String vnp_CreateDate = formatter.format(cld.getTime());
         vnp_Params.put("vnp_CreateDate", vnp_CreateDate);
 
-        cld.add(Calendar.MINUTE, 30);
+        cld.add(Calendar.MINUTE, 60);
         String vnp_ExpireDate = formatter.format(cld.getTime());
         vnp_Params.put("vnp_ExpireDate", vnp_ExpireDate);
-
 
         List fieldNames = new ArrayList(vnp_Params.keySet());
         Collections.sort(fieldNames);
@@ -91,8 +88,6 @@ public class VNPayService {
         return paymentUrl;
     }
 
-
-    //lấy ra trạng thái của đơn hàng được trả về  từ vnpay
     public int orderReturn(HttpServletRequest request){
         Map fields = new HashMap();
         for (Enumeration params = request.getParameterNames(); params.hasMoreElements();) {

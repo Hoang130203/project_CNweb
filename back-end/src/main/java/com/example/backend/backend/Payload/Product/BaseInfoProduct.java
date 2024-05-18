@@ -15,4 +15,5 @@ public class BaseInfoProduct {
     private String cost;
     private List<ProductImage> images;
     private int promotion;
+    private String brand;
 }

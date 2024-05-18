@@ -8,10 +8,10 @@ import com.example.backend.backend.Payload.User.UserInfo;
 import com.example.backend.backend.Service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,10 +23,13 @@ import java.util.Optional;
 public class UserController {
     //tiêm các service cần thiết vào
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
     private ModelMapper modelMapper;
-    public UserController(UserService userService) {
+    public UserController(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
     //thêm sản phẩm vào giỏ hàng
     @PostMapping("/cart")
@@ -49,7 +52,7 @@ public class UserController {
 
 
     //xóa 1 số sản phẩm đã chọn khỏi giỏ hàng
-    @DeleteMapping("/cart")
+    @PutMapping("/cart")
     public ResponseEntity<?> deleteCart(@RequestBody List<PostCart> postCarts){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
@@ -75,6 +78,12 @@ public class UserController {
         return ResponseEntity.ok(new Message(posted));
     }
 
+    @GetMapping("/order")
+    public ResponseEntity<?> getOrder(@RequestParam("id") int id){
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        return ResponseEntity.ok(userService.getOrder(getUserId(userDetails),id));
+    }
     //hủy đơn hàng
     @PutMapping("/cancelOrder")
     public ResponseEntity<?> deleteOrder(@RequestParam("orderId") int orderid){
@@ -122,6 +131,22 @@ public class UserController {
             userService.save(user1);
         }
         return ResponseEntity.ok(new Message("Đã cập nhật"));
+    }
+
+    @PutMapping("/password")
+    public ResponseEntity<?> changPassword(@RequestParam("old") String oldPass,@RequestParam("new") String newPass){
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        User user= userService.getById(getUserId(userDetails))
+                .orElseThrow(()-> new RuntimeException("user not found"));
+        System.out.println(oldPass);
+        if(passwordEncoder.matches(oldPass,user.getPassword())){
+            System.out.println("change");
+            user.setPassword(passwordEncoder.encode(newPass));
+            userService.save(user);
+            return ResponseEntity.ok(newPass);
+        }
+        return ResponseEntity.ok(oldPass);
     }
 
 

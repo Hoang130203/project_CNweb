@@ -41,6 +41,10 @@ public class Product {
     private String brand;
 
     @JsonIgnore
+    @Column(name = "sale_count")
+    private int saleCount=0;
+
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinTable(name = "product_size",joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "size_id"),
@@ -58,7 +62,6 @@ public class Product {
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "product")
     private List<ProductImage> images= new ArrayList<>();
 
-    @JsonIgnore
     @Column
     private int promotion=0;
 

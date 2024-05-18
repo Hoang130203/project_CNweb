@@ -21,6 +21,11 @@ public interface UserService {
     boolean delete(PostCart postCart,String userId);
     List<User> getAllByEmail(String email);
     String postOrder(OrderInfo orderInfo, String userId);
+    Order getOrder(String userId, int orderId);
     List<Order> getOrders(String userId);
     boolean cancelOrder(String userId,int orderId);
+    void createTransaction(User user, Long amount,int orderId);
+    boolean completeTransaction(User user, Long amount,int orderId);
+
+
 }

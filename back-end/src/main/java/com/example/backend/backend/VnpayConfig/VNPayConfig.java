@@ -11,11 +11,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
-@Component
 
-//cấu hình vnpay
+@Component
 public class VNPayConfig {
-    //các thông tin cơ bản như url gọi tới, url trả về, mã khóa chứng thực....
     public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
     public static String vnp_Returnurl = "/vnpay/vnpay-payment";
     public static String vnp_TmnCode = "9KIH5KX6";
@@ -79,8 +77,6 @@ public class VNPayConfig {
         return hmacSHA512(vnp_HashSecret,sb.toString());
     }
 
-
-    //Mã hóa dữ liệu
     public static String hmacSHA512(final String key, final String data) {
         try {
 

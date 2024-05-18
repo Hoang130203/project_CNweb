@@ -1,21 +1,42 @@
 package com.example.backend.backend.AuthController;
 
-import com.example.backend.backend.Entity.ProductQuantity;
+import com.example.backend.backend.Entity.Transaction;
+import com.example.backend.backend.Entity.User;
 import com.example.backend.backend.Payload.Product.*;
+import com.example.backend.backend.Payload.Response.UserDashboard;
+import com.example.backend.backend.Payload.Response.UserInfoToAdmin;
+import com.example.backend.backend.Repository.CommentRepository;
+import com.example.backend.backend.Repository.OrderRepository;
+import com.example.backend.backend.Repository.TransactionRepository;
+import com.example.backend.backend.Repository.UserRepository;
 import com.example.backend.backend.Service.ProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin")
 public class AdminController {
     private final ProductService productService;
+    private final UserRepository userRepository;
+    private final OrderRepository orderRepository;
+    private final CommentRepository commentRepository;
+    private final TransactionRepository transactionRepository;
+
     @Autowired
     private ModelMapper modelMapper;
-    public AdminController(ProductService productService) {
+    public AdminController(ProductService productService, UserRepository userRepository, OrderRepository orderRepository, CommentRepository commentRepository, TransactionRepository transactionRepository) {
         this.productService = productService;
+        this.userRepository = userRepository;
+        this.orderRepository = orderRepository;
+        this.commentRepository = commentRepository;
+        this.transactionRepository = transactionRepository;
     }
 
     @PostMapping("/product")
@@ -48,5 +69,39 @@ public class AdminController {
     @PutMapping("/images")
     public ResponseEntity<?> putImages(@RequestBody ImageChangeReq imageChangeReq){
         return ResponseEntity.ok(productService.putImages(imageChangeReq));
+    }
+
+    @GetMapping("/userDashboardBase")
+    public ResponseEntity<?> baseUserDash(){
+        UserDashboard userDashboard= new UserDashboard();
+        userDashboard.setCountUser(userRepository.count());
+        userDashboard.setCountUserpay(orderRepository.countDistinctValues());
+        userDashboard.setCountComment(commentRepository.count());
+        return ResponseEntity.ok(userDashboard);
+    }
+
+    @GetMapping("/currentTransaction")
+    public ResponseEntity<?> currentTransaction(){
+        Pageable pageable= PageRequest.of(0,5);
+        return ResponseEntity.ok(transactionRepository.findTop5ByIdDesc(pageable));
+    }
+
+    @GetMapping("/users")
+    public ResponseEntity<?> allUser(){
+        List<User> users= userRepository.findAll();
+        List<UserInfoToAdmin> userInfoToAdmins= new ArrayList<>();
+        for (User user:users
+             ) {
+            UserInfoToAdmin userInfoToAdmin= modelMapper.map(user,UserInfoToAdmin.class);
+            List<Transaction> transactions= transactionRepository.findAllByUser(user);
+            Long paid=0L;
+            for (Transaction transaction:transactions
+                 ) {
+                paid+=transaction.getMoney();
+            }
+            userInfoToAdmin.setPaid(paid);
+            userInfoToAdmins.add(userInfoToAdmin);
+        }
+        return ResponseEntity.ok(userInfoToAdmins);
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,8 +28,9 @@ public class UserServiceImpl implements UserService{
     private final CartRepository cartRepository;
     private final ProductQuantityRepository productQuantityRepository;
     private final OrderRepository orderRepository;
+    private final TransactionRepository transactionRepository;
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, ProductRepository productRepository, ColorRepository colorRepository, SizeRepository sizeRepository, CartRepository cartRepository, ProductQuantityRepository productQuantityRepository, OrderRepository orderRepository) {
+    public UserServiceImpl(UserRepository userRepository, ProductRepository productRepository, ColorRepository colorRepository, SizeRepository sizeRepository, CartRepository cartRepository, ProductQuantityRepository productQuantityRepository, OrderRepository orderRepository, TransactionRepository transactionRepository) {
         this.userRepository = userRepository;
         this.productRepository = productRepository;
         this.colorRepository = colorRepository;
@@ -36,6 +38,7 @@ public class UserServiceImpl implements UserService{
         this.cartRepository = cartRepository;
         this.productQuantityRepository = productQuantityRepository;
         this.orderRepository = orderRepository;
+        this.transactionRepository = transactionRepository;
     }
     //Lấy ra người dùng từ tài khoản
     @Override
@@ -165,28 +168,47 @@ public class UserServiceImpl implements UserService{
             Optional<Cart> existingCartItem = cartRepository.findById(cartKey);
 
             if(!existingCartItem.isPresent()){
-                orderRepository.delete(order);
-                return "Error";
-            }
-            Optional<ProductQuantity> quantity= productQuantityRepository.findById(new ProductQuantityKey(product,color,size));
-            if(quantity.isPresent()){
-                System.out.println("a");
-                ProductQuantity quantity1= quantity.get();
-                if(quantity.get().getQuantity()<postCart.getQuantity())
-                {
-                    orderRepository.delete(order);
-                    return product.getName()+" chỉ còn " +quantity.get().getQuantity()+" sản phẩm!";
-                }
-                else{
-                    productOrders.add(new ProductOrder(product,size,color,order,postCart.getQuantity(),postCart.getCost()));
-                    quantity1.setQuantity(quantity.get().getQuantity()-postCart.getQuantity());
-                    productQuantityRepository.save(quantity1);
+                Optional<ProductQuantity> quantity= productQuantityRepository.findById(new ProductQuantityKey(product,color,size));
+                if(quantity.isPresent()){
+                    System.out.println("a");
+                    ProductQuantity quantity1= quantity.get();
+                    if(quantity.get().getQuantity()<postCart.getQuantity())
+                    {
+                        orderRepository.delete(order);
+                        return product.getName()+" chỉ còn " +quantity.get().getQuantity()+" sản phẩm!";
+                    }
+                    else{
+                        productOrders.add(new ProductOrder(product,size,color,order,postCart.getQuantity(),postCart.getCost()));
+                        quantity1.setQuantity(quantity.get().getQuantity()-postCart.getQuantity());
+                        productQuantityRepository.save(quantity1);
 
-                    cartRepository.delete(existingCartItem.get());
+//                        cartRepository.delete(existingCartItem.get());
+                    }
+                }else{
+                    return "Sản phẩm "+product.getName()+" với loại "+size.getName()+" không tồn tại hoặc đã hết hàng";
                 }
             }else{
-                return "Sản phẩm không tồn tại";
+                Optional<ProductQuantity> quantity= productQuantityRepository.findById(new ProductQuantityKey(product,color,size));
+                if(quantity.isPresent()){
+                    System.out.println("a");
+                    ProductQuantity quantity1= quantity.get();
+                    if(quantity.get().getQuantity()<postCart.getQuantity())
+                    {
+                        orderRepository.delete(order);
+                        return product.getName()+" chỉ còn " +quantity.get().getQuantity()+" sản phẩm!";
+                    }
+                    else{
+                        productOrders.add(new ProductOrder(product,size,color,order,postCart.getQuantity(),postCart.getCost()));
+                        quantity1.setQuantity(quantity.get().getQuantity()-postCart.getQuantity());
+                        productQuantityRepository.save(quantity1);
+
+                        cartRepository.delete(existingCartItem.get());
+                    }
+                }else{
+                    return "Sản phẩm "+product.getName()+" với loại "+size.getName()+" không tồn tại hoặc đã hết hàng";
+                }
             }
+
         }
         order.setProducts(productOrders);
 //        List<Order> orders= user.getOrders();
@@ -194,7 +216,20 @@ public class UserServiceImpl implements UserService{
 //        user.setOrders(orders);
 //        userRepository.save(user);
         orderRepository.save(order);
-        return "Đã đặt hàng thành công, chờ xử lý!";
+        return "Đã đặt hàng thành công, chờ xử lý!_"+order.getId();
+    }
+
+    @Override
+    public Order getOrder(String userId, int orderId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        Order order= orderRepository.findById(orderId)
+                .orElseThrow(()->new RuntimeException("order not found"));
+        if(order.getUser().getId().equals(user.getId()))
+        {
+            return order;
+        }
+        return null;
     }
 
     //Lấy ra các đơn hàng của người dùng
@@ -202,7 +237,9 @@ public class UserServiceImpl implements UserService{
     public List<Order> getOrders(String userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        return user.getOrders();
+        List<Order> orders= user.getOrders();
+        Collections.reverse(orders);
+        return  orders;
     }
 
     //Hủy đơn hàng (không xóa)
@@ -232,4 +269,45 @@ public class UserServiceImpl implements UserService{
         }
         return false;
     }
+
+    @Override
+    public void createTransaction(User user, Long amount, int orderId) {
+        Transaction transaction= new Transaction(amount,user,new Timestamp(System.currentTimeMillis()),"process", orderId);
+        transactionRepository.save(transaction);
+    }
+
+    @Override
+    public boolean completeTransaction(User user, Long amount, int orderId) {
+        List<Transaction> transactions= transactionRepository.findAllByUser(user);
+
+        long currentTimeMillis = System.currentTimeMillis()-15*60*1000;
+        Timestamp timestamp1 = new Timestamp(currentTimeMillis);
+        for (Transaction transaction :
+                transactions) {
+//            System.out.println(amount);
+            if (transaction.getStatus().equals("process") && transaction.getMoney().equals(amount) && orderId == transaction.getOrderId()) {
+                Timestamp timestamp2 = transaction.getTime();
+//                System.out.println(timestamp2);
+//                System.out.println(timestamp1);
+                if (timestamp1.after(timestamp2)) {
+                    System.out.println(timestamp1);
+                    continue;
+                }
+//                System.out.println(amount);
+                transaction.setStatus("done");
+                Order order= orderRepository.findById(orderId)
+                        .orElseThrow(()-> new RuntimeException("order not found"));
+                order.setPaymentStatus(true);
+                for (ProductOrder productOrder:order.getProducts()
+                     ) {
+                    Product product= productOrder.getProduct();
+                    product.setSaleCount(product.getSaleCount()+productOrder.getQuantity());
+                    productRepository.save(product);
+                }
+                return  true;
+            }
+        }
+        return  false;
+    }
+
 }
