@@ -1,9 +1,11 @@
-import {useState} from 'react';
+import { useState } from 'react';
 
 import classNames from 'classnames/bind';
 import styles from './ChangePassword.module.scss';
 
 import Button from '../Button/Button';
+import UserApi from '../../Api/UserApi';
+import { toast } from 'react-toastify';
 
 const cx = classNames.bind(styles);
 
@@ -17,11 +19,20 @@ const ChangePasswordPopup = ({ onClose }) => {
   const handleNewPasswordChange = (e) => setNewPassword(e.target.value);
   const handleConfirmNewPasswordChange = (e) => setConfirmNewPassword(e.target.value);
 
-  const handleSavePassword = () => {
-    // Xử lý logic đổi mật khẩu ở đây
-    console.log('Old Password:', oldPassword);
-    console.log('New Password:', newPassword);
-    console.log('Confirm New Password:', confirmNewPassword);
+  const handleSavePassword = async () => {
+    if (newPassword !== confirmNewPassword) {
+      toast.error("Mật khẩu mới không khớp");
+      return;
+    }
+    // Xử lý logic đổi mật khẩu
+    UserApi.ChangePassword(oldPassword, newPassword).then(res => {
+      console.log(res.data);
+      if (res.data == newPassword) {
+        toast.success("Đổi mật khẩu thành công");
+      } else {
+        toast.error("Sai mật khẩu cũ");
+      }
+    });
     // Sau khi đổi mật khẩu thành công, đóng popup
     onClose();
   }

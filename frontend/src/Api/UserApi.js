@@ -61,5 +61,53 @@ class UserApi {
     GetNewProducts() {
         return axios.get(`${base_api}/api/product/TopNewest`, headers)
     }
+
+    GetDetailProduct(id) {
+        return axios.get(`${base_api}/api/product/detail?id=${id}`, headers)
+    }
+
+    GetProductByCategory(category) {
+        return axios.get(`${base_api}/api/product/filter?type=${category}`, headers)
+    }
+
+    PutInfo(name, email, phone, address, avatar) {
+        return axios.put(`${base_api}/api/user/update`, {
+            "name": name,
+            "email": email,
+            "phone": phone,
+            "address": address,
+            "avatar": avatar
+        }, headers)
+    }
+
+    ChangePassword(oldPassword, newPassword) {
+        return axios.put(`${base_api}/api/user/password?old=${oldPassword}&new=${newPassword}`, {
+        }, headers)
+    }
+
+    AddToCart(product) {
+        return axios.post(`${base_api}/api/user/cart`, product, headers)
+    }
+    GetCart() {
+        return axios.get(`${base_api}/api/user/carts`, headers)
+    }
+    RemoveFromCart(products) {
+        return axios.put(`${base_api}/api/user/cart`, products, headers)
+    }
+
+    PostOrder(order) {
+        return axios.post(`${base_api}/api/user/order`, order, headers)
+    }
+    GetOrder(id) {
+        return axios.get(`${base_api}/api/user/order?id=${id}`, headers)
+    }
+
+    VnPay(amount, orderInfo) {
+        return axios.post(`${base_api}/vnpay/submitOrder?amount=${amount}&orderInfo=${orderInfo}`, {}, headers)
+    }
+
+    GetOrders() {
+        return axios.get(`${base_api}/api/user/orders`, headers)
+    }
 }
 export default new UserApi();   

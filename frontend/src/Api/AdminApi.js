@@ -25,5 +25,15 @@ class AdminApi {
     PutImageProduct(productImages) {
         return axios.put(`${base_api}/api/admin/images`, productImages, headers)
     }
+
+    GetUserDashboardBase() {
+        return axios.get(`${base_api}/api/admin/userDashboardBase`, headers)
+    }
+    GetCurrentTransaction() {
+        return axios.get(`${base_api}/api/admin/currentTransaction`, headers)
+    }
+    GetALlUsers() {
+        return axios.get(`${base_api}/api/admin/users`, headers)
+    }
 }
 export default new AdminApi();
