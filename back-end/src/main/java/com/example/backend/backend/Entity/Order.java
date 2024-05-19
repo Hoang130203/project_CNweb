@@ -47,4 +47,6 @@ public class Order {
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "order",fetch = FetchType.EAGER)
     private List<ProductOrder> products = new ArrayList<>();
+
+
 }

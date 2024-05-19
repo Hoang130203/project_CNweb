@@ -66,7 +66,7 @@ public class VNPayController {
     public String GetMapping(HttpServletRequest request, Model model){
         User user = userService.getById(request.getParameter("vnp_OrderInfo").split("_")[0])
                 .orElseThrow(()->new RuntimeException("transaction not found"));
-        boolean status= userService.completeTransaction(user,Long.parseLong(String.valueOf(request.getParameter("vnp_Amount").substring(0,request.getParameter("vnp_Amount").length()-2))),Integer.parseInt(request.getParameter("vnp_OrderInfo").split("_")[1]));
+
         int paymentStatus =vnPayService.orderReturn(request);
 
         String orderInfo = request.getParameter("vnp_OrderInfo");
@@ -81,7 +81,9 @@ public class VNPayController {
         model.addAttribute("totalPrice", totalPrice);
         model.addAttribute("paymentTime", formattedPaymentTime);
         model.addAttribute("transactionId", transactionId);
-        if(paymentStatus == 1 && status){
+        boolean status=false;
+        if(paymentStatus == 1){
+            status=userService.completeTransaction(user,Long.parseLong(String.valueOf(request.getParameter("vnp_Amount").substring(0,request.getParameter("vnp_Amount").length()-2))),Integer.parseInt(request.getParameter("vnp_OrderInfo").split("_")[1]));
             NotificationMessage notificationMessage= new NotificationMessage();
             notificationMessage.setContent(user.getName()+" vừa thanh toán thành công "+ totalPrice+" đồng");
             messagingTemplate.convertAndSend("/topic-admin", notificationMessage);

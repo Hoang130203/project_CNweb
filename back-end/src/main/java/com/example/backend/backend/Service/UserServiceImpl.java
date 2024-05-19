@@ -232,6 +232,15 @@ public class UserServiceImpl implements UserService{
         return null;
     }
 
+    @Override
+    public Order putOrder(int orderId, EStatus status) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(()->new RuntimeException("order not found"));
+        order.setStatus(status);
+        orderRepository.save(order);
+        return order;
+    }
+
     //Lấy ra các đơn hàng của người dùng
     @Override
     public List<Order> getOrders(String userId) {

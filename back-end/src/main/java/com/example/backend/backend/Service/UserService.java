@@ -3,6 +3,7 @@ package com.example.backend.backend.Service;
 
 
 import com.example.backend.backend.Entity.Cart;
+import com.example.backend.backend.Entity.Enum_Key.EStatus;
 import com.example.backend.backend.Entity.Order;
 import com.example.backend.backend.Entity.User;
 import com.example.backend.backend.Payload.Cart.PostCart;
@@ -22,6 +23,7 @@ public interface UserService {
     List<User> getAllByEmail(String email);
     String postOrder(OrderInfo orderInfo, String userId);
     Order getOrder(String userId, int orderId);
+    Order putOrder(int orderId, EStatus status);
     List<Order> getOrders(String userId);
     boolean cancelOrder(String userId,int orderId);
     void createTransaction(User user, Long amount,int orderId);

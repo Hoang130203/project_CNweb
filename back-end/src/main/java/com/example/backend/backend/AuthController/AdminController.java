@@ -1,7 +1,9 @@
 package com.example.backend.backend.AuthController;
 
+import com.example.backend.backend.Entity.Enum_Key.EStatus;
 import com.example.backend.backend.Entity.Transaction;
 import com.example.backend.backend.Entity.User;
+import com.example.backend.backend.Payload.Order.OrderInfoAdmin;
 import com.example.backend.backend.Payload.Product.*;
 import com.example.backend.backend.Payload.Response.UserDashboard;
 import com.example.backend.backend.Payload.Response.UserInfoToAdmin;
@@ -10,6 +12,7 @@ import com.example.backend.backend.Repository.OrderRepository;
 import com.example.backend.backend.Repository.TransactionRepository;
 import com.example.backend.backend.Repository.UserRepository;
 import com.example.backend.backend.Service.ProductService;
+import com.example.backend.backend.Service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -28,15 +32,16 @@ public class AdminController {
     private final OrderRepository orderRepository;
     private final CommentRepository commentRepository;
     private final TransactionRepository transactionRepository;
-
+    private final UserService userService;
     @Autowired
     private ModelMapper modelMapper;
-    public AdminController(ProductService productService, UserRepository userRepository, OrderRepository orderRepository, CommentRepository commentRepository, TransactionRepository transactionRepository) {
+    public AdminController(ProductService productService, UserRepository userRepository, OrderRepository orderRepository, CommentRepository commentRepository, TransactionRepository transactionRepository, UserService userService) {
         this.productService = productService;
         this.userRepository = userRepository;
         this.orderRepository = orderRepository;
         this.commentRepository = commentRepository;
         this.transactionRepository = transactionRepository;
+        this.userService = userService;
     }
 
     @PostMapping("/product")
@@ -103,5 +108,18 @@ public class AdminController {
             userInfoToAdmins.add(userInfoToAdmin);
         }
         return ResponseEntity.ok(userInfoToAdmins);
+    }
+    @GetMapping("/orders")
+    public ResponseEntity<?> getAllOrders()
+    {
+        List<?> orders= orderRepository.findAll();
+        Collections.reverse(orders);
+        return ResponseEntity.ok(orders.stream().map(item->modelMapper.map(item, OrderInfoAdmin.class)));
+    }
+
+    @PutMapping("/order")
+    public ResponseEntity<?> putOrderStatus(@RequestParam("id") int id, @RequestParam("status")EStatus status){
+        return ResponseEntity.ok(userService.putOrder(id,status));
+
     }
 }
