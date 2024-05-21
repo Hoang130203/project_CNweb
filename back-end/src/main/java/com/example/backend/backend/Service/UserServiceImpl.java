@@ -6,16 +6,15 @@ import com.example.backend.backend.Entity.Enum_Key.EStatus;
 import com.example.backend.backend.Entity.Enum_Key.ProductQuantityKey;
 import com.example.backend.backend.Payload.Cart.PostCart;
 import com.example.backend.backend.Payload.Order.OrderInfo;
+import com.example.backend.backend.Payload.Response.NotificationMessage;
 import com.example.backend.backend.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional
@@ -29,8 +28,12 @@ public class UserServiceImpl implements UserService{
     private final ProductQuantityRepository productQuantityRepository;
     private final OrderRepository orderRepository;
     private final TransactionRepository transactionRepository;
+    private final NotificationRepository notificationRepository;
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, ProductRepository productRepository, ColorRepository colorRepository, SizeRepository sizeRepository, CartRepository cartRepository, ProductQuantityRepository productQuantityRepository, OrderRepository orderRepository, TransactionRepository transactionRepository) {
+    private SimpMessageSendingOperations messagingTemplate;
+
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository, ProductRepository productRepository, ColorRepository colorRepository, SizeRepository sizeRepository, CartRepository cartRepository, ProductQuantityRepository productQuantityRepository, OrderRepository orderRepository, TransactionRepository transactionRepository, NotificationRepository notificationRepository) {
         this.userRepository = userRepository;
         this.productRepository = productRepository;
         this.colorRepository = colorRepository;
@@ -39,6 +42,7 @@ public class UserServiceImpl implements UserService{
         this.productQuantityRepository = productQuantityRepository;
         this.orderRepository = orderRepository;
         this.transactionRepository = transactionRepository;
+        this.notificationRepository = notificationRepository;
     }
     //Lấy ra người dùng từ tài khoản
     @Override
@@ -216,6 +220,10 @@ public class UserServiceImpl implements UserService{
 //        user.setOrders(orders);
 //        userRepository.save(user);
         orderRepository.save(order);
+        NotificationMessage notificationMessage= new NotificationMessage("1 đơn hàng trị giá "+ orderInfo.getTotalCost() +" vừa được khởi tạo!",new Date(),"System",true);
+        messagingTemplate.convertAndSend("/topic-admin", notificationMessage);
+        Notification notification= new Notification(new java.sql.Date(System.currentTimeMillis()), notificationMessage.getContent(), user,0,true,false);
+        notificationRepository.save(notification);
         return "Đã đặt hàng thành công, chờ xử lý!_"+order.getId();
     }
 
@@ -317,6 +325,11 @@ public class UserServiceImpl implements UserService{
             }
         }
         return  false;
+    }
+
+    @Override
+    public List<Notification> getNotifications(User user) {
+        return notificationRepository.findAllByUser(user);
     }
 
 }

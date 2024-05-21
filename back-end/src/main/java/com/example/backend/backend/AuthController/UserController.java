@@ -149,6 +149,14 @@ public class UserController {
         return ResponseEntity.ok(oldPass);
     }
 
+    @GetMapping("/notifications")
+    public ResponseEntity<?> getAllNotifications(){
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        User user= userService.getById(getUserId(userDetails))
+                .orElseThrow(()-> new RuntimeException("user not found"));
+        return ResponseEntity.ok(userService.getNotifications(user));
+    }
 
     //lấy ra id người dùng
     public String getUserId(UserDetails userDetails){

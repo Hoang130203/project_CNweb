@@ -1,7 +1,9 @@
 package com.example.backend.backend.AuthController;
 
+import com.example.backend.backend.Entity.Notification;
 import com.example.backend.backend.Entity.User;
 import com.example.backend.backend.Payload.Response.NotificationMessage;
+import com.example.backend.backend.Repository.NotificationRepository;
 import com.example.backend.backend.Service.UserService;
 import com.example.backend.backend.VnpayConfig.VNPayService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,9 +36,10 @@ public class VNPayController {
     private SimpMessageSendingOperations messagingTemplate;
 
     private final UserService userService;
-
-    public VNPayController(UserService userService) {
+    private final NotificationRepository notificationRepository;
+    public VNPayController(UserService userService, NotificationRepository notificationRepository) {
         this.userService = userService;
+        this.notificationRepository = notificationRepository;
     }
 
     @GetMapping("")
@@ -87,6 +90,8 @@ public class VNPayController {
             NotificationMessage notificationMessage= new NotificationMessage();
             notificationMessage.setContent(user.getName()+" vừa thanh toán thành công "+ totalPrice+" đồng");
             messagingTemplate.convertAndSend("/topic-admin", notificationMessage);
+            Notification notification= new Notification(new java.sql.Date(System.currentTimeMillis()), notificationMessage.getContent(), user,0,true,false);
+            notificationRepository.save(notification);
         }
         return (paymentStatus == 1 && status) ? "ordersuccess" : "orderfail";
     }

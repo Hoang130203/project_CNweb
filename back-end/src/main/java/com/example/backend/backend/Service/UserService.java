@@ -4,6 +4,7 @@ package com.example.backend.backend.Service;
 
 import com.example.backend.backend.Entity.Cart;
 import com.example.backend.backend.Entity.Enum_Key.EStatus;
+import com.example.backend.backend.Entity.Notification;
 import com.example.backend.backend.Entity.Order;
 import com.example.backend.backend.Entity.User;
 import com.example.backend.backend.Payload.Cart.PostCart;
@@ -28,6 +29,6 @@ public interface UserService {
     boolean cancelOrder(String userId,int orderId);
     void createTransaction(User user, Long amount,int orderId);
     boolean completeTransaction(User user, Long amount,int orderId);
-
+    List<Notification> getNotifications(User user);
 
 }
