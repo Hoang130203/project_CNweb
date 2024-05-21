@@ -24,6 +24,7 @@
     "react-toastify": "^10.0.5",
     "reactjs-social-login": "^2.6.3",
     "sockjs-client": "^1.6.1",
+    "use-sound": "^4.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

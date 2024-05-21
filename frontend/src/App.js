@@ -6,8 +6,11 @@ import DefaultLayout from './Layout/DefaultLayout';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ChatBox from './components/ChatBox/ChatBox';
+import { useContext } from 'react';
+
 
 function App() {
+
   return (
     <Router>
       <Routes>
@@ -20,6 +23,7 @@ function App() {
               <Layout>
                 <ToastContainer position='bottom-right' />
                 <Page></Page>
+
               </Layout>
             }>
 

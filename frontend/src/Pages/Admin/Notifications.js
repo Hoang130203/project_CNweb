@@ -1,29 +1,37 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { SocketContext } from "./Context/context";
+import AdminApi from "../../Api/AdminApi";
+import { toast } from "react-toastify";
 
 function Notifications() {
     const [newNotification, setNewNotification] = useState("");
-    const [notifications, setNotifications] = useState([
-        { content: "Thông báo 1 ", read: false },
-        { content: "Thông báo 2", read: true },
-        { content: "Thông báo 3", read: false }
-    ]);
+    const [messages, setMessages, stompClient, username, oldTopicDict, notifications, setNotifications, oldNotifications, setOldNotifications] = useContext(SocketContext)
+
 
     const handleNewNotification = () => {
         if (newNotification.trim() !== "") {
-            setNotifications([...notifications, { content: newNotification, read: false }]);
+            // setNotifications([...notifications, { content: newNotification, read: false }]);
             setNewNotification("");
         }
     };
 
     const markAsRead = (index) => {
-        const updatedNotifications = [...notifications];
-        updatedNotifications[index].read = true;
-        setNotifications(updatedNotifications);
+        // const updatedNotifications = [...notifications];
+        // updatedNotifications[index].read = true;
+        // setNotifications(updatedNotifications);
     };
 
-    const deleteNotification = (index) => {
-        const updatedNotifications = notifications.filter((_, i) => i !== index);
-        setNotifications(updatedNotifications);
+    const deleteNotification = (id) => {
+        AdminApi.DeleteNotification(id).then((res) => {
+            if (res.status === 200) {
+                const updatedNotifications = oldNotifications.filter((_, i) => _.id !== id);
+                setOldNotifications(updatedNotifications);
+                toast.success("Xóa thông báo thành công");
+            }
+        }).catch(err => {
+            console.log(err);
+            toast.error("Xóa thông báo thất bại");
+        })
     };
 
     return (
@@ -31,10 +39,21 @@ function Notifications() {
             <div className="notification-receive">
                 <h2>Thông báo nhận được</h2>
                 <ul>
-                    {notifications.map((notification, index) => (
+                    {notifications.toReversed().map((notification, index) => (
                         <li key={index} className={notification.read ? "read" : "unread"}>
-                            <button onClick={() => markAsRead(index)}>Đánh dấu đã đọc</button>
-                            <button onClick={() => deleteNotification(index)} className="delete">Xóa</button>
+                            <button>{index + 1}</button>
+                            <span style={{ paddingLeft: '20px' }}>{notification.content}</span>
+                        </li>
+                    ))}
+                </ul>
+                <h2>Thông báo cũ</h2>
+                <ul>{
+                    oldNotifications.length === 0 && <li>Không có thông báo cũ</li>
+                }
+                    {oldNotifications.toReversed().map((notification, index) => (
+                        <li key={index} className={notification.read ? "read" : "unread"}>
+                            <button onClick={() => markAsRead(index)}></button>
+                            <button onClick={() => deleteNotification(notification.id)} className="delete">Xóa</button>
                             <span style={{ paddingLeft: '20px' }}>{notification.content}</span>
                         </li>
                     ))}

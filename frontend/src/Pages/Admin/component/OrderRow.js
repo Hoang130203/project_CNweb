@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import '../css/order.css';
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { convertColor } from "../../../Api/OtherFunction";
@@ -10,10 +10,14 @@ function OrderRow({ order }) {
     const toggleExpand = () => {
         setExpanded(!expanded);
     };
-    const [status, setStatus] = useState(order?.status);
-
+    const [status, setStatus] = useState(null);
+    useEffect(() => {
+        setStatus(order.status);
+    }, []);
+    useEffect(() => {
+    }, [status]);
     const handleStatusChange = async (e) => {
-        if (e.target.value === order.status) return;
+        if (e.target.value === status) return;
         if (status == 'CANCELLED') {
             toast.warn('Không thể thay đổi trạng thái đơn hàng đã hủy');
             return;
@@ -23,11 +27,13 @@ function OrderRow({ order }) {
             return;
         }
         if (status == 'SENDING') {
-            if (e.target.value !== 'completed' && e.target.value !== 'cancelled') {
+
+            if (e.target.value !== 'SUCCESS' && e.target.value !== 'CANCELLED') {
                 toast.warn('Chỉ có thể chuyển trạng thái đơn hàng đang vận chuyển sang hoàn thành hoặc hủy');
                 return;
             }
         }
+        setStatus(e.target.value);
         await AdminApi.PutOrderStatus(order.id, e.target.value)
             .then(res => {
                 if (res.status == 200) {

@@ -1,3 +1,4 @@
+import { useContext } from 'react';
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import styles from './Header.module.scss';
@@ -6,10 +7,11 @@ import { HiMenuAlt2 } from "react-icons/hi";
 import SideBar from '../SideBar/SideBar';
 import { useState } from 'react';
 import Menu from '../Menu';
+import { SocketContext } from '../../../Pages/Admin/Context/context';
 
 const cx = classNames.bind(styles);
 function Header() {
-
+    const [messages, setMessages, stompClient, username, oldTopicDict, notifications, setNotifications, oldNotifications, setOldNotifications] = useContext(SocketContext)
     return (
         <div className={cx('wrap')}>
 
@@ -20,10 +22,14 @@ function Header() {
                 </div>
             </Link>
             <div style={{ display: 'flex', marginRight: '35px' }}>
-                <div className={cx('notification')}>
-                    <IoNotificationsCircle className={cx('icon')} style={{ fontSize: '40px' }} />
-                    <div className={cx('number')}>5</div>
-                </div>
+                <Link to='/admin/notification' >
+                    <div className={cx('notification')}>
+                        <IoNotificationsCircle className={cx('icon')} style={{ fontSize: '40px' }} />
+                        {notifications.length > 0 &&
+                            <div className={cx('number')}>{notifications.length}</div>
+                        }
+                    </div>
+                </Link>
                 <div className={cx('wrap_menu')}>
                     <HiMenuAlt2 className={cx('menu')} style={{ fontSize: '40px', color: '#b9e1df' }} />
                     <div className={cx('menu_content')}>

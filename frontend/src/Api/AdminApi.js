@@ -40,5 +40,11 @@ class AdminApi {
     PutOrderStatus(orderId, status) {
         return axios.put(`${base_api}/api/admin/order?id=${orderId}&status=${status}`, {}, headers)
     }
+    GetOldNotifications() {
+        return axios.get(`${base_api}/api/admin/notifications`, headers)
+    }
+    DeleteNotification(id) {
+        return axios.delete(`${base_api}/api/admin/notification?id=${id}`, headers)
+    }
 }
 export default new AdminApi();

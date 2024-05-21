@@ -1,14 +1,19 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useEffect, useRef, useState } from "react";
 import UserApi, { base_api } from "../../../Api/UserApi";
 import SockJS from "sockjs-client";
 import Stomp from 'stompjs';
 import AdminApi from "../../../Api/AdminApi";
 
+import sound from './ting.mp3'
+import useSound from 'use-sound';
 export const SocketContext = createContext();
 
 const { Provider } = SocketContext;
 
 export const SocketProvider = (props) => {
+    const [play] = useSound(sound, { interrupt: true })
+    const audioRef = useRef(null);
+
 
     const [messages, setMessages] = useState([]);
     // const [nickname, setNickname] = useState('')
@@ -20,12 +25,23 @@ export const SocketProvider = (props) => {
     const [oldTopicDict, setOldTopicDict] = useState([]);
     const [newTopicDict, setNewTopicDict] = useState([]);
     const [allTopics, setAllTopics] = useState([]);
+    const [notifications, setNotifications] = useState([]);
+    const [oldNotifications, setOldNotifications] = useState([]);
 
+
+    useEffect(() => {
+        AdminApi.GetOldNotifications().then((response) => {
+            setOldNotifications(response.data)
+        }).catch((error) => {
+            console.log(error)
+        })
+    }, [])
     useEffect(() => {
         setKey(prevKey => prevKey + 1); // Update key when ref changes
         // console.log('medss', messages);
     }, [allTopics]);
     useEffect(() => {
+        play();
         let newTopicDict = [...oldTopicDict]
         const lastMessage = messages[messages.length - 1];
         if (!lastMessage) return;
@@ -90,8 +106,14 @@ export const SocketProvider = (props) => {
         } else {
             // Khi stompClient được thiết lập, chỉ thực hiện subscribe một lần
             const subscription = stompClient.subscribe('/topic-admin', (response) => {
-                if (JSON.parse(response.body)?.type == 'MESSAGE')
+                play();
+                if (JSON.parse(response.body)?.type == 'NOTIFICATION') {
+                    setNotifications(prevNotifications => [...prevNotifications, JSON.parse(response.body)]);
+                    return;
+                }
+                if (JSON.parse(response.body)?.type == 'MESSAGE') {
                     setMessages(prevMessages => [...prevMessages, JSON.parse(response.body)]);
+                }
             });
 
             return () => {
@@ -150,8 +172,9 @@ export const SocketProvider = (props) => {
         setOldTopicDict(newTopicsDict);
     }
     return (
-        <Provider value={[messages, setMessages, stompClient, username, oldTopicDict]}>
+        <Provider value={[messages, setMessages, stompClient, username, oldTopicDict, notifications, setNotifications, oldNotifications, setOldNotifications]}>
             {props.children}
+            <div ref={audioRef} ></div>
         </Provider>
 
     );

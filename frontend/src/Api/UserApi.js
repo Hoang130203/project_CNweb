@@ -109,5 +109,9 @@ class UserApi {
     GetOrders() {
         return axios.get(`${base_api}/api/user/orders`, headers)
     }
+
+    GetNotifications() {
+        return axios.get(`${base_api}/api/user/notifications`, headers)
+    }
 }
 export default new UserApi();   

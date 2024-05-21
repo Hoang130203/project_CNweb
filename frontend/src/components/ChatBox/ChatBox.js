@@ -1,5 +1,5 @@
 import { AiFillMessage } from "react-icons/ai";
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import Stomp from 'stompjs';
 import './ChatBox.css';
 import { IoMdCloseCircle } from "react-icons/io";
@@ -7,8 +7,18 @@ import UserApi from "../../Api/UserApi";
 import SockJS from "sockjs-client";
 import { base_api } from "../../Api/UserApi";
 import { TiAttachment } from "react-icons/ti";
+import { NotificationContext } from "../../Pages/ContextOrder/NotificationContext";
+import sound from './ting.mp3'
+import Audios from "./audio";
+import useSound from "use-sound";
 
 function ChatBox() {
+    const [userInteracted, setUserInteracted] = useState(false);
+    const [play] = useSound(sound, { interrupt: true })
+
+    useEffect(() => {
+        setUserInteracted(true);
+    }, []);
     const [showContent, setShowContent] = useState(false);
     const [visible, setVisible] = useState(false);
     const [messages, setMessages] = useState([]);
@@ -21,8 +31,10 @@ function ChatBox() {
     const [image, setImage] = useState(null)
     const messagesEndRef = useRef(null);
     const [oldMessages, setOldMessages] = useState([]);
+    const [notifications, setNotifications] = useContext(NotificationContext)
     useEffect(() => {
-        setKey(prevKey => prevKey + 1); // Update key when ref changes
+
+        setKey(prevKey => prevKey + 1);
         console.log(messages);
     }, [messages]);
 
@@ -47,13 +59,27 @@ function ChatBox() {
             connectToWebSocket();
         } else {
             const subscription = stompClient.subscribe('/topic/' + topicId, (response) => {
+                play();
+                if (JSON.parse(response.body)?.type === 'NOTIFICATION') {
+                    setNotifications(prev => [...prev, JSON.parse(response.body)]);
+                    return;
+                }
                 setMessages(prevMessages => [...prevMessages, JSON.parse(response.body)]);
-                if (!showContent) {
+                if (!showContent && JSON.parse(response.body)?.type === 'MESSAGE') {
+                    // try {
+                    //     if (userInteracted) {
+                    //         const audio = new Audio(sound);
+                    //         audio.play();
+                    //     }
+                    // } catch (error) {
+                    //     console.log(error);
+                    // }
                     setNumber(prev => prev + 1);
                 } else {
                     setNumber(prev => 0);
                     scroll();
                 }
+
             });
 
             return () => {

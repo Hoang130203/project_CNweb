@@ -150,6 +150,19 @@
         background-color: #ffffff00;
     }
 
+    .notification {
+        position: relative;
+        top: 0px;
+        right: 40px;
+        width: 14px;
+        height: 14px;
+        border-radius: 100%;
+        background-color: red;
+        color: rgb(255, 255, 255);
+        font-size: 10px;
+        text-align: center;
+    }
+
     .acc:hover {
         cursor: pointer;
     }

@@ -6,23 +6,26 @@ import Header from '../Header/Header';
 import SideBar from './SideBar/SideBar';
 import ChatBox from '../../components/ChatBox/ChatBox';
 import { OrderProvider } from '../../Pages/ContextOrder/OrderContext';
+import { NotificationProvider } from '../../Pages/ContextOrder/NotificationContext';
 
 const cx = classNames.bind(styles);
 
 
 export default function UserLayout({ children }) {
   return (
-    <OrderProvider>
-      <div className={cx('wrap')}>
-        <Header />
-        <SideBar />
-        <div className={cx('children')}>
-          <div className={cx('content')}>
-            {children}
+    <NotificationProvider>
+      <OrderProvider>
+        <div className={cx('wrap')}>
+          <Header />
+          <SideBar />
+          <div className={cx('children')}>
+            <div className={cx('content')}>
+              {children}
+            </div>
           </div>
+          <ChatBox />
         </div>
-        <ChatBox />
-      </div>
-    </OrderProvider>
+      </OrderProvider>
+    </NotificationProvider>
   )
 }
