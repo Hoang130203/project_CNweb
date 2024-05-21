@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import './css/product.css';
 import OrderRow from "./component/OrderRow";
+import AdminApi from "../../Api/AdminApi";
 
 function Orders() {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(3);
     const [pages, setPages] = useState([1]);
     const itemsPerPage = 10; // Số lượng item trên mỗi trang
-
     const [orders, setOrders] = useState([
         {
             id: 1, user: 'Nguyễn Văn A', note: 'abc dfsdf def', totalPrice: 15000000, time: '30-4-2024', status: 'completed'
@@ -41,6 +41,12 @@ function Orders() {
         { id: 11, user: 'Lê Văn M', note: 'giao hàng nhanh hơn', totalPrice: 14000000, time: '11-5-2024', status: 'hoàn thành' },
         { id: 12, user: 'Hoàng Thị N', note: 'đặt hàng mới', totalPrice: 19000000, time: '12-5-2024', status: 'chờ xử lý' }
     ]);
+    useEffect(() => {
+        AdminApi.GetAllOrders().then(res => {
+            console.log(res.data);
+            setOrders(res.data?.filter(order => order.products.length !== 0));
+        })
+    }, []);
 
     useEffect(() => {
         let totalPage = Math.ceil(orders.length / itemsPerPage);
@@ -61,7 +67,7 @@ function Orders() {
                     <tr>
                         <th>ID</th>
                         <th>Người đặt</th>
-                        <th>Ghi chú</th>
+                        <th>Địa chỉ</th>
                         <th>Tổng tiền</th>
                         <th>Thời gian</th>
                         <th>Trạng thái</th>
@@ -94,5 +100,3 @@ function Orders() {
 }
 
 export default Orders;
-
-

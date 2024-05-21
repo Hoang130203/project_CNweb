@@ -100,13 +100,12 @@ function Users() {
                         {users.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((user, index) => (
                             <tr key={index}>
                                 <td>{index + 1}</td>
-                                <td><img src={user.avatar} alt={user.name} className="product-image" /></td>
+                                <td><img src={user.avatar || 'https://cellphones.com.vn/sforum/wp-content/uploads/2023/10/avatar-trang-4.jpg'} alt={user.name} className="product-image" /></td>
                                 <td>{user.name}</td>
                                 <td>{user.email}</td>
                                 <td>{user.address}</td>
                                 <td>{user.phone}</td>
                                 <td>{user.paid?.toLocaleString()}</td>
-
                             </tr>
                         ))}
                     </tbody>

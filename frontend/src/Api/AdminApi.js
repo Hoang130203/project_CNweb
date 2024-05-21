@@ -25,7 +25,6 @@ class AdminApi {
     PutImageProduct(productImages) {
         return axios.put(`${base_api}/api/admin/images`, productImages, headers)
     }
-
     GetUserDashboardBase() {
         return axios.get(`${base_api}/api/admin/userDashboardBase`, headers)
     }
@@ -34,6 +33,12 @@ class AdminApi {
     }
     GetALlUsers() {
         return axios.get(`${base_api}/api/admin/users`, headers)
+    }
+    GetAllOrders() {
+        return axios.get(`${base_api}/api/admin/orders`, headers)
+    }
+    PutOrderStatus(orderId, status) {
+        return axios.put(`${base_api}/api/admin/order?id=${orderId}&status=${status}`, {}, headers)
     }
 }
 export default new AdminApi();

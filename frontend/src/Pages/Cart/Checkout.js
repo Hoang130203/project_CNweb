@@ -77,19 +77,18 @@ const ShippingAddress = () => {
 
 
 // Phương thức thanh toán
-const PaymentMethod = () => {
+const PaymentMethod = ({ method, setMethod }) => {
     const handlePaymentOptionChange = (option) => {
-        console.log('Selected option:', option);
+        setMethod(option);
     };
     return (
         <div>
             <h3>Phương thức thanh toán</h3>
             <div className='payment__options'>
-                <RadioButton
-                    type="radio"
-                    options={['Thanh toán khi nhận hàng', 'Thanh toán qua thẻ']}
-                    onOptionChange={handlePaymentOptionChange}
-                />
+                <input type='radio' name='payment' id='payment1' value={method} onChange={() => handlePaymentOptionChange(1)} />
+                <label htmlFor='payment1'>Thanh toán khi nhận hàng</label>
+                <input type='radio' name='payment' id='payment2' value={method} onChange={() => handlePaymentOptionChange(0)} />
+                <label htmlFor='payment2'>Thanh toán online</label>
             </div>
         </div>
     );
@@ -183,6 +182,7 @@ const CheckoutPage = () => {
     const [orderId, setOrderId] = useState(null)
     const [show, setShow] = useState(false);
     const shippingFee = 50000;
+    const [methods, setMethod] = useState(1);
 
     const calculateSubtotal = () => {
         return products?.reduce((total, item) => total + item.cost * item.quantity, 0);
@@ -201,6 +201,10 @@ const CheckoutPage = () => {
     const discount = calculateDiscount();
     const total = calculateTotal();
     const handlePay = async (method) => {
+        if (products.length === 0) {
+            toast.error('Chưa có sản phẩm');
+            return;
+        }
         console.log('Thanh toán qua:', method);
         await UserApi.PostOrder(
             {
@@ -213,7 +217,7 @@ const CheckoutPage = () => {
                         colorId: item.color.id
                     }
                 }),
-                payment: 0,
+                payments: methods == 1 ? true : false,
                 deliveryCost: shippingFee,
                 totalCost: total,
             }
@@ -223,7 +227,9 @@ const CheckoutPage = () => {
                 if (response.data?.infoMessage?.includes('thành công')) {
                     toast.success(response.data?.infoMessage?.split('_')[0]);
                     setProducts([]);
-                    setShow(true);
+                    if (methods == 0) {
+                        setShow(true);
+                    }
                     setOrderId(response.data?.infoMessage?.split('_')[1]);
                 } else {
                     toast.error(response.data?.infoMessage);
@@ -258,6 +264,7 @@ const CheckoutPage = () => {
             });
         }
     }
+
     return (
         <div className={cx('wrap')}>
             <motion.div animate={{ opacity: show ? 1 : 0, transition: { duration: 0.5 } }}
@@ -280,7 +287,7 @@ const CheckoutPage = () => {
                 <div className={cx('info__container')}>
                     <CustomerInfo />
                     <ShippingAddress />
-                    <PaymentMethod />
+                    <PaymentMethod method={methods} setMethod={setMethod} />
                 </div>
                 <div className={cx('order__container')}>
                     <div>
@@ -333,7 +340,7 @@ const CheckoutPage = () => {
                             </tfoot>
                         </table>
                     </div>
-                    <Button className={'button__buy'} onClick={() => { handlePay() }}>Thanh toán</Button>
+                    <Button className={'button__buy'} onClick={() => { handlePay() }}>Xác nhận</Button>
                 </div>
             </div>
         </div>
