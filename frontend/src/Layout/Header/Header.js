@@ -3,6 +3,7 @@ import styles from '../Layout.module.scss'
 import { Link } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react';
 import { NotificationContext } from '../../Pages/ContextOrder/NotificationContext';
+import UserApi from '../../Api/UserApi';
 
 const cx = classNames.bind(styles)
 
@@ -33,7 +34,7 @@ function DivAcc({ updateRole, handleClickAcc }) {
             <Link
               to='/user/notification'
               style={{ fontFamily: 'Itim', fontSize: '25.6px', color: '#000000', textDecoration: 'none', display: 'flex', alignItems: 'center' }}
-              onClick={() => setNotifications([])}
+
             >
 
               <svg xmlns="http://www.w3.org/2000/svg" width="37.6" height="33.6" viewBox="0 0 47 42" fill="none">
@@ -117,16 +118,18 @@ function Header() {
     }
   }
 
-  // useEffect(() => {
+  useEffect(() => {
 
-  //   if (valueInput !== '') {
-  //     setSearch('none')
-  //   } else {
-  //     setSearch('block')
+    if (valueInput !== '') {
+      UserApi.FindByKeyword(valueInput).then(res => {
+        setListSearch(res.data?.content)
+      })
+    } else {
+      setListSearch([])
 
-  //   }
+    }
 
-  // }, [valueInput])
+  }, [valueInput])
 
   // Hiển thị theo vai trò
   const [role, setRole] = useState('user')
@@ -137,6 +140,8 @@ function Header() {
   const [guest, setGuest] = useState(true)
   const [user, setUser] = useState(false)
   const [avatar, setAvatar] = useState(localStorage.getItem('w15store_avatar'))
+  const [listSearch, setListSearch] = useState([])
+
   useEffect(() => {
     if (role === 'guest') {
       setGuest(true)
@@ -199,6 +204,25 @@ function Header() {
               </defs>
             </svg>
           </div>
+          {
+            listSearch.length > 0 && <div className={cx('find_box')}>
+              {
+                listSearch.map((item, index) => {
+                  return (
+                    <div key={index} className={cx('find_item')}>
+                      <a href={`/product-detail/${item.id}`} style={{ textDecoration: 'none', color: '#000000', display: 'flex' }}>
+                        <img className={cx('find_img')} src={item.images[0].url} alt='find_img' />
+                        <div className={cx('find_text')}>
+                          <p className={cx('find_name')}>{item.name}</p>
+                          <p className={cx('find_price')}>{item.cost.toLocaleString()}</p>
+                        </div>
+                      </a>
+                    </div>
+                  )
+                })
+              }
+            </div>
+          }
         </div>
 
         {/* Giỏ hàng */}
