@@ -3,6 +3,8 @@ package com.example.backend.backend.Service;
 import com.example.backend.backend.Entity.*;
 import com.example.backend.backend.Entity.Enum_Key.EType;
 import com.example.backend.backend.Payload.Product.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -21,4 +23,5 @@ public interface ProductService {
     Product putBaseInfo(InfoProduct infoProduct);
     List<ProductQuantity> putQuantity(ProductQuantityChange productQuantityChange);
     List<ProductImage> putImages(ImageChangeReq imageChangeReq);
+    Page<Product> findAllByKeyword(String keyword, Pageable pageable);
 }

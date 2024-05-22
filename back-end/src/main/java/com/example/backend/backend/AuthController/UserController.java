@@ -1,19 +1,27 @@
 package com.example.backend.backend.AuthController;
 
+import com.example.backend.backend.Entity.Notification;
 import com.example.backend.backend.Entity.User;
 import com.example.backend.backend.Payload.Cart.PostCart;
 import com.example.backend.backend.Payload.Order.OrderInfo;
+import com.example.backend.backend.Payload.Product.BaseInfoProduct;
 import com.example.backend.backend.Payload.Response.Message;
+import com.example.backend.backend.Payload.Response.NotificationMessage;
 import com.example.backend.backend.Payload.User.UserInfo;
+import com.example.backend.backend.Repository.NotificationRepository;
+import com.example.backend.backend.Service.ProductService;
 import com.example.backend.backend.Service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,12 +32,18 @@ public class UserController {
     //tiêm các service cần thiết vào
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
+    private final NotificationRepository notificationRepository;
+    private final ProductService productService;
+    @Autowired
+    private SimpMessageSendingOperations messagingTemplate;
 
     @Autowired
     private ModelMapper modelMapper;
-    public UserController(UserService userService, PasswordEncoder passwordEncoder) {
+    public UserController(UserService userService, PasswordEncoder passwordEncoder, NotificationRepository notificationRepository, ProductService productService) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
+        this.notificationRepository = notificationRepository;
+        this.productService = productService;
     }
     //thêm sản phẩm vào giỏ hàng
     @PostMapping("/cart")
@@ -90,6 +104,10 @@ public class UserController {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
         boolean delete = userService.cancelOrder(getUserId(userDetails),orderid);
+        NotificationMessage notificationMessage= new NotificationMessage("Đơn hàng mã "+orderid+" đã bị hủy bởi người mua!",new Date(),"System",true);
+        messagingTemplate.convertAndSend("/topic-admin", notificationMessage);
+        Notification notification= new Notification(new java.sql.Date(System.currentTimeMillis()), notificationMessage.getContent(), null,0,true,false);
+        notificationRepository.save(notification);
         return delete?ResponseEntity.ok(new Message("Đã hủy")):ResponseEntity.ok(new Message("Lỗi"));
     }
 
@@ -157,7 +175,10 @@ public class UserController {
                 .orElseThrow(()-> new RuntimeException("user not found"));
         return ResponseEntity.ok(userService.getNotifications(user));
     }
-
+    @GetMapping("/keyword")
+    public ResponseEntity<?> getAllByKeyword(String key, Pageable pageable){
+        return ResponseEntity.ok(productService.findAllByKeyword(key,pageable));
+    }
     //lấy ra id người dùng
     public String getUserId(UserDetails userDetails){
 

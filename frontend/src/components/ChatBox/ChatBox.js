@@ -11,6 +11,7 @@ import { NotificationContext } from "../../Pages/ContextOrder/NotificationContex
 import sound from './ting.mp3'
 import Audios from "./audio";
 import useSound from "use-sound";
+import { toast } from "react-toastify";
 
 function ChatBox() {
     const [userInteracted, setUserInteracted] = useState(false);
@@ -62,6 +63,7 @@ function ChatBox() {
                 play();
                 if (JSON.parse(response.body)?.type === 'NOTIFICATION') {
                     setNotifications(prev => [...prev, JSON.parse(response.body)]);
+                    toast.info(JSON.parse(response.body).content);
                     return;
                 }
                 setMessages(prevMessages => [...prevMessages, JSON.parse(response.body)]);

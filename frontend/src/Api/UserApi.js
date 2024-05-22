@@ -113,5 +113,27 @@ class UserApi {
     GetNotifications() {
         return axios.get(`${base_api}/api/user/notifications`, headers)
     }
+
+    CanccelOrder(id) {
+        return axios.put(`${base_api}/api/user/cancelOrder?orderId=${id}`, {}, headers)
+    }
+
+    GetRate(id) {
+        return axios.get(`${base_api}/api/product/rate?productId=${id}`, headers)
+    }
+    PostRate(id, rate) {
+        return axios.post(`${base_api}/api/product/rate`, { productId: id, rate: rate }, headers)
+    }
+
+    GetComments(id) {
+        return axios.get(`${base_api}/api/product/comment?productId=${id}`, headers)
+    }
+    PostComment(id, content, picture) {
+        return axios.post(`${base_api}/api/product/comment`, { productId: id, content: content, picture: picture }, headers)
+    }
+
+    FindByKeyword(keyword) {
+        return axios.get(`${base_api}/api/user/keyword?key=${keyword}&page=0&size=10`, headers)
+    }
 }
 export default new UserApi();   

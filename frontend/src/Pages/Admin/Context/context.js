@@ -6,6 +6,7 @@ import AdminApi from "../../../Api/AdminApi";
 
 import sound from './ting.mp3'
 import useSound from 'use-sound';
+import { toast } from "react-toastify";
 export const SocketContext = createContext();
 
 const { Provider } = SocketContext;
@@ -109,6 +110,7 @@ export const SocketProvider = (props) => {
                 play();
                 if (JSON.parse(response.body)?.type == 'NOTIFICATION') {
                     setNotifications(prevNotifications => [...prevNotifications, JSON.parse(response.body)]);
+                    toast.info(JSON.parse(response.body).content)
                     return;
                 }
                 if (JSON.parse(response.body)?.type == 'MESSAGE') {

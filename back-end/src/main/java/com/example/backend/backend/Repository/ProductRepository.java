@@ -2,6 +2,7 @@ package com.example.backend.backend.Repository;
 
 import com.example.backend.backend.Entity.Enum_Key.EType;
 import com.example.backend.backend.Entity.Product;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,4 +17,7 @@ public interface ProductRepository extends JpaRepository<Product,Integer> {
     List<Product> findTop12Product(Pageable pageable);
 
     List<Product> findProductByType(EType type);
+
+    Page<Product> findAllByNameContainingIgnoreCase(String keyword, Pageable pageable);
+
 }

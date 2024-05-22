@@ -16,4 +16,5 @@ public class BaseInfoProduct {
     private List<ProductImage> images;
     private int promotion;
     private String brand;
+    private float rate;
 }

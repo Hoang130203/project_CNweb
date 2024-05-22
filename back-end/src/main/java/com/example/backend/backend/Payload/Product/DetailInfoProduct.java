@@ -23,4 +23,6 @@ public class DetailInfoProduct {
     private String brand;
     private List<?> comments= new ArrayList<>();
     private List<RateReq> rates= new ArrayList<>();
+    private float rate;
+    private int saleCount;
 }

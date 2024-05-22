@@ -6,6 +6,7 @@ import com.example.backend.backend.Entity.Enum_Key.RateKey;
 import com.example.backend.backend.Payload.Product.*;
 import com.example.backend.backend.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -101,14 +102,20 @@ public class ProductServiceImpl implements ProductService {
         Optional<Rate> r= rateRepository.findById(new RateKey(product,user));
         if(r.isPresent()){
             Rate rate1= r.get();
+            product.setRate((product.getRateCount()*product.getRate()+(rate-rate1.getRate()))/product.getRateCount());
             rate1.setRate(rate);
+            productRepository.save(product);
             rateRepository.save(rate1);
             return rate1;
         }else{
             Rate rate1= new Rate(product,user,rate);
+            product.setRate((product.getRateCount()*product.getRate()+rate1.getRate())/(product.getRateCount()+1));
+            product.setRateCount(product.getRateCount()+1);
+            productRepository.save(product);
             rateRepository.save(rate1);
             return rate1;
         }
+
     }
 
     //tạo bình luận và lưu vào csdl
@@ -294,5 +301,10 @@ public class ProductServiceImpl implements ProductService {
             productImageRepository.save(productImage1);
         }
         return product.getImages();
+    }
+
+    @Override
+    public Page<Product> findAllByKeyword(String keyword, Pageable pageable) {
+        return productRepository.findAllByNameContainingIgnoreCase(keyword,pageable);
     }
 }
