@@ -6,7 +6,7 @@ import { useState } from "react";
 const getUniqueFilterValues = () => {
   const filterValues = {
     brand: new Set(),
-    rating: new Set(),
+    rate: new Set(),
   };
 
   // products.forEach((product) => {
@@ -20,11 +20,11 @@ const getUniqueFilterValues = () => {
   filterValues.brand.add('Dell');
   filterValues.brand.add('HP');
   filterValues.brand.add('Asus');
-  filterValues.rating.add(1 + ' Stars');
-  filterValues.rating.add(2 + ' Stars');
-  filterValues.rating.add(3 + ' Stars');
-  filterValues.rating.add(4 + ' Stars');
-  filterValues.rating.add(5 + ' Stars');
+  filterValues.rate.add(1 + ' sao');
+  filterValues.rate.add(2 + ' sao');
+  filterValues.rate.add(3 + ' sao');
+  filterValues.rate.add(4 + ' sao');
+  filterValues.rate.add(5 + ' sao');
 
   return filterValues;
 };
@@ -38,8 +38,8 @@ export const filters = [
   },
   {
     nameShow: 'Đánh giá',
-    name: 'Rating',
-    options: Array.from(filterValues.rating).sort(),
+    name: 'rate',
+    options: Array.from(filterValues.rate).sort(),
   },
 ];
 
