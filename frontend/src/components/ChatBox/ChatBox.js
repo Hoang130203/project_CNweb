@@ -180,19 +180,29 @@ function ChatBox() {
                 <div className="content">
                     {oldMessages.map((message, index) => (
                         (message.owner) ? (
-                            <div className="message" key={index}>
-                                <img className="avatar" src="https://www.vietnamworks.com/hrinsider/wp-content/uploads/2023/12/hinh-nen-dien-thoai-dep-danh-cho-nhung-ai-thich-phong-cach-co-trang.jpg" alt="Avatar" />
-                                <div className="text">
-                                    {message.content}
+                            <>
+                                <div className="message" key={index}>
+                                    <img className="avatar" src="https://www.vietnamworks.com/hrinsider/wp-content/uploads/2023/12/hinh-nen-dien-thoai-dep-danh-cho-nhung-ai-thich-phong-cach-co-trang.jpg" alt="Avatar" />
+                                    <div className="text">
+                                        {message.content}
+                                    </div>
                                 </div>
-                            </div>
+                                <div className="image_wrap_2" style={{ display: (message.image?.length > 6) ? '' : 'none' }}>
+                                    <img src={message.image} alt="" className="image" />
+                                </div>
+                            </>
                         ) : (
-                            <div className="message_user" key={index}>
-                                <div className="text">
-                                    {message.content}
+                            <>
+                                <div className="message_user" key={index}>
+                                    <div className="text">
+                                        {message.content}
+                                    </div>
+                                    <img className="avatar" src="https://www.w3schools.com/howto/img_avatar.png" alt="Avatar" />
                                 </div>
-                                <img className="avatar" src="https://www.w3schools.com/howto/img_avatar.png" alt="Avatar" />
-                            </div>
+                                <div className="image_wrap" style={{ display: (message.image?.length > 6) ? '' : 'none' }}>
+                                    <img src={message.image} alt="" className="image" />
+                                </div>
+                            </>
                         )
                     ))}
 

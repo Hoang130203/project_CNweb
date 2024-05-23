@@ -13,7 +13,7 @@ function OrderRow({ order }) {
     const [status, setStatus] = useState(null);
     useEffect(() => {
         setStatus(order.status);
-    }, []);
+    }, [order]);
     useEffect(() => {
     }, [status]);
     const handleStatusChange = async (e) => {

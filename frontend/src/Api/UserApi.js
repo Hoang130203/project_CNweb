@@ -8,8 +8,9 @@ export const headers = {
     },
     "Access-Control-Allow-Origin": "*",
 }
-export const base_api = 'http://localhost:8081'
+// export const base_api = 'http://localhost:8081'
 // export const base_api = 'https://blessed-absolute-dragon.ngrok-free.app'
+export const base_api = 'https://project-cnweb.onrender.com'
 
 class UserApi {
     PostImage(img) {
