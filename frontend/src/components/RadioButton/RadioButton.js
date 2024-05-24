@@ -47,7 +47,7 @@ const RadioButton = ({ type, options, onOptionChange }) => {
                         <span className={cx('radio-label')}>{option}</span>
                     </span>
                 </label>
-            ))}
+            ))}./mvnw spring-boot:run
         </div>
     );
 };
