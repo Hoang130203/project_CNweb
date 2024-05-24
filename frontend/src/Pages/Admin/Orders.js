@@ -44,7 +44,7 @@ function Orders() {
     useEffect(() => {
         AdminApi.GetAllOrders().then(res => {
             console.log(res.data);
-            setOrders(res.data?.filter(order => order.products.length !== 0));
+            setOrders(res.data?.filter(order => order.totalCost > 50000));
         })
     }, []);
 

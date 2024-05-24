@@ -87,7 +87,7 @@ function ProductDetailComponent({ product }) {
     }, [products]);
 
     return (
-        <>
+        <div className='wrap_detail'>
             <div className='image__container'>
                 <Fancybox
                     options={{
@@ -123,12 +123,13 @@ function ProductDetailComponent({ product }) {
             <div className='left__container'>
                 <h1>{product?.name}</h1>
                 <div className="product__rating">
-                    <p className='rating'>{product?.rating}</p>
+                    {product?.rate} sao
+                    <p className='rating'> {product?.rating}</p>
                     <p>
-                        {[...Array(Math.floor(product?.rating || 0))].map((_, index) => (
+                        {[...Array(Math.floor(product?.rate || 0))].map((_, index) => (
                             <IoIosStar key={index} color="#FFCB45" />
                         ))}
-                        {[...Array(5 - Math.floor(product?.rating || 0))].map((_, index) => (
+                        {[...Array(5 - Math.floor(product?.rate || 0))].map((_, index) => (
                             <IoIosStar key={index + Math.floor(product?.rating)} />
                         ))}
                     </p>
@@ -136,7 +137,7 @@ function ProductDetailComponent({ product }) {
                         {product?.rates?.length}
                         <span> đánh giá</span>
                     </p>
-                    <p className='sale__count'>{product?.salesCount || 0}
+                    <p className='sale__count'>{product?.saleCount || 0}
                         <span> đã bán</span>
                     </p>
                 </div>
@@ -193,7 +194,7 @@ function ProductDetailComponent({ product }) {
                     <Button icon={<FaCartPlus />} className='button__cart' onClick={handleAddToCart}>Thêm vào giỏ hàng</Button>
                 </div>
             </div>
-        </>
+        </div>
     );
 }
 

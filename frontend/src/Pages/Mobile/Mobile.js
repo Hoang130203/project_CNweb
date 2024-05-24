@@ -35,8 +35,8 @@ function Mobile() {
     const filteredProducts = products.filter((product) => {
         for (const [filterName, options] of Object.entries(selectedOptions)) {
             const filterNameLower = filterName.toLowerCase();
-            if (filterNameLower === 'rating') {
-                if (options.length > 0 && !options.includes(product[filterNameLower].toString() + ' Stars')) {
+            if (filterNameLower === 'rate') {
+                if (options.length > 0 && !options.includes(Math.round(product[filterNameLower]).toString() + ' sao')) {
                     return false;
                 }
             } else if (filterNameLower === 'brand') {
@@ -77,7 +77,7 @@ function Mobile() {
     return (
         <div className={cx('product__page')}>
             <div className={cx('filter__side')}>
-                <div className={cx('filterSort__title')}>
+                <div className={cx('filterSort__title')} style={{ color: '#2260ff', fontSize: '32px' }}>
                     <FaFilter />
                     Bộ lọc
                 </div>
@@ -91,7 +91,7 @@ function Mobile() {
             </div>
             <div className={cx('wrapper')}>
                 <div className={cx('sort__title')}>
-                    <h3>Sắp xếp theo</h3>
+                    <h3 style={{ color: '#2260ff', fontSize: '32px' }}>Sắp xếp theo</h3>
                 </div>
                 <Sort sortType={sortType} onSortTypeChange={handleSortTypeChange} />
                 <div className={cx('item__container')} >
@@ -104,6 +104,7 @@ function Mobile() {
                             discount={product.promotion > 0 ? 'Giảm ' + product.promotion + '%' : null}
                             oldPrice={product.cost}
                             newPrice={product.newPrice}
+                            rating={product.rate}
                         />
                     ))}
                 </div>

@@ -7,25 +7,6 @@ import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-// Fake comments
-function emitComment(id) {
-
-  setInterval(() => {
-    window.dispatchEvent(
-      new CustomEvent(`product-${id}`, {
-        detail: `Nội dung comment của product ${id}`
-      })
-    )
-  }, 2000)
-
-}
-
-emitComment(1);
-emitComment(2);
-emitComment(3);
-emitComment(4);
-emitComment(5);
-
 root.render(
   <React.StrictMode>
     <App />

@@ -47,7 +47,7 @@ const Filter = ({ selectedOptions, setSelectedOptions, MIN, MAX, handlePriceRang
             <div className={cx('filter-sidebar')}>
                 {filters.map((filter) => (
                     <div key={filter.name} className={cx('filter-group')}>
-                        <h3 className={cx('filter-title')}>{filter.nameShow}</h3>
+                        <h3 className={cx('filter-title')} style={{ color: '#61c3ff', fontSize: '32px' }}>{filter.nameShow}</h3>
                         <ul className={cx('filter-options')}>
                             {filter.options.map((option) => (
                                 <li key={option}

@@ -103,7 +103,7 @@ function Chats() {
     return (
         <div className="wrap_chatpage" style={{ position: 'relative', padding: '30px' }}>
             <div className="sidebar">
-                <div className="header">
+                <div className="ad_header">
                     <h3 className="title">Chat</h3>
                     <div className="search">
                         <input type="text" placeholder="Tìm kiếm" />
@@ -131,7 +131,7 @@ function Chats() {
                 </div>
             </div>
             <div className="content" style={{ display: currentTopic.topic ? 'block' : 'none' }}>
-                <div className="header">
+                <div className="ad_header">
 
                     <div className="info">
                         <img className="avatar" src={(currentTopic.avatar && (currentTopic.avatar?.length > 10)) ? currentTopic.avatar : "https://picsum.photos/200"} alt="" />

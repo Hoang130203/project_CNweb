@@ -31,14 +31,14 @@ function PriceRange({ min, max, onPriceRangeChange }) {
   return (
     <div className="price__range">
       <div className='price__title'>
-      <h3>Giá</h3>
-      {(hasChanged)&& (
-               <Button 
-                    children={'X'} 
-                    onClick={handleClearFilters} 
-                    className='delete-button'
-                />
-            )}
+        <h3 style={{ color: '#61c3ff' }}>Giá</h3>
+        {(hasChanged) && (
+          <Button
+            children={'X'}
+            onClick={handleClearFilters}
+            className='delete-button'
+          />
+        )}
       </div>
       <div className="price__label">
         {formatPrice(Math.ceil(value[0] / 10000) * 10000)} - {formatPrice(Math.floor(value[1] / 10000) * 10000)}

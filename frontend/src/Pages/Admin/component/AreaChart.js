@@ -1,90 +1,107 @@
 import React from "react";
 import Chart from "react-apexcharts";
 
-const state = [
-    {
-        name: "Điện thoại",
-        data: [31, 40, 28, 51, 42, 109, 100, 90],
-    },
-    {
-        name: "Laptop",
-        data: [11, 32, 45, 32, 34, 52, 41, 39],
-    },
-    {
-        name: 'Đồng hồ',
-        data: [20, 35, 45, 25, 30, 50, 40, 30]
-    },
-    {
-        name: 'Phụ kiện',
-        data: [15, 25, 35, 20, 25, 40, 30, 20]
-    }
-];
+const transformDashboardData = (dashboard) => {
+    const categories = ['1/2024', '2/2024', '3/2024', '4/2024', '5/2024', '6/2024'];
 
-const options = {
-    chart: {
-        type: "area",
-        animations: {
-            easing: "linear",
-            speed: 300,
-        },
-        sparkline: {
-            enabled: false,
-        },
-        brush: {
-            enabled: false,
-        },
-        id: "basic-bar",
-        foreColor: "#fff",
-        stacked: true,
-        toolbar: {
-            show: false,
-        },
-    },
-    xaxis: {
-        categories: ['9/2023', '10/2023', '11/2023', '12/2023', '1/2024', '2/2024', '3/2024', '4/2024'],
-        labels: {
-            style: {
-                colors: "#fff",
-            },
-        },
-        axisBorder: {
-            color: "#fff",
-        },
-        axisTicks: {
-            color: "#fff",
-        },
-    },
-    yaxis: {
-        labels: {
-            style: {
-                colors: "#fff",
-            },
-        },
-    },
-    tooltip: {
-        enabled: false,
-    },
-    grid: {
-        show: true,
-        borderColor: "hsl(var(--nextui-default-200))",
-        strokeDashArray: 0,
-        position: "back",
-    },
-    stroke: {
-        curve: "smooth",
-        fill: {
-            colors: ["red"],
-        },
-    },
-    markers: false,
+    // Khởi tạo đối tượng để chứa tổng chi phí cho từng loại sản phẩm qua các tháng
+    const productTotals = {
+        "MOBILE": [0, 0, 0, 0, 0, 0],
+        "LAPTOP": [0, 0, 0, 0, 0, 0],
+        "WATCH": [0, 0, 0, 0, 0, 0],
+        "ACCESSORY": [0, 0, 0, 0, 0, 0]
+    };
+
+    // Gán dữ liệu từ dashboard vào productTotals
+    for (let i = 1; i <= 6; i++) {
+        const key = `listmonths${i}`;
+        if (dashboard[key]) {
+            dashboard[key].forEach(([type, total]) => {
+                if (productTotals[type]) {
+                    productTotals[type][i - 1] = parseInt(Math.round(total / 1000000));
+                }
+            });
+        }
+    }
+
+    // Chuyển đổi productTotals thành định dạng series cho react-apexcharts
+    const series = Object.keys(productTotals).map(product => ({
+        name: product,
+        data: productTotals[product]
+    }));
+
+    return {
+        categories,
+        series
+    };
 };
 
-export const AreaChart = () => {
+export const AreaChart = ({ dashboard }) => {
+    const { categories, series } = transformDashboardData(dashboard ? dashboard : {});
+
+    const options = {
+        chart: {
+            type: "area",
+            animations: {
+                easing: "linear",
+                speed: 300,
+            },
+            sparkline: {
+                enabled: false,
+            },
+            brush: {
+                enabled: false,
+            },
+            id: "basic-bar",
+            foreColor: "#fff",
+            stacked: true,
+            toolbar: {
+                show: false,
+            },
+        },
+        xaxis: {
+            categories,
+            labels: {
+                style: {
+                    colors: "#fff",
+                },
+            },
+            axisBorder: {
+                color: "#fff",
+            },
+            axisTicks: {
+                color: "#fff",
+            },
+        },
+        yaxis: {
+            labels: {
+                style: {
+                    colors: "#fff",
+                },
+            },
+        },
+        tooltip: {
+            enabled: false,
+        },
+        grid: {
+            show: true,
+            borderColor: "hsl(var(--nextui-default-200))",
+            strokeDashArray: 0,
+            position: "back",
+        },
+        stroke: {
+            curve: "smooth",
+            fill: {
+                colors: ["red"],
+            },
+        },
+        markers: false,
+    };
     return (
         <>
             <div style={{ color: '#fff' }}>
                 <div id="chart">
-                    <Chart options={options} series={state} type="area" height={425} />
+                    <Chart options={options} series={series} type="area" height={425} />
                 </div>
             </div>
         </>

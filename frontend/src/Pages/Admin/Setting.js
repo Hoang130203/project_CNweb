@@ -1,28 +1,32 @@
 import { useState } from 'react';
 import './css/setting.css'
 import { toast } from 'react-toastify';
+import UserApi from '../../Api/UserApi';
 function Setting() {
     const [username, setUsername] = useState("admin");
     const [password, setPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmNewPassword, setConfirmNewPassword] = useState("");
 
+    const handleSavePassword = async () => {
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Kiểm tra xác thực mật khẩu hiện tại
-        if (password !== "admin123") {
-            toast.error("Mật khẩu không đúng");
-            return;
-        }
-        // Kiểm tra mật khẩu mới và xác nhận mật khẩu mới
+        // Sau khi đổi mật khẩu thành công, đóng popup
+
+    }
+    const handleSubmit = () => {
         if (newPassword !== confirmNewPassword) {
             toast.error("Mật khẩu mới không khớp");
             return;
         }
-        // Thực hiện cập nhật mật khẩu
-        toast.success("Đổi mật khẩu thành công");
-        setPassword(newPassword);
+        // Xử lý logic đổi mật khẩu
+        UserApi.ChangePassword(password, newPassword).then(res => {
+            console.log(res.data);
+            if (res.data == newPassword) {
+                toast.success("Đổi mật khẩu thành công");
+            } else {
+                toast.error("Sai mật khẩu cũ");
+            }
+        });
     };
 
     return (
@@ -33,7 +37,7 @@ function Setting() {
                     <h3>Thông tin tài khoản</h3>
                     <p>Tên đăng nhập: {username}</p>
                 </div>
-                <form onSubmit={handleSubmit}>
+                <div >
                     <h3>Đổi mật khẩu</h3>
                     <div>
                         <label>Mật khẩu hiện tại:</label>
@@ -59,8 +63,8 @@ function Setting() {
                             onChange={(e) => setConfirmNewPassword(e.target.value)}
                         />
                     </div>
-                    <button type="submit">Đổi mật khẩu</button>
-                </form>
+                    <button onClick={handleSubmit}>Đổi mật khẩu</button>
+                </div>
             </div>
         </div>
     );

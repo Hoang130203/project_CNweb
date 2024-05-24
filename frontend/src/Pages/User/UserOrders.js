@@ -8,9 +8,128 @@ import UserApi from '../../Api/UserApi';
 import styles1 from '../Cart/Checkout.module.scss'
 import { toast } from 'react-toastify';
 import { motion } from "framer-motion"
+import { MdOutlineStar } from "react-icons/md";
 
 const cx = classNames.bind(styles);
 const cx1 = classNames.bind(styles1);
+
+function CommentPopup({ product, setShow }) {
+  const [comment, setComment] = useState('');
+  const [oldComments, setOldComments] = useState([]);
+  const [picture, setPicture] = useState('');
+  const [file, setFile] = useState();
+  useEffect(() => {
+    UserApi.GetComments(product.product?.id).then((response) => {
+      console.log(response.data);
+      setOldComments(response.data);
+    }).catch((error) => {
+      console.log('Lấy bình luận thất bại hoặc do chưa có bình luận nào');
+      console.log(error);
+    });
+  }, [product]);
+  const handleSubmit = async () => {
+    if (comment == '') {
+      toast.error('Vui lòng nhập bình luận');
+      return;
+    }
+    let picture = '';
+    if (file) {
+      await UserApi.PostImage(file).then((response) => {
+        console.log('Upload ảnh thành công');
+        console.log(response.data);
+        picture = response.data?.url;
+      }).catch((error) => {
+        console.log('Upload ảnh thất bại');
+        console.log(error);
+        toast.error('Upload ảnh thất bại');
+      }
+      );
+    }
+    await UserApi.PostComment(product.product?.id, comment, picture).then((response) => {
+      console.log('Bình luận thành công');
+      toast.success('Bình luận thành công');
+      setShow();
+    }).catch((error) => {
+      console.log('Bình luận thất bại');
+      console.log(error);
+      toast.error('Bình luận thất bại');
+    });
+  }
+  const handleClose = () => {
+    setShow();
+  }
+  return (
+    <div className={cx('comment__popup')} onClick={() => { handleClose() }}>
+      <div className={cx('comment__popup__content')} onClick={(e) => { e.stopPropagation() }}>
+        <h1>Các bình luận trước</h1>
+        <div className={cx('comment__popup__comments')}>
+          {oldComments?.map((comment, index) => (
+            <div key={index} className={cx('comment__popup__comment')}>
+              <p>{comment.content}</p>
+              <p>{comment.time}</p>
+              {comment.picture && <img src={comment.picture} alt='comment' style={{ height: '100px' }} />}
+            </div>
+          ))}
+        </div>
+        <h1>Bình luận sản phẩm {product.product?.name}</h1>
+        <textarea className={cx('comment__popup__textarea')} placeholder='Nhập bình luận' value={comment} onChange={(e) => setComment(e.target.value)}></textarea>
+        <input type='file' onChange={(e) => { if (!e.target.files[0]) { setFile(null); setPicture(null); return; } setFile(e.target.files[0]); setPicture(URL.createObjectURL(e.target.files[0])) }} />
+        <div>
+          {picture && <img src={picture} alt='preview' style={{ height: '100px' }} />}
+        </div>
+        <button className={cx('comment__popup__button__submit')} onClick={() => { handleSubmit() }}>Bình luận</button>
+      </div>
+    </div>
+  )
+}
+
+
+function RatePopup({ product, setShow }) {
+  const [rate, setRate] = useState(0);
+  useEffect(() => {
+    UserApi.GetRate(product.product?.id).then((response) => {
+      console.log(response.data);
+      setRate(response.data.rate);
+    }).catch((error) => {
+      console.log('Lấy đánh giá thất bại hoặc do chưa có đánh giá nào');
+      console.log(error);
+    });
+  }, [product]);
+  const handleSubmit = async () => {
+    if (rate == 0) {
+      toast.error('Vui lòng chọn số sao');
+      return;
+    }
+    await UserApi.PostRate(product.product?.id, rate).then((response) => {
+      console.log('Đánh giá thành công');
+      toast.success('Đánh giá thành công');
+      setShow();
+    }).catch((error) => {
+      console.log('Đánh giá thất bại');
+      console.log(error);
+      toast.error('Đánh giá thất bại');
+    });
+  }
+  const handleClose = () => {
+    setShow();
+  }
+  return (
+    <div className={cx('rate__popup')} onClick={() => { handleClose() }}>
+      <div className={cx('rate__popup__content')} onClick={(e) => { e.stopPropagation() }}>
+        <h1>Đánh giá sản phẩm {product.product?.name}</h1>
+        <div className={cx('rate__popup__stars')}>
+          {rate} sao
+          {[1, 2, 3, 4, 5].map((star) => (
+            <div key={star} className={cx('rate__popup__star', { 'active': star <= rate })} onClick={() => setRate(star)}>
+              <MdOutlineStar className={cx('.rate__popup__star__icon ')} />
+            </div>
+          ))}
+        </div>
+        <button className={cx('rate__popup__button__submit')} onClick={() => { handleSubmit() }}>Đánh giá</button>
+      </div>
+    </div>
+  )
+}
 function TotalMoney({ order }) {
 
   const product = products[0]
@@ -19,7 +138,17 @@ function TotalMoney({ order }) {
     return formattedPrice;
   };
   //test 2
+  const handleCancel = async () => {
+    await UserApi.CanccelOrder(order.id).then((response) => {
 
+      toast.success('Hủy đơn hàng thành công');
+      window.location.reload();
+    }).catch((error) => {
+      console.log('Hủy đơn hàng thất bại');
+      console.log(error);
+      toast.error('Hủy đơn hàng thất bại');
+    });
+  }
   return (
     <div>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
@@ -35,7 +164,7 @@ function TotalMoney({ order }) {
         </div>
 
         <div style={{ marginTop: '18px' }}>
-          <button style={{ border: 'none', margin: '0px 0px 0px 0px', backgroundColor: 'rgb(226, 58, 58)', color: 'white', borderRadius: '6px', width: '150px', height: '35px', fontSize: '16px' }}>Hủy đơn hàng</button>
+          {order.status == 'CANCELLED' ? <span style={{ color: 'red' }}>Đã hủy</span> : order.status == 'SUCCESS' ? <span style={{ color: 'green' }}>Đã hoàn thành</span> : <button style={{ border: 'none', margin: '0px 0px 0px 0px', backgroundColor: 'rgb(226, 58, 58)', color: 'white', borderRadius: '6px', width: '150px', height: '35px', fontSize: '16px' }} onClick={handleCancel}> Hủy đơn hàng</button>}
         </div>
       </div>
     </div>
@@ -47,9 +176,16 @@ function Product({ product }) {
     const formattedPrice = Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
     return formattedPrice;
   };
-
+  const [show, setShow] = useState(false);
+  const [showComment, setShowComment] = useState(false);
   return (
     <div>
+      {
+        show && <RatePopup product={product} setShow={() => setShow(false)} />
+      }
+      {
+        showComment && <CommentPopup product={product} setShow={() => setShowComment(false)} />
+      }
       <div style={{ display: 'flex' }}>
         <div style={{ flex: '0.2' }}>
           <img alt='Product' style={{ width: '170px' }} src={product?.product?.images[0]?.url || 'https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/l/a/laptop-asus-vivobook-s-14-flip-tp3402va-lz025w-thumbnails.png'} />
@@ -67,8 +203,8 @@ function Product({ product }) {
         </div>
       </div>
       <div style={{ margin: '15px 0px 0px 0px' }}>
-        <button style={{ border: 'none', margin: '0px 0px 0px 520px', backgroundColor: 'rgb(226, 58, 58)', color: 'white', borderRadius: '6px', width: '150px', height: '35px', fontSize: '16px' }}>Đánh giá</button>
-        <button style={{ border: 'none', margin: '0px 0px 0px 10px', backgroundColor: 'rgb(81, 191, 228)', color: 'white', borderRadius: '6px', width: '150px', height: '35px', fontSize: '16px' }}>Bình luận</button>
+        <button style={{ border: 'none', margin: '0px 0px 0px 520px', backgroundColor: 'rgb(226, 58, 58)', color: 'white', borderRadius: '6px', width: '150px', height: '35px', fontSize: '16px' }} onClick={() => { setShow(true) }}>Đánh giá</button>
+        <button style={{ border: 'none', margin: '0px 0px 0px 10px', backgroundColor: 'rgb(81, 191, 228)', color: 'white', borderRadius: '6px', width: '150px', height: '35px', fontSize: '16px' }} onClick={() => { setShowComment(true) }}>Bình luận</button>
       </div>
 
       <hr style={{ borderTop: '2px solid #B6B6B6', width: 'auto', margin: '18px 0px 0px 0px' }} />
@@ -97,7 +233,7 @@ function Order({ order }) {
   }
 
   return (
-    <div className={cx1('order')}>
+    <div className={cx1('order')} style={{ margin: '50px 0px' }}>
       <motion.div animate={{ opacity: show ? 1 : 0, transition: { duration: 0.5 } }}
       >
         {show && <div className={cx1('pop-up')} onClick={() => { setShow(false) }}>
@@ -122,7 +258,7 @@ function Order({ order }) {
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <p style={{}}>Trạng thái:</p>
           <span style={{ marginRight: '5px' }}></span>
-          <p style={{ color: '#888080' }}>{order.status == null ? 'Chờ xác nhận' : order.status == 'CONFIRMED' ? 'Đã xác nhận' : 'Thành công'}</p>
+          <p style={{ color: '#888080' }}>{order.status == null ? 'Chờ xác nhận' : order.status == 'CONFIRMED' ? 'Đã xác nhận' : order.status == 'SENDING' ? 'Đang vận chuyển' : order.status == 'CANCELLED' ? 'Đã hủy' : 'Thành công'}</p>
         </div>
       </div>
       {(order.payments == false && order.paymentStatus == false)

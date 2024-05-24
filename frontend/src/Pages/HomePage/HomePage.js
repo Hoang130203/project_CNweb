@@ -8,6 +8,7 @@ import CardProduct from '../../components/CardProduct/CardProduct';
 // import products from '../../components/ProductData/ProductData';
 import { useEffect, useState } from 'react';
 import UserApi from '../../Api/UserApi';
+import { Link } from 'react-router-dom';
 
 
 const cx = classNames.bind(styles);
@@ -26,20 +27,28 @@ function HomePage() {
             </h1>
             <div className={cx('option')} >
                 <div className={cx('option__item')} >
-                    <img src={phoneImg} alt='option' />
-                    <h3>Điện Thoại</h3>
+                    <Link to='/mobile' style={{ textDecoration: 'none' }}>
+                        <img src={phoneImg} alt='option' />
+                        <h3>Điện Thoại</h3>
+                    </Link>
                 </div>
                 <div className={cx('option__item')} >
-                    <img src={laptopImg} alt='option' />
-                    <h3>Laptop</h3>
+                    <Link to='/laptop' style={{ textDecoration: 'none' }}>
+                        <img src={laptopImg} alt='option' />
+                        <h3>Laptop</h3>
+                    </Link>
                 </div>
                 <div className={cx('option__item')} >
-                    <img src={watchImg} alt='option' />
-                    <h3>Đồng Hồ</h3>
+                    <Link to='/watch' style={{ textDecoration: 'none' }}>
+                        <img src={watchImg} alt='option' />
+                        <h3>Đồng Hồ</h3>
+                    </Link>
                 </div>
                 <div className={cx('option__item')} >
-                    <img src={accessoryImg} alt='option' />
-                    <h3>Phụ Kiện</h3>
+                    <Link to='/accessory' style={{ textDecoration: 'none' }}>
+                        <img src={accessoryImg} alt='option' />
+                        <h3>Phụ Kiện</h3>
+                    </Link>
                 </div>
             </div>
             <div className={cx('item__container')} >
@@ -54,6 +63,7 @@ function HomePage() {
                             discount={product.promotion > 0 ? 'Giảm ' + product.promotion + '%' : null}
                             oldPrice={product.promotion > 0 ? product.cost : null}
                             newPrice={product.cost - product.cost * product.promotion / 100}
+                            rating={product.rate}
                         />
                     ))}
                 </div>

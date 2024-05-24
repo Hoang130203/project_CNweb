@@ -46,5 +46,8 @@ class AdminApi {
     DeleteNotification(id) {
         return axios.delete(`${base_api}/api/admin/notification?id=${id}`, headers)
     }
+    DashBoard() {
+        return axios.get(`${base_api}/api/admin/dasboard`, headers)
+    }
 }
 export default new AdminApi();
