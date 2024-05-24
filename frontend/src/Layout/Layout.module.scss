@@ -349,3 +349,14 @@
         z-index: 1;
     }
 }
+
+.bg_content {
+    background: linear-gradient(0deg, #e8eeef0c 40%, #e8eeefec);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: -1;
+    top: 0px;
+    left: 0;
+    right: 0;
+}
