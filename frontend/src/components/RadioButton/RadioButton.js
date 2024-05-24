@@ -5,7 +5,7 @@ import { FaSortAmountDown } from "react-icons/fa";
 import { FaSortAmountDownAlt } from "react-icons/fa";
 import { MdFiberNew } from "react-icons/md";
 import { MdOutlineSell } from "react-icons/md";
-import {useState} from 'react';
+import { useState } from 'react';
 
 
 
@@ -22,11 +22,11 @@ const RadioButton = ({ type, options, onOptionChange }) => {
     return (
         <div className={cx('radio-inputs')}>
             {options.map((option) => (
-                <label 
+                <label
                     key={option}
                     className={
-                        cx('radio-label', 
-                        { 'radio-label--selected': selectedOption === option })}
+                        cx('radio-label',
+                            { 'radio-label--selected': selectedOption === option })}
                     onClick={() => onOptionChange(option)}
                 >
                     <input
@@ -41,13 +41,13 @@ const RadioButton = ({ type, options, onOptionChange }) => {
                             {option === 'Giá thấp - cao' && <FaSortAmountDown />}
                             {option === 'Giá cao - thấp' && <FaSortAmountDownAlt />}
                             {option === 'Mới nhất' && <MdFiberNew />}
-                            {option === 'Bán chạy' && <MdOutlineSell  />}
+                            {option === 'Bán chạy' && <MdOutlineSell />}
                             {/* Add more conditions for other options */}
                         </span>
                         <span className={cx('radio-label')}>{option}</span>
                     </span>
                 </label>
-            ))}./mvnw spring-boot:run
+            ))}
         </div>
     );
 };
