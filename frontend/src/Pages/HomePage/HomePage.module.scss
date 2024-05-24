@@ -4,12 +4,11 @@
     height: 100%;
     margin: 0 auto;
     position: relative;
-    width: 1300px;
-
+    padding: 0px 20px;
 
     h1 {
         width: 544px;
-        height: 188px;
+        height: auto;
         top: 40px;
         left: 198px;
         gap: 0px;
@@ -19,7 +18,8 @@
         line-height: 121.92px;
         text-align: left;
         color: #230A6A;
-        margin: 100px 0;
+        margin: 70px 0;
+        margin-top: 100px;
     }
 
     .option {
@@ -43,6 +43,7 @@
                 font-weight: 400;
                 font-size: 36px;
                 margin-top: 10px;
+                color: black;
             }
         }
     }
@@ -62,10 +63,55 @@
     }
 }
 
-@media only screen and (max-width: 1499px) {
+@media (max-width: 1499px) {
     .homepage {
         max-width: 1500px !important;
         padding: 0 10px;
         width: 100% !important;
     }
+}
+
+@media (max-width: 1000px) {
+    .homepage {
+        width: 100%;
+
+        h1 {
+            width: 75%;
+            font-size: 74px;
+            line-height: 100.92px;
+            margin-bottom: 20px;
+        }
+
+        .option {
+            .option__item {
+                h3 {
+                    font-size: 24px;
+                }
+            }
+        }
+    }
+
+}
+
+@media (max-width: 500px) {
+    .homepage {
+        width: 100%;
+
+        h1 {
+            width: 75%;
+            line-height: 80.92px;
+            font-size: 56px;
+        }
+
+        .option {
+            margin-top: 0px;
+
+            .option__item {
+                h3 {
+                    font-size: 16px;
+                }
+            }
+        }
+    }
+
 }
