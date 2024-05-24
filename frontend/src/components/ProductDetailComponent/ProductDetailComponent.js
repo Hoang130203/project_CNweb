@@ -87,7 +87,7 @@ function ProductDetailComponent({ product }) {
     }, [products]);
 
     return (
-        <div className='wrap_detail'>
+        <>
             <div className='image__container'>
                 <Fancybox
                     options={{
@@ -194,7 +194,7 @@ function ProductDetailComponent({ product }) {
                     <Button icon={<FaCartPlus />} className='button__cart' onClick={handleAddToCart}>Thêm vào giỏ hàng</Button>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
 
