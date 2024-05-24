@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.time.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -30,14 +31,18 @@ public class ProductServiceImpl implements ProductService {
     private final ProductImageRepository productImageRepository;
     private final ColorRepository colorRepository;
     private final SizeRepository sizeRepository;
+    private final OrderRepository orderRepository;
+    private final ProductOrderRepository productOrderRepository;
     private final ProductQuantityRepository productQuantityRepository;
-    public ProductServiceImpl(UserRepository userRepository, RateRepository rateRepository, CommentRepository commentRepository, ProductImageRepository productImageRepository, ColorRepository colorRepository, SizeRepository sizeRepository, ProductQuantityRepository productQuantityRepository) {
+    public ProductServiceImpl(UserRepository userRepository, RateRepository rateRepository, CommentRepository commentRepository, ProductImageRepository productImageRepository, ColorRepository colorRepository, SizeRepository sizeRepository, OrderRepository orderRepository, ProductOrderRepository productOrderRepository, ProductQuantityRepository productQuantityRepository) {
         this.userRepository = userRepository;
         this.rateRepository = rateRepository;
         this.commentRepository = commentRepository;
         this.productImageRepository = productImageRepository;
         this.colorRepository = colorRepository;
         this.sizeRepository = sizeRepository;
+        this.orderRepository = orderRepository;
+        this.productOrderRepository = productOrderRepository;
         this.productQuantityRepository = productQuantityRepository;
     }
 
@@ -306,5 +311,54 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<Product> findAllByKeyword(String keyword, Pageable pageable) {
         return productRepository.findAllByNameContainingIgnoreCase(keyword,pageable);
+    }
+
+    @Override
+    public long countOrdersToday() {
+        LocalDate today = LocalDate.now();
+        LocalDateTime startOfDay = today.atStartOfDay();
+        LocalDateTime endOfDay = today.atTime(LocalTime.MAX);
+
+        return orderRepository.countOrdersToday(Timestamp.valueOf(startOfDay), Timestamp.valueOf(endOfDay));
+    }
+
+    @Override
+    public Long totalCostToday() {
+        LocalDate today = LocalDate.now();
+        LocalDateTime startOfDay = today.atStartOfDay();
+        LocalDateTime endOfDay = today.atTime(LocalTime.MAX);
+
+        return orderRepository.getTotalCostToday(Timestamp.valueOf(startOfDay), Timestamp.valueOf(endOfDay)); }
+
+    @Override
+    public long countOrdersThisWeek() {
+        LocalDate today = LocalDate.now();
+        LocalDate startOfWeekDate = today.minusDays(6); // 7 ngày bao gồm hôm nay
+        LocalDateTime startOfWeek = startOfWeekDate.atStartOfDay();
+        LocalDateTime endOfDay = today.atTime(LocalTime.MAX);
+
+        return orderRepository.countOrdersThisWeek(Timestamp.valueOf(startOfWeek), Timestamp.valueOf(endOfDay));
+    }
+
+    @Override
+    public Long totalCostThisWeek() {
+        LocalDate today = LocalDate.now();
+        LocalDate startOfWeekDate = today.minusDays(6); // Tính từ 7 ngày trước
+        LocalDateTime startOfWeek = startOfWeekDate.atStartOfDay();
+        LocalDateTime endOfDay = today.atTime(LocalTime.MAX);
+
+        return orderRepository.getTotalCostLast7Days(Timestamp.valueOf(startOfWeek), Timestamp.valueOf(endOfDay));
+    }
+
+    @Override
+    public List<Object[]> findallCostMonth(int month) {
+        LocalDateTime now = LocalDateTime.now();
+        YearMonth currentYearMonth = YearMonth.of(now.getYear(), month);
+        LocalDateTime startOfMonth = currentYearMonth.atDay(1).atStartOfDay();
+        LocalDateTime startOfNextMonth = currentYearMonth.plusMonths(1).atDay(1).atStartOfDay();
+
+        return productOrderRepository.findTotalCostOfMobileProductsLast6Months(
+                Timestamp.valueOf(startOfMonth),
+                Timestamp.valueOf(startOfNextMonth));
     }
 }

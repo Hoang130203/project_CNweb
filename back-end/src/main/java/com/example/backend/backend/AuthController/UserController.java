@@ -157,6 +157,7 @@ public class UserController {
                 .getPrincipal();
         User user= userService.getById(getUserId(userDetails))
                 .orElseThrow(()-> new RuntimeException("user not found"));
+        if(user.isHasProvider()){return ResponseEntity.ok(newPass);}
         System.out.println(oldPass);
         if(passwordEncoder.matches(oldPass,user.getPassword())){
             System.out.println("change");

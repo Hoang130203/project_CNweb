@@ -24,4 +24,9 @@ public interface ProductService {
     List<ProductQuantity> putQuantity(ProductQuantityChange productQuantityChange);
     List<ProductImage> putImages(ImageChangeReq imageChangeReq);
     Page<Product> findAllByKeyword(String keyword, Pageable pageable);
+    long countOrdersToday();
+    Long totalCostToday();
+    long countOrdersThisWeek();
+    Long totalCostThisWeek();
+    List<Object[]> findallCostMonth(int  month);
 }

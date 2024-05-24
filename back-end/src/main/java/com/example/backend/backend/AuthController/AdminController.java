@@ -5,6 +5,8 @@ import com.example.backend.backend.Entity.Notification;
 import com.example.backend.backend.Entity.Order;
 import com.example.backend.backend.Entity.Transaction;
 import com.example.backend.backend.Entity.User;
+import com.example.backend.backend.Payload.Dashboard.DashQuantity;
+import com.example.backend.backend.Payload.Dashboard.Dashboard;
 import com.example.backend.backend.Payload.Order.OrderInfoAdmin;
 import com.example.backend.backend.Payload.Product.*;
 import com.example.backend.backend.Payload.Response.NotificationMessage;
@@ -172,4 +174,20 @@ public class AdminController {
         notificationRepository.delete(notification);
         return ResponseEntity.ok("deleted");
     }
+
+    @GetMapping("/dasboard")
+    public ResponseEntity<?> getDashBoard(){
+        Dashboard dashboard= new Dashboard();
+        dashboard.setToday(new DashQuantity(productService.totalCostToday(),productService.countOrdersToday()));
+        dashboard.setThisWeek(new DashQuantity(productService.totalCostThisWeek(),productService.countOrdersThisWeek()));
+        dashboard.setListmonths1(productService.findallCostMonth(1));
+        dashboard.setListmonths2(productService.findallCostMonth(2));
+        dashboard.setListmonths3(productService.findallCostMonth(3));
+        dashboard.setListmonths4(productService.findallCostMonth(4));
+        dashboard.setListmonths5(productService.findallCostMonth(5));
+        dashboard.setListmonths6(productService.findallCostMonth(6));
+
+        return ResponseEntity.ok(dashboard);
+    }
+
 }
