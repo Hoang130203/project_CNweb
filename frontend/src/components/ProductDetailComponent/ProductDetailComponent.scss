@@ -1,5 +1,15 @@
+.wrap_detail {
+  display: flex;
+
+  @media (max-width: 1000px) {
+    flex-direction: column;
+
+  }
+}
+
 .image__container {
   width: 50%;
+  max-height: 700px;
 
   .f-carousel {
     max-width: 90%;
@@ -32,8 +42,9 @@
   justify-content: center;
 
   img {
-    width: 100%;
-    height: auto;
+    max-width: 700px;
+    height: 400px;
+    object-fit: cover;
   }
 }
 
@@ -51,9 +62,11 @@
       font-size: 18px;
       margin-right: 5px;
     }
+
     .rating {
       color: #FFCB45;
     }
+
     .rate__total {
       font-size: 18px;
       color: #000;
