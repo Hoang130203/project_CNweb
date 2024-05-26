@@ -12,6 +12,7 @@ import { SiAdminer } from "react-icons/si";
 import { IoMdLogOut } from "react-icons/io";
 import { useContext, useEffect, useState } from 'react';
 import { SocketContext } from '../../../Pages/Admin/Context/context';
+import { RiLiveFill } from "react-icons/ri";
 
 const cx = classNames.bind(styles);
 function SideBar() {
@@ -56,6 +57,9 @@ function SideBar() {
                         Chat
                         <div className={cx('notification')} style={{ display: showMessageNotification ? '' : 'none' }}></div>
                     </NavLink>
+                    <NavLink to="/admin/livestream" className={(nav) => cx('nav_item', { active: nav.isActive })}>
+                        <RiLiveFill style={{ marginRight: '5px' }} />
+                        Live stream</NavLink>
                     <NavLink to="/admin/notification" className={(nav) => cx('nav_item', { active: nav.isActive })}>
                         <MdOutlineNotificationsActive style={{ marginRight: '5px' }} />
                         Thông báo</NavLink>

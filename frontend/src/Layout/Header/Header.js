@@ -5,6 +5,7 @@ import { useState, useEffect, useContext } from 'react';
 import { NotificationContext } from '../../Pages/ContextOrder/NotificationContext';
 import UserApi from '../../Api/UserApi';
 import { FaShoppingCart } from "react-icons/fa";
+import { MdLiveTv } from "react-icons/md";
 
 import { FaBell, FaUser, FaSearch, FaBars } from 'react-icons/fa';
 
@@ -205,6 +206,9 @@ function Header() {
                   </div>
                 }
               </div>
+              <Link to='/livestream'>
+                <MdLiveTv style={{ fontSize: '28px', color: 'red' }} />
+              </Link>
               <Link to='/shoppingList'>
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 50 54" fill="none">
                   <path d="M12.5 4.5L6.25 13.5V45C6.25 46.1935 6.68899 47.3381 7.47039 48.182C8.25179 49.0259 9.3116 49.5 10.4167 49.5H39.5833C40.6884 49.5 41.7482 49.0259 42.5296 48.182C43.311 47.3381 43.75 46.1935 43.75 45V13.5L37.5 4.5H12.5Z" stroke="#6B6B6B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />

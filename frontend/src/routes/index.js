@@ -25,6 +25,8 @@ import ShoppingList from '../Pages/ShoppingList/ShoppingList';
 
 import CartLayout from '../Layout/CartLayout/CartLayout';
 import Checkout from '../Pages/Cart/Checkout';
+import LiveStream from '../Pages/Admin/LiveStream';
+import WatchLive from '../Pages/LiveStream/WatchLive';
 
 const publicRoutes = [
     { path: '/', component: HomePage },
@@ -36,6 +38,7 @@ const publicRoutes = [
     { path: '/laptop', component: LaptopPage },
     { path: '/shoppingList', component: ShoppingList },
     { path: '/watch', component: WatchPage },
+    { path: '/livestream', component: WatchLive },
     { path: '/product-detail/:id', component: ProductDetailPage },
     { path: '/user/profile', component: UserProfile, layout: UserLayout },
     { path: '/user/profile/address', component: UserAddress, layout: UserLayout },
@@ -48,6 +51,7 @@ const publicRoutes = [
     { path: '/admin/chat', component: Chats, layout: AdminLayout },
     { path: '/admin/notification', component: Notifications, layout: AdminLayout },
     { path: '/admin/setting', component: Setting, layout: AdminLayout },
+    { path: '/admin/livestream', component: LiveStream, layout: AdminLayout },
     { path: '/cart/checkout', component: Checkout }
 
 ]

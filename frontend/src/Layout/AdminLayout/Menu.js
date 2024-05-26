@@ -21,6 +21,9 @@ function Menu() {
             <NavLink to="/admin/chat" className={(nav) => cx('nav_item', { active: nav.isActive })}>
 
                 Chat</NavLink>
+            <NavLink to="/admin/livestream" className={(nav) => cx('nav_item', { active: nav.isActive })}>
+
+                Live stream</NavLink>
             <NavLink to="/admin/notification" className={(nav) => cx('nav_item', { active: nav.isActive })}>
                 Thông báo</NavLink>
             <NavLink to="/admin/setting" className={(nav) => cx('nav_item', { active: nav.isActive })}>
