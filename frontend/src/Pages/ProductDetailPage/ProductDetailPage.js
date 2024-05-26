@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 import styles from './ProductDetailPage.module.scss'
 import classNames from 'classnames/bind'
@@ -7,21 +7,27 @@ import ProductInformation from '../../components/ProductInformation/ProductInfor
 import ProductReview from '../../components/ProductReview/ProductReview'
 import { useParams } from 'react-router-dom'
 import UserApi from '../../Api/UserApi'
+import { LoadingContext } from '../..'
 
 const cx = classNames.bind(styles)
 
 export default function ProductDetailPage() {
   const { id } = useParams();
-  const [product, setProduct] = useState([])
-
+  const [product, setProduct] = useState({})
+  const [loading, setLoading] = useContext(LoadingContext)
   useEffect(() => {
+    setLoading(true)
     UserApi.GetDetailProduct(id).then(res => {
       setProduct(res.data)
 
     }
     )
   }, [])
-
+  useEffect(() => {
+    if (product.name?.length > 0) {
+      setLoading(false)
+    }
+  }, [product])
   return (
     <div className={cx('container')}>
       <ProductDetailComponent product={product} />

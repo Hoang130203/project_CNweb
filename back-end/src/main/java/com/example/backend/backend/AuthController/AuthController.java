@@ -49,7 +49,7 @@ public class AuthController {
     private final RoleService roleService;
     private final JwtProvider jwtProvider;
     private final NotificationRepository notificationRepository;
-    private final String bearerToken="eyJ0eXAiOiJKV1QiLCJub25jZSI6IjA3R3MtbUEwUVdyc1JiSHFxT0N6MVVrWHk2NzExUDIzZWtPU0d2UFhGT0kiLCJhbGciOiJSUzI1NiIsIng1dCI6InEtMjNmYWxldlpoaEQzaG05Q1Fia1A1TVF5VSIsImtpZCI6InEtMjNmYWxldlpoaEQzaG05Q1Fia1A1TVF5VSJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTAwMDAtYzAwMC0wMDAwMDAwMDAwMDAiLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC8wNmYxYjg5Zi0wN2U4LTQ2NGYtYjQwOC1lYzFiNDU3MDNmMzEvIiwiaWF0IjoxNzEyMDcxNTk1LCJuYmYiOjE3MTIwNzE1OTUsImV4cCI6MTcxMjE1ODI5NSwiYWNjdCI6MCwiYWNyIjoiMSIsImFpbyI6IkFUUUF5LzhXQUFBQVY2dE5KTUhFQ2hKZWt3MlZZS3QwSGtlTENkaFAyaTNjQXd2R0J1Q0V2eDBwS2JIOGV3UW9HbHNRdmdzSlJ6QjEiLCJhbXIiOlsicHdkIl0sImFwcF9kaXNwbGF5bmFtZSI6IkdyYXBoIEV4cGxvcmVyIiwiYXBwaWQiOiJkZThiYzhiNS1kOWY5LTQ4YjEtYThhZC1iNzQ4ZGE3MjUwNjQiLCJhcHBpZGFjciI6IjAiLCJpZHR5cCI6InVzZXIiLCJpcGFkZHIiOiIyNDA1OjQ4MDI6MWQ3ZToxMTcwOjhkZGU6NjdkOTo1M2UzOjgxMTciLCJuYW1lIjoiTWFpIE1pbmggSG9hbmcgMjAyMTUzODEiLCJvaWQiOiIwNTE5YjJlMy1kZjgwLTRiMzQtYTk0OS03YTQ0MjEzNjE3YzciLCJvbnByZW1fc2lkIjoiUy0xLTUtMjEtMjc0NjI1MTAwNy0xMzI0NTk1MjA2LTc4MTY1NDM1MS04ODM3NiIsInBsYXRmIjoiMyIsInB1aWQiOiIxMDAzMjAwMTg1MjMzRDFBIiwicmgiOiIwLkFYSUFuN2p4QnVnSFQwYTBDT3diUlhBX01RTUFBQUFBQUFBQXdBQUFBQUFBQUFEREFLTS4iLCJzY3AiOiJGaWxlcy5SZWFkIEZpbGVzLlJlYWQuQWxsIEZpbGVzLlJlYWRXcml0ZSBGaWxlcy5SZWFkV3JpdGUuQWxsIE1haWwuUmVhZCBNYWlsLlJlYWRCYXNpYyBNYWlsLlJlYWRXcml0ZSBNYWlsLlNlbmQgb3BlbmlkIHByb2ZpbGUgU2l0ZXMuUmVhZC5BbGwgU2l0ZXMuUmVhZFdyaXRlLkFsbCBUYXNrcy5SZWFkIFRhc2tzLlJlYWRXcml0ZSBUZWFtLlJlYWRCYXNpYy5BbGwgVXNlci5SZWFkIFVzZXIuUmVhZEJhc2ljLkFsbCBVc2VyLlJlYWRXcml0ZSBlbWFpbCIsInNpZ25pbl9zdGF0ZSI6WyJrbXNpIl0sInN1YiI6InFLMEdvLUs0VnBzeXVmTEpPdDhDNHVTaUx0NjROU1RSaDRFSGwwY29FdEkiLCJ0ZW5hbnRfcmVnaW9uX3Njb3BlIjoiQVMiLCJ0aWQiOiIwNmYxYjg5Zi0wN2U4LTQ2NGYtYjQwOC1lYzFiNDU3MDNmMzEiLCJ1bmlxdWVfbmFtZSI6IkhvYW5nLk1NMjE1MzgxQHNpcy5odXN0LmVkdS52biIsInVwbiI6IkhvYW5nLk1NMjE1MzgxQHNpcy5odXN0LmVkdS52biIsInV0aSI6IjMzcUUwZC1IcTAyME9kZE5TU1JrQUEiLCJ2ZXIiOiIxLjAiLCJ3aWRzIjpbImI3OWZiZjRkLTNlZjktNDY4OS04MTQzLTc2YjE5NGU4NTUwOSJdLCJ4bXNfY2MiOlsiQ1AxIl0sInhtc19zc20iOiIxIiwieG1zX3N0Ijp7InN1YiI6IjVZM2xEaEtmY1FuTGI3QTF6a0pIX2JsMHBKbW96SzNha0F5TXoxUWFVbFEifSwieG1zX3RjZHQiOjE1MDI4NzExNDJ9.ppIiiqMqtFj_mudCSlFPjCpspGhsYWaOD6MzFyOjl5oxJPavHm8EyIajufRn6QhIZIpe0CeO7hL18WukIQClwaaw7a2Z7tnH83FC5GOSR4WRnenuzJfJfI0IhQdZrO4YC2ypo8vZHC0t7d_3g4i8Hoe1m-AKjP4DKgMQInSNZN3sMdUwAuJ5W5n80OCSeng3VlKkEUqjJJnWzBuy8tsmS9HTyFzbJVrbMPzoqXaZy3u0HPFNWP-U-cIXXR6GDD_c7VWcHEmV8vGvgZ_Pw5qhWEA6zqDde_EenIvqBA95Ipp77V8CqS_F4X6aBpW__fHBTyLuLmIj0BhmBSUFU-L_Dg";
+    private final String bearerToken="eyJ0eXAiOiJKV1QiLCJub25jZSI6ImdpLTd3U0ZWQlpWQzA3UmlZcnBIUkY1dEJ3Zl9lOGo4S3E4VFloNWJNZEkiLCJhbGciOiJSUzI1NiIsIng1dCI6IkwxS2ZLRklfam5YYndXYzIyeFp4dzFzVUhIMCIsImtpZCI6IkwxS2ZLRklfam5YYndXYzIyeFp4dzFzVUhIMCJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTAwMDAtYzAwMC0wMDAwMDAwMDAwMDAiLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC8wNmYxYjg5Zi0wN2U4LTQ2NGYtYjQwOC1lYzFiNDU3MDNmMzEvIiwiaWF0IjoxNzE2NzEzMzY3LCJuYmYiOjE3MTY3MTMzNjcsImV4cCI6MTcxNjgwMDA2NywiYWNjdCI6MCwiYWNyIjoiMSIsImFpbyI6IkFUUUF5LzhXQUFBQTdFdnlIRlNkOHNhL3hOMGFiU0grWWwwNkYxU1VmTlhBbStDYUorYlJOV3ZhUTJJWGtoSmtMUm9aS2ZPbmRaVlkiLCJhbXIiOlsicHdkIl0sImFwcF9kaXNwbGF5bmFtZSI6IkdyYXBoIEV4cGxvcmVyIiwiYXBwaWQiOiJkZThiYzhiNS1kOWY5LTQ4YjEtYThhZC1iNzQ4ZGE3MjUwNjQiLCJhcHBpZGFjciI6IjAiLCJpZHR5cCI6InVzZXIiLCJpcGFkZHIiOiIyNDA1OjQ4MDI6MWQ2ODpjYzA6OGRjNzo4YTA3OjIyZDplNWE1IiwibmFtZSI6Ik1haSBNaW5oIEhvYW5nIDIwMjE1MzgxIiwib2lkIjoiMDUxOWIyZTMtZGY4MC00YjM0LWE5NDktN2E0NDIxMzYxN2M3Iiwib25wcmVtX3NpZCI6IlMtMS01LTIxLTI3NDYyNTEwMDctMTMyNDU5NTIwNi03ODE2NTQzNTEtODgzNzYiLCJwbGF0ZiI6IjMiLCJwdWlkIjoiMTAwMzIwMDE4NTIzM0QxQSIsInJoIjoiMC5BWElBbjdqeEJ1Z0hUMGEwQ093YlJYQV9NUU1BQUFBQUFBQUF3QUFBQUFBQUFBRERBS00uIiwic2NwIjoiRmlsZXMuUmVhZCBGaWxlcy5SZWFkLkFsbCBGaWxlcy5SZWFkV3JpdGUgRmlsZXMuUmVhZFdyaXRlLkFsbCBNYWlsLlJlYWQgTWFpbC5SZWFkQmFzaWMgTWFpbC5SZWFkV3JpdGUgTWFpbC5TZW5kIG9wZW5pZCBwcm9maWxlIFNpdGVzLlJlYWQuQWxsIFNpdGVzLlJlYWRXcml0ZS5BbGwgVGFza3MuUmVhZCBUYXNrcy5SZWFkV3JpdGUgVGVhbS5SZWFkQmFzaWMuQWxsIFVzZXIuUmVhZCBVc2VyLlJlYWRCYXNpYy5BbGwgVXNlci5SZWFkV3JpdGUgZW1haWwiLCJzaWduaW5fc3RhdGUiOlsia21zaSJdLCJzdWIiOiJxSzBHby1LNFZwc3l1ZkxKT3Q4QzR1U2lMdDY0TlNUUmg0RUhsMGNvRXRJIiwidGVuYW50X3JlZ2lvbl9zY29wZSI6IkFTIiwidGlkIjoiMDZmMWI4OWYtMDdlOC00NjRmLWI0MDgtZWMxYjQ1NzAzZjMxIiwidW5pcXVlX25hbWUiOiJIb2FuZy5NTTIxNTM4MUBzaXMuaHVzdC5lZHUudm4iLCJ1cG4iOiJIb2FuZy5NTTIxNTM4MUBzaXMuaHVzdC5lZHUudm4iLCJ1dGkiOiJIcjVmNC1MWU1reTd0ZlhOd0JaUUFBIiwidmVyIjoiMS4wIiwid2lkcyI6WyJiNzlmYmY0ZC0zZWY5LTQ2ODktODE0My03NmIxOTRlODU1MDkiXSwieG1zX2NjIjpbIkNQMSJdLCJ4bXNfc3NtIjoiMSIsInhtc19zdCI6eyJzdWIiOiI1WTNsRGhLZmNRbkxiN0ExemtKSF9ibDBwSm1vekszYWtBeU16MVFhVWxRIn0sInhtc190Y2R0IjoxNTAyODcxMTQyfQ.MwbAQldka7_yiaT5weV-pUpyKF3ijPpLqlhEuWkW_jP1G37kVao1Kc4EVNBESX7tUttyYp8lT95CvztKd8vJtZhwR0WAGzQ-lfeg199jv7TUdGB_fboPhWbsIbEGNMubYEi2U5meYh6rLd4ZswZpWvKaWSAGaheAnHpAl-gDO0IzjEyBWWNAROQoWj8DUeSwzS1RSzSfHO7fNDNjLVSTebAPxKieU3SjkMPZ4iIYXBjvCEuIzVaj7dqb7sYZO96sd_zQ_m48Dmhz5gNRRi4pTG6fq2R1EKXrK3YO7lU6XAEl8lI1PIv6AH30B_HrPIq-2fCCTkIMef_wSfFreWIKIw";
     @Value("${jwt.accessTokenCookieName}")
     //lấy giá trị từ tệp properties
     private String cookieName;
@@ -191,10 +191,12 @@ public class AuthController {
     //1 email có thể có nhiều tài khoản
 
     @GetMapping("/forgotPassword")
-    public ResponseEntity<?> sendNewPasswordToEmail(@RequestParam("email") String emailAddres)
+    public ResponseEntity<?> sendNewPasswordToEmail(@RequestParam("email") String emailAddres,@RequestParam("account") String account)
     {
-        List<User> users= userService.getAllByEmail(emailAddres);
-        if(users.isEmpty()|| users.size()==0){
+        User user= userService.getByAccount(account)
+                .orElseThrow(()-> new RuntimeException("user not found"));
+//        List<User> users= userService.getAllByEmail(emailAddres);
+        if(user==null || !user.getEmail().equals(emailAddres)){
             return ResponseEntity.ok(new Message("email not found"));
         }else{
             // Tạo đối tượng EmailMessage
@@ -207,16 +209,15 @@ public class AuthController {
             Email.Body body = new Email.Body();
             body.setContentType("Text");
             String content= "";
-            for (User user:users
-                 ) {
-                if(user.isHasProvider()){
-                    continue;
-                }
-                String newPass= randomString();
-                user.setPassword(passwordEncoder.encode(newPass));
-                content+="Tài khoản: "+user.getAccount()+", Mật khẩu "+newPass+"\n";
-                userService.save(user);
+
+            if(user.isHasProvider()){
+                return ResponseEntity.ok("");
             }
+            String newPass= randomString();
+            user.setPassword(passwordEncoder.encode(newPass));
+            content+="Tài khoản: "+user.getAccount()+", Mật khẩu mới "+newPass+"\n";
+            userService.save(user);
+
             body.setContent(content);
             emailMessage.getMessage().setBody(body);
 
@@ -263,7 +264,7 @@ public class AuthController {
             // In ra đối tượng EmailMessage
             System.out.println(emailMessage);
 
-            return ResponseEntity.ok(emailMessage);
+            return ResponseEntity.ok(new Message("success"));
         }
     }
 

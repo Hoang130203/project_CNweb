@@ -332,4 +332,9 @@ public class UserServiceImpl implements UserService{
         return notificationRepository.findAllByUser(user);
     }
 
+    @Override
+    public List<String> getAllDistinctByEmail() {
+        return userRepository.findDistinctEmails();
+    }
+
 }

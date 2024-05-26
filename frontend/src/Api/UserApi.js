@@ -38,6 +38,9 @@ class UserApi {
             "name": name || ""
         }, headers)
     }
+    ResetPassword(email, account) {
+        return axios.get(`${base_api}/api/auth/forgotPassword?email=${email}&account=${account}`, headers)
+    }
     AuthProvider(id, name, email, avatar) {
         return axios.post(`${base_api}/api/auth/providerAuth`, {
             "id": id,

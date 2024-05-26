@@ -20,6 +20,7 @@
     "react-apexcharts": "^1.4.1",
     "react-dom": "^18.2.0",
     "react-icons": "^5.0.1",
+    "react-loading": "^2.0.3",
     "react-scripts": "^5.0.1",
     "react-slider": "^2.0.6",
     "react-stomp": "^5.1.0",

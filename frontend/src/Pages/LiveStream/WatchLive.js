@@ -42,6 +42,13 @@ function WatchLive() {
                     scenario: {
                         mode: window.ZegoUIKitPrebuilt.VideoConference,
                     },
+                    videoResolutionList: [
+                        window.ZegoUIKitPrebuilt.VideoResolution_360P,
+                        window.ZegoUIKitPrebuilt.VideoResolution_180P,
+                        window.ZegoUIKitPrebuilt.VideoResolution_480P,
+                        window.ZegoUIKitPrebuilt.VideoResolution_720P,
+                    ],
+                    videoResolutionDefault: window.ZegoUIKitPrebuilt.VideoResolution_360P,
                     turnOnMicrophoneWhenJoining: isAdmin, // Only admin can turn on microphone
                     turnOnCameraWhenJoining: isAdmin, // Only admin can turn on camera
                     showMyCameraToggleButton: isAdmin,

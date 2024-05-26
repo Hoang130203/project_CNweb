@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import styles from './User.module.scss';
 import classNames from 'classnames/bind';
 import products from '../../components/ProductData/ProductData';
@@ -9,6 +9,7 @@ import styles1 from '../Cart/Checkout.module.scss'
 import { toast } from 'react-toastify';
 import { motion } from "framer-motion"
 import { MdOutlineStar } from "react-icons/md";
+import { LoadingContext } from '../..';
 
 const cx = classNames.bind(styles);
 const cx1 = classNames.bind(styles1);
@@ -286,12 +287,20 @@ function Order({ order }) {
 export default function UserOrders() {
   const [orders, setOrders] = useState([]);
   const [selectedLink, setSelectedLink] = useState('all');
+  const [loading, setLoading] = useContext(LoadingContext);
+  const [loadSuccess, setLoadSuccess] = useState(false);
   useEffect(() => {
+    setLoading(true);
     UserApi.GetOrders().then(res => {
       setOrders(res.data)
+      setLoadSuccess(true);
     }
     )
   }, [])
+  useEffect(() => {
+    if (loadSuccess)
+      setLoading(false);
+  }, [loadSuccess]);
   const handleLinkClick = (link) => {
     setSelectedLink(link);
   };

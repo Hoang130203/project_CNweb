@@ -30,5 +30,5 @@ public interface UserService {
     void createTransaction(User user, Long amount,int orderId);
     boolean completeTransaction(User user, Long amount,int orderId);
     List<Notification> getNotifications(User user);
-
+    List<String> getAllDistinctByEmail();
 }

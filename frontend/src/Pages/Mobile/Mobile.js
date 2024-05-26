@@ -3,17 +3,20 @@ import styles from './Mobile.module.scss';
 import CardProduct from '../../components/CardProduct/CardProduct';
 import Filter from '../../components/Filter/Filter';
 import { FaFilter } from "react-icons/fa";
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { getMinMaxNewPrice } from '../../components/Filter/FilterLogic';
 import Sort from '../../components/Sort/Sort';
 import UserApi from '../../Api/UserApi';
+import { LoadingContext } from '../..';
 
 const cx = classNames.bind(styles);
 
 function Mobile() {
     const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useContext(LoadingContext)
 
     useEffect(() => {
+        setLoading(true);
         UserApi.GetProductByCategory('MOBILE').then(res => {
             const productsWithNewPrice = res.data.map(product => ({
                 ...product,
@@ -24,7 +27,9 @@ function Mobile() {
     }, []);
 
     useEffect(() => {
-
+        if (products.length > 0) {
+            setLoading(false);
+        }
     }, [products]);
 
     const { min: MIN, max: MAX } = getMinMaxNewPrice();

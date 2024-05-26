@@ -30,7 +30,6 @@ function LiveStream() {
 
             const kitToken = window.ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, userID, userName);
             const zp = window.ZegoUIKitPrebuilt.create(kitToken);
-
             const maxUsers = 10; // Set your desired max users here
             console.log("Setting maxUsers to:", maxUsers);
             console.log("User role:", role);
@@ -44,6 +43,12 @@ function LiveStream() {
                 scenario: {
                     mode: window.ZegoUIKitPrebuilt.VideoConference,
                 },
+                videoResolutionList: [
+                    window.ZegoUIKitPrebuilt.VideoResolution_360P,
+                    window.ZegoUIKitPrebuilt.VideoResolution_180P,
+                    window.ZegoUIKitPrebuilt.VideoResolution_480P,
+                    window.ZegoUIKitPrebuilt.VideoResolution_720P,
+                ],
                 turnOnMicrophoneWhenJoining: isAdmin, // Only admin can turn on microphone
                 turnOnCameraWhenJoining: isAdmin, // Only admin can turn on camera
                 showMyCameraToggleButton: isAdmin,

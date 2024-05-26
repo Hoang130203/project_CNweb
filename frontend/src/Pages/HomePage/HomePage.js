@@ -6,20 +6,30 @@ import watchImg from '../../Assets/Watch.png';
 import accessoryImg from '../../Assets/Accessory.png';
 import CardProduct from '../../components/CardProduct/CardProduct';
 // import products from '../../components/ProductData/ProductData';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import UserApi from '../../Api/UserApi';
 import { Link } from 'react-router-dom';
+import { LoadingContext } from '../..';
 
 
 const cx = classNames.bind(styles);
 function HomePage() {
     const [products, setProducts] = useState([])
+    const [loading, setLoading] = useContext(LoadingContext)
     useEffect(() => {
-        UserApi.GetNewProducts().then(res => {
-            setProducts(res.data)
-        }
-        )
-    }, [])
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+                const res = await UserApi.GetNewProducts();
+                setProducts(res.data);
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchData();
+    }, [setLoading])
     return (
         <div className={cx('homepage')} >
             <h1>

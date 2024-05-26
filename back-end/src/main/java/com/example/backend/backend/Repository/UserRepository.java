@@ -2,6 +2,7 @@ package com.example.backend.backend.Repository;
 
 import com.example.backend.backend.Entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,4 +14,5 @@ public interface UserRepository extends JpaRepository<User,String> {
     boolean existsByAccount(String account);
     List<User> getAllByEmail (String email);
     long count();
-}
+    @Query("SELECT DISTINCT u.email FROM User u")
+    List<String> findDistinctEmails();}
