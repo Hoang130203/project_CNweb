@@ -45,7 +45,7 @@ function OrderRow({ order }) {
                 }
             })
     };
-
+    console.log(order);
     return (
         <>
             <tr style={{ color: `${expanded ? "#ffffe4" : ''}` }}>

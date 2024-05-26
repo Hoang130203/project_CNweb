@@ -5,11 +5,14 @@ import products from '../../components/ProductData/ProductData';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import UserApi from '../../Api/UserApi';
+import AdminApi from "../../Api/AdminApi";
 import styles1 from '../Cart/Checkout.module.scss'
 import { toast } from 'react-toastify';
 import { motion } from "framer-motion"
 import { MdOutlineStar } from "react-icons/md";
 import { LoadingContext } from '../..';
+import IssueInvoice from "../Admin/component/IssueInvoice"; 
+
 
 const cx = classNames.bind(styles);
 const cx1 = classNames.bind(styles1);
@@ -213,9 +216,8 @@ function Product({ product }) {
   )
 }
 
-function Order({ order }) {
+function Order({ order , adminOrders}) {
   const [show, setShow] = useState(false);
-
   const s = "Thanh toán khi nhận hàng"
   const t = "Thanh toán online"
   const handlePaymoney = async (method) => {
@@ -232,6 +234,7 @@ function Order({ order }) {
       });
     }
   }
+  console.log(adminOrders.filter(adminOrder => adminOrder.id === order.id))
 
   return (
     <div className={cx1('order')} style={{ margin: '50px 0px' }}>
@@ -260,6 +263,12 @@ function Order({ order }) {
           <p style={{}}>Trạng thái:</p>
           <span style={{ marginRight: '5px' }}></span>
           <p style={{ color: '#888080' }}>{order.status == null ? 'Chờ xác nhận' : order.status == 'CONFIRMED' ? 'Đã xác nhận' : order.status == 'SENDING' ? 'Đang vận chuyển' : order.status == 'CANCELLED' ? 'Đã hủy' : 'Thành công'}</p>
+          <button 
+            style={{ border: 'none', margin: '0px 0px 0px 10px', backgroundColor: 'rgb(81, 191, 228)', color: 'white', borderRadius: '6px', width: '150px', height: '35px', fontSize: '16px' }} 
+            onClick={() => { IssueInvoice.GenerateInvoice(adminOrders.find(adminOrder => adminOrder.id === order.id))}}
+          >
+            In hóa đơn
+          </button>        
         </div>
       </div>
       {(order.payments == false && order.paymentStatus == false)
@@ -286,6 +295,7 @@ function Order({ order }) {
 
 export default function UserOrders() {
   const [orders, setOrders] = useState([]);
+  const [adminOrders, setAdminOrders] = useState([]);
   const [selectedLink, setSelectedLink] = useState('all');
   const [loading, setLoading] = useContext(LoadingContext);
   const [loadSuccess, setLoadSuccess] = useState(false);
@@ -298,13 +308,18 @@ export default function UserOrders() {
     )
   }, [])
   useEffect(() => {
+    AdminApi.GetAllOrders().then(res => {
+        console.log(res.data);
+        setAdminOrders(res.data?.filter(order => order.totalCost > 50000));
+    })
+}, []);
+  useEffect(() => {
     if (loadSuccess)
       setLoading(false);
   }, [loadSuccess]);
   const handleLinkClick = (link) => {
     setSelectedLink(link);
   };
-
   return (
     <div className={cx('userOrder')}>
       {/* Title */}
@@ -345,7 +360,7 @@ export default function UserOrders() {
       {
         orders.map((order, index) => {
           return (
-            <Order key={index} order={order} />
+            <Order key={index} order={order} adminOrders={adminOrders}/>
           )
         })
       }

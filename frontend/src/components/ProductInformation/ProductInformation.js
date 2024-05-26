@@ -24,9 +24,14 @@ export default function ProductInformation({description, moreDetails}) {
           ))}
         </table>
         {showMoreDetails && (
-          <div className={cx('product-detail__more-details')}>
-            {moreDetails}
-          </div>
+          <table className={cx('product-detail__description-table')}>
+          {Object.entries(moreDetails).map(([key, value]) => (
+            <tr key={key}>
+              <td className={cx('product-detail__description-label')}>{key}</td>
+              <td className={cx('product-detail__description-value')}>{value}</td>
+            </tr>
+          ))}
+        </table>
         )}
       </div>
       <div className={cx('product-detail__button-container')}>

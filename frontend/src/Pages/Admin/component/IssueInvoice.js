@@ -4,7 +4,7 @@ import { font } from "./font";
 import { convertColor } from "../../../Api/OtherFunction";
 
 
-class ExportHoaDon {
+class IssueInvoice {
     Export(content) {
         var doc = new jsPDF('l', 'px', 'a4');
         doc.addPage(1000, 1500);
@@ -63,10 +63,11 @@ class ExportHoaDon {
             styles: { font: "WorkSans" }
         });
 
-        verticalPosition += 14 * invoiceInfo.products.length;
-        doc.text(`Tổng tiền: ${invoiceInfo.totalCost?.toLocaleString()} đ`, 180, verticalPosition, null, null, 'right');
+        verticalPosition += 30 * invoiceInfo.products.length;
+        doc.text(`Phí vận chuyển: ${invoiceInfo.deliveryCost?.toLocaleString()} đ`, 180, verticalPosition, null, null, 'right');
         verticalPosition += 10;
-
+        doc.text(`Tổng tiền: ${invoiceInfo.totalCost?.toLocaleString()} đ`, 180, verticalPosition, null, null, 'right');
+        verticalPosition -= 10;
         doc.text(`Khách hàng: ${invoiceInfo.user.name}`, 20, verticalPosition);
         verticalPosition += 10;
         doc.text(`Địa chỉ: ${invoiceInfo.user.address}`, 20, verticalPosition);
@@ -81,4 +82,4 @@ class ExportHoaDon {
     };
 }
 
-export default new ExportHoaDon();
+export default new IssueInvoice ();

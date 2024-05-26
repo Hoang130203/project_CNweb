@@ -35,13 +35,10 @@ export default function ProductDetailPage() {
         description={{
           "Danh mục": product?.type == 'MOBILE' ? 'Điện thoại' : product?.type == 'LAPTOP' ? 'Laptop' : product?.type == 'WATCH' ? 'Đồng hồ' : 'Phụ kiện',
           "Xuất xứ": product?.origin,
+        }}
+        moreDetails={{
           "Mô tả": product?.description?.split('\n').map((line, index) => <p key={index}>{line}</p>),
         }}
-        moreDetails={
-          <div>
-            <p></p>
-          </div>
-        }
       />
       <ProductReview product={product} />
     </div>
