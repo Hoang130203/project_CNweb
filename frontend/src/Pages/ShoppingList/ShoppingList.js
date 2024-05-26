@@ -7,6 +7,7 @@ import { useState } from 'react';
 import UserApi from '../../Api/UserApi';
 import { OrderContext } from '../ContextOrder/OrderContext';
 import { toast } from 'react-toastify';
+import { LoadingContext } from '../..';
 
 const cx = classNames.bind(styles);
 
@@ -14,6 +15,8 @@ export default function ShoppingList() {
   const [carts, setCarts] = useState([]);
   const [selectedLink, setSelectedLink] = useState('all');
   const [products, setProducts] = useContext(OrderContext);
+  const [loading, setLoading] = useContext(LoadingContext);
+  const [loadSuccess, setLoadSuccess] = useState(false);
   const handleLinkClick = (link) => {
     setSelectedLink(link);
   };
@@ -21,15 +24,21 @@ export default function ShoppingList() {
   const [isSticky, setIsSticky] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
-
+    setLoading(true);
     setProducts([]);
     UserApi.GetCart().then((response) => {
       setCarts(response.data);
+      setLoadSuccess(true);
     }).catch((error) => {
       console.log(error);
     }
     );
   }, []);
+  useEffect(() => {
+    if (loadSuccess) {
+      setLoading(false);
+    }
+  }, [loadSuccess]);
   const handleRemoveFromCart = (product) => {
     if (products.length === 0) {
       UserApi.RemoveFromCart([{ productId: product.product.id, colorId: product.color.id, sizeId: product.size.id }]).then((response) => {

@@ -2,13 +2,16 @@ import "../Auth/Logger.css"
 import loggerImg from "../../Assets/Logger.png"
 import SocialButton from "./SocialLoginButton";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import UserApi from "../../Api/UserApi";
 import { toast } from "react-toastify";
+import { LoadingContext } from "../..";
 function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [loading, setLoading] = useContext(LoadingContext);
     const handleSubmit = async (e) => {
+        setLoading(true);
         e.preventDefault();
         try {
             const res = await UserApi.Login(username, password)
@@ -38,7 +41,9 @@ function Login() {
                         toast.error("Đăng nhập thất bại");
                 }).catch((err) => {
                     toast.error("Đăng nhập thất bại");
-                })
+                }).finally(() => {
+                    setLoading(false);
+                });
             console.log(res);
         }
         catch (error) {

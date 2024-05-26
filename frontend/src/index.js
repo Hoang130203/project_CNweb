@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createContext, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
@@ -6,10 +6,23 @@ import reportWebVitals from './reportWebVitals';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+export const LoadingContext = createContext();
 
+const { Provider } = LoadingContext;
+
+export const LoadingProvider = (props) => {
+  const [loading, setLoading] = useState(false);
+  return (
+    <Provider value={[loading, setLoading]}>
+      {props.children}
+    </Provider>
+  )
+}
 root.render(
   <React.StrictMode>
-    <App />
+    <LoadingProvider>
+      <App />
+    </LoadingProvider>
   </React.StrictMode>
 );
 

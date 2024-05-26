@@ -6,11 +6,13 @@ import DefaultLayout from './Layout/DefaultLayout';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ChatBox from './components/ChatBox/ChatBox';
-import { useContext } from 'react';
+import { createContext, useContext, useState } from 'react';
+import Loading from './Loading';
+import { LoadingContext, LoadingProvider } from '.';
 
 
 function App() {
-
+  const [loading, setLoading] = useContext(LoadingContext)
   return (
     <Router>
       <Routes>
@@ -21,6 +23,7 @@ function App() {
           return (
             <Route key={index} path={route.path} element={
               <Layout>
+                {loading && <Loading></Loading>}
                 <ToastContainer position='bottom-right' />
                 <Page></Page>
 

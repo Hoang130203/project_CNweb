@@ -77,6 +77,7 @@ public class SecurityConfig {
 //            .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers(HttpMethod.POST,"/api/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/api/auth/forgotPassword").permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers("/h2-console/login.do").permitAll()
                         .requestMatchers("/api/auth/createRole").permitAll()

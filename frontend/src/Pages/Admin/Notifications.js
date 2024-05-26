@@ -8,10 +8,19 @@ function Notifications() {
     const [messages, setMessages, stompClient, username, oldTopicDict, notifications, setNotifications, oldNotifications, setOldNotifications] = useContext(SocketContext)
 
 
-    const handleNewNotification = () => {
+    const handleNewNotification = async () => {
+        toast.info("Đang gửi thông báo...");
         if (newNotification.trim() !== "") {
-            // setNotifications([...notifications, { content: newNotification, read: false }]);
-            setNewNotification("");
+            await AdminApi.SendEmail(newNotification).then((res) => {
+                if (res.status === 200) {
+                    toast.success("Gửi thông báo thành công");
+                }
+            }).catch(err => {
+                console.log(err);
+                toast.error("Gửi thông báo thất bại");
+            }
+            )
+            await setNewNotification("");
         }
     };
 

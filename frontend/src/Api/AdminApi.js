@@ -49,5 +49,9 @@ class AdminApi {
     DashBoard() {
         return axios.get(`${base_api}/api/admin/dasboard`, headers)
     }
+
+    SendEmail(content) {
+        return axios.get(`${base_api}/api/admin/sendemail?content=${content}`, headers)
+    }
 }
 export default new AdminApi();
