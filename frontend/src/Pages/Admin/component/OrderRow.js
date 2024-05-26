@@ -45,7 +45,6 @@ function OrderRow({ order }) {
                 }
             })
     };
-    console.log(order);
     return (
         <>
             <tr style={{ color: `${expanded ? "#ffffe4" : ''}` }}>
@@ -70,7 +69,7 @@ function OrderRow({ order }) {
                 </td>
                 <td>
                     {status === 'SUCCESS' && (
-                        <Button onClick={() => { IssueInvoice.GenerateInvoice(order) }}>Xuất hóa đơn</Button>
+                        <button className="status-select" onClick={() => { IssueInvoice.GenerateInvoice(order) }}>Xuất hóa đơn</button>
                     )}
                 </td>
             </tr>

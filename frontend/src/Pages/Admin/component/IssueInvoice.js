@@ -22,7 +22,7 @@ class IssueInvoice {
         doc.setFontSize(15);
         doc.setTextColor(255, 0, 0);
         doc.text('W15 Store', 35, 10, 'center');
-        
+
         const currentDate = new Date();
         var day = currentDate.getDate();
         var month = currentDate.getMonth() + 1;
@@ -30,7 +30,7 @@ class IssueInvoice {
         var hour = currentDate.getHours();
         var minute = currentDate.getMinutes();
         var second = currentDate.getSeconds();
-        
+
         doc.setTextColor(0, 0, 0);
         doc.setFontSize(12);
         doc.text(`${hour}:${minute}:${second}` + ' ngày ' + day + ', tháng ' + month + ', năm ' + year, 130, 10, 'center');
@@ -38,7 +38,7 @@ class IssueInvoice {
         doc.setTextColor(0, 0, 0);
         doc.text('Hóa đơn', 105, 30, 'center');
         doc.setFontSize(12);
-        
+
         let verticalPosition = 40;
         doc.text(`Tên hóa đơn: Hóa đơn sản phẩm`, 20, verticalPosition);
         verticalPosition += 10;
@@ -68,9 +68,22 @@ class IssueInvoice {
         verticalPosition += 10;
         doc.text(`Tổng tiền: ${invoiceInfo.totalCost?.toLocaleString()} đ`, 180, verticalPosition, null, null, 'right');
         verticalPosition -= 10;
-        doc.text(`Khách hàng: ${invoiceInfo.user.name}`, 20, verticalPosition);
+        let userName, userAddress;
+
+        if (invoiceInfo.user && invoiceInfo.user.name && invoiceInfo.user.address) {
+            userName = invoiceInfo.user.name;
+            userAddress = invoiceInfo.user.address;
+        } else {
+            const userInfo = JSON.parse(localStorage.getItem('w15store_user'));
+            if (userInfo) {
+                userName = userInfo.name;
+                userAddress = userInfo.address;
+            }
+        }
+
+        doc.text(`Khách hàng: ${userName}`, 20, verticalPosition);
         verticalPosition += 10;
-        doc.text(`Địa chỉ: ${invoiceInfo.user.address}`, 20, verticalPosition);
+        doc.text(`Địa chỉ: ${userAddress}`, 20, verticalPosition);
         verticalPosition += 10;
         doc.text(`Thời gian đặt: ${invoiceInfo.time}`, 20, verticalPosition);
         verticalPosition += 10;
@@ -82,4 +95,4 @@ class IssueInvoice {
     };
 }
 
-export default new IssueInvoice ();
+export default new IssueInvoice();
