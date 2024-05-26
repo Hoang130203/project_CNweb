@@ -4,6 +4,9 @@ import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { convertColor } from "../../../Api/OtherFunction";
 import { toast } from "react-toastify";
 import AdminApi from "../../../Api/AdminApi";
+import IssueInvoice from "./IssueInvoice";
+import Button from "../../../components/Button/Button";
+
 function OrderRow({ order }) {
     const [expanded, setExpanded] = useState(false);
 
@@ -65,6 +68,11 @@ function OrderRow({ order }) {
                         {expanded ? <FaAngleUp /> : <FaAngleDown />}
                     </button>
                 </td>
+                <td>
+                    {status === 'SUCCESS' && (
+                        <Button onClick={() => { IssueInvoice.GenerateInvoice(order) }}>Xuất hóa đơn</Button>
+                    )}
+                </td>
             </tr>
             {expanded && (
                 <tr className="expanded-row" >
@@ -99,6 +107,7 @@ function OrderRow({ order }) {
                     </td>
                 </tr>
             )}
+
         </>
     );
 }

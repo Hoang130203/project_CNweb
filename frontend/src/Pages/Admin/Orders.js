@@ -72,6 +72,7 @@ function Orders() {
                         <th>Thời gian</th>
                         <th>Trạng thái</th>
                         <th>Chi tiết</th>
+                        <th>Xuất hóa đơn</th>
                     </tr>
                 </thead>
 
