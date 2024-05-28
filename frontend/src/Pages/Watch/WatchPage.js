@@ -11,7 +11,7 @@ import { LoadingContext } from '../..';
 
 const cx = classNames.bind(styles);
 
-function Watch() {
+function WatchPage() {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useContext(LoadingContext)
 
