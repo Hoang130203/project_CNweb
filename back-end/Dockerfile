@@ -2,14 +2,16 @@
 FROM maven:3.8.3-openjdk-17 AS build
 WORKDIR /app
 
-# Copy only the necessary files to leverage Docker caching
-COPY pom.xml /app/
-RUN mvn dependency:go-offline
-
 # Copy the local lib directory
 COPY libs/payos.jar /app/libs/payos.jar
 # Install the jar into the local repository
 RUN mvn install:install-file -Dfile=/app/libs/payos.jar -DgroupId=io.github -DartifactId=payoshq -Dversion=0.0.1 -Dpackaging=jar
+
+
+# Copy only the necessary files to leverage Docker caching
+COPY pom.xml /app/
+RUN mvn dependency:go-offline
+
 
 
 # Now copy the rest of the project files
