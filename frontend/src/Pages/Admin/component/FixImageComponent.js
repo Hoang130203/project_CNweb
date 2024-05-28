@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import UserApi from "../../../Api/UserApi";
 import AdminApi from "../../../Api/AdminApi";
 import { toast } from "react-toastify";
+import { LoadingContext } from "../../..";
 
 function FixImageComponent({ product, show, setHidden, updateProduct }) {
+    const [loading, setLoading] = useContext(LoadingContext);
     const [listDelete, setListDelete] = useState([])
     const [files, setFiles] = useState([]);
     const [oldImages, setOldImages] = useState([]);
@@ -40,6 +42,7 @@ function FixImageComponent({ product, show, setHidden, updateProduct }) {
 
     const handleSave = async () => {
         let listNewImages = [];
+        setLoading(true);
         for (let i = 0; i < files.length; i++) {
             await UserApi.PostImage(files[i]).then(res => {
                 listNewImages.push({ url: res.data?.url });
@@ -57,7 +60,7 @@ function FixImageComponent({ product, show, setHidden, updateProduct }) {
                 updateProduct();
                 setNewImages([])
             }
-        })
+        }).finally(() => setLoading(false))
     }
     return (
         <div className="delete-wrap" style={{ display: show ? '' : 'none' }} onClick={() => { setHidden() }}>

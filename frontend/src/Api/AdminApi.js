@@ -53,5 +53,9 @@ class AdminApi {
     SendEmail(content) {
         return axios.get(`${base_api}/api/admin/sendemail?content=${content}`, headers)
     }
+
+    ToggleShowProduct(productId) {
+        return axios.put(`${base_api}/api/admin/toggleShow?id=${productId}`, {}, headers)
+    }
 }
 export default new AdminApi();

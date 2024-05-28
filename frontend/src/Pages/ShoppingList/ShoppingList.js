@@ -24,6 +24,7 @@ export default function ShoppingList() {
   const [isSticky, setIsSticky] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
+    document.title = 'Giỏ hàng';
     setLoading(true);
     setProducts([]);
     UserApi.GetCart().then((response) => {

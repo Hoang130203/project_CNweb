@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
 import { motion } from "framer-motion";
 import './AddProduct.css';
@@ -7,8 +7,10 @@ import UserApi from "../../../Api/UserApi";
 import AdminApi from "../../../Api/AdminApi";
 import { toast } from "react-toastify";
 import { GrPowerReset } from "react-icons/gr";
+import { LoadingContext } from "../../..";
 
 function AddProduct({ handleClose, show }) {
+  const [loading, setLoading] = useContext(LoadingContext);
   const showHideClassName = show ? "modal display-flex" : "modal display-none";
   const colors = [
     { "id": '1', "name": "RED", "viName": "ĐỎ" },
@@ -111,11 +113,13 @@ function AddProduct({ handleClose, show }) {
     let product = { ...productInfo }
     product.colors = listColors;
     product.sizes = listSizes;
+    setLoading(true);
+
     for (let i = 0; i < files.length; i++) {
       let image = files[i]
       await UserApi.PostImage(image).then(res => {
         listImages.push({ "url": res.data.url });
-      })
+      }).finally(() => setLoading(false));
     }
     product.images = listImages;
     product.cost = parseInt(productInfo.price)

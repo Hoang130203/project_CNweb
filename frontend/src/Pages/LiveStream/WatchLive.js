@@ -83,6 +83,7 @@ function WatchLive() {
     }, [canJoin]);
 
     useEffect(() => {
+        document.title = 'Live Stream';
         // Check room info from backend service
         // Make a request to the backend service to check if the room has any participants
         // fetch(`your-backend-api/check-room/1`)

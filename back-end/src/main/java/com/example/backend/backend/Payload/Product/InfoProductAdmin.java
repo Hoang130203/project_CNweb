@@ -24,4 +24,5 @@ public class InfoProductAdmin {
     private Long cost;
     private String brand;
     private List<ProductQuantity> productQuantities;
+    private boolean hidden;
 }

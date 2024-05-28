@@ -245,6 +245,14 @@ public class UserServiceImpl implements UserService{
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(()->new RuntimeException("order not found"));
         order.setStatus(status);
+        if(status.equals(EStatus.SUCCESS)){
+            for (ProductOrder productOrder :order.getProducts()
+                    ) {
+                Product product= productOrder.getProduct();
+                product.setSaleCount(product.getSaleCount()+productOrder.getQuantity());
+
+            }
+        }
         orderRepository.save(order);
         return order;
     }

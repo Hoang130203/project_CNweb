@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import './css/product.css'
 import { motion } from "framer-motion"
 
@@ -10,7 +10,11 @@ import DeleteBox from "./component/DeleteBox";
 import FixProduct from "./component/FixProduct";
 import QuantityComponent from "./component/QuantityComponent";
 import FixImageComponent from "./component/FixImageComponent";
+import { LoadingContext } from "../..";
+import { toast } from "react-toastify";
 function Products() {
+    const [loading, setLoading] = useContext(LoadingContext);
+
 
     // Khởi tạo trạng thái cho 1 product
     const initialProduct = {
@@ -38,20 +42,25 @@ function Products() {
     const [showFixImage, setShowFixImage] = useState(false);
     // Lấy tất cả sản phẩm qua API
     useEffect(() => {
+        setLoading(true);
         const fetchProducts = async () => {
             try {
-                const response = await AdminApi.GetAllProducts();
+                const response = await AdminApi.GetAllProducts()
+                    .finally(() => setLoading(false));
                 setProducts(response.data);
                 setTotalPages(Math.ceil(response.data.length / 8));
             } catch (error) {
                 console.error("Error fetching products:", error);
             }
+
+
         };
 
         fetchProducts();
     }, []);
 
     useEffect(() => {
+
     }, [products])
     // Xóa một sản phẩm
     const handleDeleteProduct = (productId) => {
@@ -81,8 +90,21 @@ function Products() {
 
     // Xóa sản phẩm
     const deleteProduct = () => {
-        const updatedProducts = products.filter(product_ => product_.id !== product.id);
-        setProducts(updatedProducts);
+        // const updatedProducts = products.filter(product_ => product_.id !== product.id);
+        // setProducts(updatedProducts);
+        AdminApi.ToggleShowProduct(product.id).then(res => {
+            if (res.status === 200) {
+                toast.success("Thay đổi hiển thị thành công");
+            }
+        }).catch(err => {
+            toast.error("Thay đổi hiển thị thất bại");
+            console.error(err);
+        }
+        ).finally(() => {
+            setShowDelete(false);
+            updateProducts();
+        })
+
     }
     const [showModal, setShowModal] = useState(false);
     const handleCloseFixImage = () => {
@@ -163,7 +185,7 @@ function Products() {
                             <td style={{ minWidth: '150px' }}>
                                 <button className="quantity-button" onClick={() => { handleQuantity(product.id) }}>Kho</button>
                                 <button className="edit-button" onClick={() => { handleFixProduct(product.id) }}>Sửa</button>
-                                <button className="delete-button" onClick={() => handleDeleteProduct(product.id)}>Xóa</button>
+                                <button className="delete-button" style={{ width: '50px', backgroundColor: product.hidden ? 'green' : "" }} onClick={() => handleDeleteProduct(product.id)}>{product.hidden ? 'Hiện' : 'Ẩn'}</button>
                             </td>
                         </tr>
                     ))}

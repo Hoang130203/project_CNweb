@@ -3,44 +3,78 @@ import classNames from 'classnames/bind';
 import PieChart from './component/PieChart';
 import styles from './css/admin.module.scss';
 import AdminApi from '../../Api/AdminApi';
+import { useContext } from 'react';
+import { LoadingContext } from '../..';
+import { useQuery } from 'react-query';
 
 const cx = classNames.bind(styles);
+export const useCurrentTransaction = () => {
+    return useQuery('currentTransaction', async () => {
+        const response = await AdminApi.GetCurrentTransaction();
+        return response.data;
+    },
+        {
+            cacheTime: 50000,
+            refetchOnWindowFocus: false,
+            staleTime: 100000,
+        });
+};
+export const useDashboardBase = () => {
+    return useQuery('dashboardBase', async () => {
+        const response = await AdminApi.GetUserDashboardBase();
+        return response.data;
+    },
+        {
+            cacheTime: 50000,
+            refetchOnWindowFocus: false,
+            staleTime: 100000,
+        });
+};
+export const useAllUsers = () => {
+    return useQuery('allUsers', async () => {
+        const response = await AdminApi.GetALlUsers();
+        return response.data;
+    },
+        {
+            cacheTime: 50000,
+            refetchOnWindowFocus: false,
+            staleTime: 100000,
+        });
+};
 function Users() {
-    const [base, setBase] = useState({});
+    const [loading, setLoading] = useContext(LoadingContext);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(3);
     const [pages, setPages] = useState([1]);
-    const itemsPerPage = 5; // Số lượng item trên mỗi trang
-    const [transactions, setTransactions] = useState([
-    ]);
-    const [users, setUsers] = useState([
+    const itemsPerPage = 5;
 
-    ]);
+    const { data: base, isLoading: isBaseLoading, isError: isBaseError } = useDashboardBase();
+    const { data: transactions, isLoading: isTransactionsLoading, isError: isTransactionsError } = useCurrentTransaction();
+    const { data: users, isLoading: isUsersLoading, isError: isUsersError } = useAllUsers();
 
     useEffect(() => {
-        AdminApi.GetUserDashboardBase().then((response) => {
-            setBase(response.data);
-        }).catch((error) => {
-            console.log(error);
-        });
-        AdminApi.GetCurrentTransaction().then((res) => {
-            console.log(res.data)
-            setTransactions(res.data)
-        })
-        AdminApi.GetALlUsers().then((res) => {
-            console.log(res.data)
-            setUsers(res.data)
-        })
-    }, []);
+        setLoading(isBaseLoading || isTransactionsLoading || isUsersLoading);
+    }, [isBaseLoading, isTransactionsLoading, isUsersLoading, setLoading]);
+
+    useEffect(() => {
+        if (users) {
+            let totalPage = Math.ceil(users.length / itemsPerPage);
+            setTotalPages(totalPage);
+            setPages(Array.from({ length: totalPage }, (_, index) => index + 1));
+        }
+    }, [users]);
     const onPageChange = (page) => {
         setCurrentPage(page);
-    }
-    useEffect(() => {
-        let totalPage = Math.ceil(users.length / itemsPerPage);
-        setTotalPages(totalPage);
-        setPages(Array.from({ length: totalPage }, (_, index) => index + 1));
+    };
 
-    }, [users]);
+    if (isBaseLoading || isTransactionsLoading || isUsersLoading) {
+        return <div></div>;
+    }
+
+    if (isBaseError || isTransactionsError || isUsersError) {
+        return <div>Error fetching data</div>;
+    }
+
     return (
         <div>
             <div className={cx('first_content')}>

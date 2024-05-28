@@ -16,6 +16,7 @@ export default function ProductDetailPage() {
   const [product, setProduct] = useState({})
   const [loading, setLoading] = useContext(LoadingContext)
   useEffect(() => {
+    document.title = 'Chi tiết sản phẩm'
     setLoading(true)
     UserApi.GetDetailProduct(id).then(res => {
       setProduct(res.data)

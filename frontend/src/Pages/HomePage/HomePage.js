@@ -11,6 +11,7 @@ import UserApi from '../../Api/UserApi';
 import { Link } from 'react-router-dom';
 import { LoadingContext } from '../..';
 import { useQuery } from 'react-query';
+import { doc } from 'prettier';
 
 
 const cx = classNames.bind(styles);
@@ -38,12 +39,13 @@ function HomePage() {
         return res.data;
     },
         {
-            cacheTime: 5000, //Thời gian cache data, ví dụ: 5000, sau 5s thì cache sẽ bị xóa, khi đó data trong cache sẽ là undefined
+            cacheTime: 5000,
             refetchOnWindowFocus: false,
             staleTime: 10000,
         });
 
     useEffect(() => {
+        document.title = 'Trang chủ';
         setLoading(isLoading);
     }, [isLoading, setLoading]);
 

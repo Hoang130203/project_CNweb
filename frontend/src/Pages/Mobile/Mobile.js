@@ -8,6 +8,7 @@ import { getMinMaxNewPrice } from '../../components/Filter/FilterLogic';
 import Sort from '../../components/Sort/Sort';
 import UserApi from '../../Api/UserApi';
 import { LoadingContext } from '../..';
+import { doc } from 'prettier';
 
 const cx = classNames.bind(styles);
 
@@ -16,6 +17,7 @@ function Mobile() {
     const [loading, setLoading] = useContext(LoadingContext)
 
     useEffect(() => {
+        document.title = 'Điện thoại';
         setLoading(true);
         UserApi.GetProductByCategory('MOBILE').then(res => {
             const productsWithNewPrice = res.data.map(product => ({

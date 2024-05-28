@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import Notification from '../../../components/notification/notification'
 import styles from './UserNotification.module.scss';
 import classNames from 'classnames/bind';
@@ -9,6 +9,9 @@ export default function UserNotification({
 }
 ) {
   const [notifications, setNotifications, oldNotifications, setOldNotifications] = useContext(NotificationContext);
+  useEffect(() => {
+    document.title = 'Thông báo';
+  }, []);
   return (
     <div className={cx('notification')}>
 

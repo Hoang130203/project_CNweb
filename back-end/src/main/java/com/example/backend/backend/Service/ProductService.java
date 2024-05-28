@@ -30,4 +30,5 @@ public interface ProductService {
     Long totalCostThisWeek();
     List<Object[]> findallCostMonth(int  month);
     boolean deleteProduct(int id);
+    boolean toggleShow(int id);
 }

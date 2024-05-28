@@ -193,7 +193,11 @@ public class AdminController {
 
         return ResponseEntity.ok(dashboard);
     }
-
+    @PutMapping("/toggleShow")
+    public ResponseEntity<?> toggle(@RequestParam("id") int id)
+    {
+        return ResponseEntity.ok(productService.toggleShow(id));
+    }
     @GetMapping("/sendemail")
     public ResponseEntity<?> sendEmail(@RequestParam("content") String content)
     {

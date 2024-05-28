@@ -8,6 +8,7 @@ import { getMinMaxNewPrice } from '../../components/Filter/FilterLogic';
 import Sort from '../../components/Sort/Sort';
 import UserApi from '../../Api/UserApi';
 import { LoadingContext } from '../..';
+import { doc } from 'prettier';
 
 const cx = classNames.bind(styles);
 
@@ -16,6 +17,7 @@ function LaptopPage() {
     const [loading, setLoading] = useContext(LoadingContext)
 
     useEffect(() => {
+        document.title = 'Laptop';
         setLoading(true);
         UserApi.GetProductByCategory('LAPTOP').then(res => {
             const productsWithNewPrice = res.data.map(product => ({

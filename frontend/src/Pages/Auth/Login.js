@@ -2,7 +2,7 @@ import "../Auth/Logger.css"
 import loggerImg from "../../Assets/Logger.png"
 import SocialButton from "./SocialLoginButton";
 import { Link } from "react-router-dom";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import UserApi from "../../Api/UserApi";
 import { toast } from "react-toastify";
 import { LoadingContext } from "../..";
@@ -10,6 +10,9 @@ function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useContext(LoadingContext);
+    useEffect(() => {
+        document.title = 'Đăng nhập';
+    }, []);
     const handleSubmit = async (e) => {
         setLoading(true);
         e.preventDefault();

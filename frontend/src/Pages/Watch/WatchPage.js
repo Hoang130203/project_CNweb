@@ -16,6 +16,7 @@ function WatchPage() {
     const [loading, setLoading] = useContext(LoadingContext)
 
     useEffect(() => {
+        document.title = 'Đồng hồ';
         setLoading(true);
         UserApi.GetProductByCategory('WATCH').then(res => {
             const productsWithNewPrice = res.data.map(product => ({

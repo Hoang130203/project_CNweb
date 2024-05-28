@@ -24,7 +24,7 @@ function App() {
             <Route key={index} path={route.path} element={
               <Layout>
                 {loading && <Loading></Loading>}
-                <ToastContainer position='bottom-right' />
+                <ToastContainer position='bottom-right' autoClose={3000} hideProgressBar />
                 <Page></Page>
 
               </Layout>

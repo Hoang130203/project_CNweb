@@ -85,6 +85,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/user/**").hasRole("USER")
                         .requestMatchers("/vnpay/**").permitAll()
                         .requestMatchers(HttpMethod.GET,"/vnpay/**").permitAll()
+                        .requestMatchers("/payos/**").permitAll()
                         .requestMatchers(HttpMethod.GET,"/ws/**").permitAll()
                         .requestMatchers(HttpMethod.GET,"/api/test").permitAll()
                         .requestMatchers(HttpMethod.GET,"/api/userId").hasRole("USER")

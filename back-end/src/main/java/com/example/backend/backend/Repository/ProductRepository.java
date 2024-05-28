@@ -13,9 +13,10 @@ import java.util.List;
 //tạo repository kế thừa từ JpaRepository cho lớp Product để có sẵn nhiều phương thức liên quan tới CRUD và
 //khai báo thêm các phương thức khác
 public interface ProductRepository extends JpaRepository<Product,Integer> {
-    @Query("SELECT p FROM Product p ORDER BY p.id desc ")
+    @Query("SELECT p FROM Product p where p.hidden = false ORDER BY p.id desc ")
     List<Product> findTop12Product(Pageable pageable);
 
+    @Query("select  p from Product p where p.hidden=false and p.type=:type")
     List<Product> findProductByType(EType type);
 
     Page<Product> findAllByNameContainingIgnoreCase(String keyword, Pageable pageable);

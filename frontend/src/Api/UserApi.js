@@ -110,6 +110,9 @@ class UserApi {
         return axios.post(`${base_api}/vnpay/submitOrder?amount=${amount}&orderInfo=${orderInfo}`, {}, headers)
     }
 
+    PayOs(amount, orderId) {
+        return axios.post(`${base_api}/payos/create-payment-link?amount=${amount}&orderId=${orderId}`, {}, headers)
+    }
     GetOrders() {
         return axios.get(`${base_api}/api/user/orders`, headers)
     }

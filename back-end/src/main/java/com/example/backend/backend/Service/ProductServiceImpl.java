@@ -388,4 +388,13 @@ public class ProductServiceImpl implements ProductService {
         productRepository.delete(product);
         return true;
     }
+
+    @Override
+    public boolean toggleShow(int id) {
+        Product product= productRepository.findById(id)
+                .orElseThrow(()->new RuntimeException("product not found"));
+        boolean show= !product.isHidden();
+        product.setHidden(show);
+        return show;
+    }
 }

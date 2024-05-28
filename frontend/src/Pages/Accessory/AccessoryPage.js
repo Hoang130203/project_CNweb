@@ -16,6 +16,7 @@ function AccessoryPage() {
     const [loading, setLoading] = useContext(LoadingContext)
 
     useEffect(() => {
+        document.title = 'Phụ kiện';
         setLoading(true);
         UserApi.GetProductByCategory('ACCESSORY').then(res => {
             const productsWithNewPrice = res.data.map(product => ({

@@ -12,6 +12,7 @@ import UserApi from '../../Api/UserApi';
 import { convertColor } from '../../Api/OtherFunction';
 import { OrderContext } from '../../Pages/ContextOrder/OrderContext';
 import { toast } from 'react-toastify';
+import { LoadingContext } from '../..';
 
 const formatPrice = (price) => {
     const formattedPrice = Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
@@ -19,6 +20,7 @@ const formatPrice = (price) => {
 };
 
 function ProductDetailComponent({ product }) {
+    const [loading, setLoading] = useContext(LoadingContext);
     const [products, setProducts, address, setAddress] = useContext(OrderContext);
     const [option, setOption] = useState({ color: '', size: '' });
     const [quantity, setQuantity] = useState(1);
@@ -80,10 +82,13 @@ function ProductDetailComponent({ product }) {
             sizeId: Number(option.size),
             colorId: Number(option.color)
         };
+        setLoading(true);
         UserApi.AddToCart(newProduct).then((response) => {
             toast.success('Thêm vào giỏ hàng thành công');
         }).catch((error) => {
             toast.error('Thêm vào giỏ hàng thất bại');
+        }).finally(() => {
+            setLoading(false);
         });
     };
 
@@ -112,7 +117,7 @@ function ProductDetailComponent({ product }) {
     return (
         <div className='flex_box'>
             <div className='top_container'>
-            <h1>{product?.name}</h1>
+                <h1>{product?.name}</h1>
                 <div className="product__rating">
                     {product?.rate} sao
                     <p className='rating'> {product?.rating}</p>

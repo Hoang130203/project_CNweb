@@ -77,6 +77,10 @@ public class Product {
     private float rate=0.0f;
     @Column
     private int rateCount=0;
+
+    @Column
+    @Getter@Setter
+    private boolean hidden=false;
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER,mappedBy = "product")
     private List<ProductQuantity> productQuantities;

@@ -2,7 +2,7 @@ import "../Auth/Logger.css"
 import loggerImg from "../../Assets/Logger.png"
 import SocialButton from "./SocialLoginButton";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import UserApi from "../../Api/UserApi";
 function Register() {
@@ -10,6 +10,9 @@ function Register() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const navigate = useNavigate()
+    useEffect(() => {
+        document.title = 'Đăng kí';
+    }, []);
     const handleSubmit = async (e) => {
         if (password !== confirmPassword) {
             toast.error("Mật khẩu xác nhận không khớp");
