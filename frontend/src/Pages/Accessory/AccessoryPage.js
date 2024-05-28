@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import styles from './WatchPage.module.scss';
+import styles from './AccessoryPage.module.scss';
 import CardProduct from '../../components/CardProduct/CardProduct';
 import Filter from '../../components/Filter/Filter';
 import { FaFilter } from "react-icons/fa";
