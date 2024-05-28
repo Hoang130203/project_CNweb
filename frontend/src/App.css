@@ -54,6 +54,9 @@
   background-color: #e8eeef;
   color: rgb(19, 19, 19);
 }
+.clear {
+  padding-top: 63px;
+}
 
 .logo {
   font-size: 28px;

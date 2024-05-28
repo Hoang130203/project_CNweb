@@ -7,7 +7,7 @@ import Carousel from './Carousel';
 import Fancybox from './Fancybox';
 import { IoIosStar } from "react-icons/io";
 import { FaCartPlus } from "react-icons/fa";
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, useMemo, useCallback } from 'react';
 import UserApi from '../../Api/UserApi';
 import { convertColor } from '../../Api/OtherFunction';
 import { OrderContext } from '../../Pages/ContextOrder/OrderContext';
@@ -23,26 +23,34 @@ function ProductDetailComponent({ product }) {
     const [option, setOption] = useState({ color: '', size: '' });
     const [quantity, setQuantity] = useState(1);
 
-    const handleStorageOptionChange = (e, type) => {
-        const value = e.target.value;
+    const convertOption = useCallback((option, type) => {
         if (type === 'size') {
-            console.log(value);
-            setOption({ ...option, size: value });
+            return option.name;
+        } else if (type === 'color') {
+            return convertColor(option.name);
+        }
+        return '';
+    }, []);
+
+    const handleStorageOptionChange = useCallback((selectedOption, type) => {
+        if (type === 'size') {
+            const selectedSize = product?.sizes?.find((size) => size.name === selectedOption);
+            setOption((prevOption) => ({ ...prevOption, size: selectedSize?.id }));
         }
         if (type === 'color') {
-            console.log(value);
-            setOption({ ...option, color: value });
+            const selectedColor = product?.colors?.find((color) => convertColor(color.name) === selectedOption);
+            setOption((prevOption) => ({ ...prevOption, color: selectedColor?.id }));
         }
-    };
+    }, [product]);
 
-    const handleQuantityChange = (newQuantity) => {
+    const handleQuantityChange = useCallback((newQuantity) => {
         setQuantity(newQuantity);
-        console.log('Selected quantity:', newQuantity);
-    };
+    }, []);
 
     const navigate = useNavigate();
+
     const handleBuy = () => {
-        if (option.size.length == 0 || option.color.length == 0) {
+        if (!option.size || !option.color) {
             toast.warn('Vui lòng chọn đủ màu sắc và kích thước');
             return;
         }
@@ -57,11 +65,11 @@ function ProductDetailComponent({ product }) {
             images: product.images
         };
         setProducts([newProduct]);
-        console.log([...products]);
         navigate('/cart/checkout');
     };
+
     const handleAddToCart = () => {
-        if (option.size.length == 0 || option.color.length == 0) {
+        if (!option.size || !option.color) {
             toast.warn('Vui lòng chọn đủ màu sắc và kích thước');
             return;
         }
@@ -73,55 +81,38 @@ function ProductDetailComponent({ product }) {
             colorId: Number(option.color)
         };
         UserApi.AddToCart(newProduct).then((response) => {
-            console.log(response);
             toast.success('Thêm vào giỏ hàng thành công');
         }).catch((error) => {
-            console.log(error);
             toast.error('Thêm vào giỏ hàng thất bại');
         });
-        // setProducts([...products, newProduct]);
-        // console.log([...products]);
     };
+
     useEffect(() => {
         console.log(products);
     }, [products]);
 
-    return (
-        <>
-            <div className='image__container'>
-                <Fancybox
-                    options={{
-                        Carousel: {
-                            infinite: false,
-                        },
-                    }}
-                >
-                    <Carousel
-                        options={{ infinite: false }}
+    const carouselContent = useMemo(() => (
+        <Fancybox options={{ Carousel: { infinite: false } }}>
+            <Carousel options={{ infinite: false }}>
+                {product?.images?.map((image, index) => (
+                    <div
+                        className="f-carousel__slide"
+                        data-fancybox="gallery"
+                        data-src={image.url}
+                        data-thumb-src={image.url}
+                        key={index}
                     >
-                        {
-                            product?.images?.map((image, index) => (
-                                <div
-                                    className="f-carousel__slide"
-                                    data-fancybox="gallery"
-                                    data-src={image.url}
-                                    data-thumb-src={image.url}
-                                    key={index}
-                                >
-                                    <img
-                                        alt=""
-                                        src={image.url}
-                                        width="400"
-                                        height="300"
-                                    />
-                                </div>
-                            ))
-                        }
-                    </Carousel>
-                </Fancybox>
-            </div>
-            <div className='left__container'>
-                <h1>{product?.name}</h1>
+                        <img alt="" src={image.url} width="400" height="300" />
+                    </div>
+                ))}
+            </Carousel>
+        </Fancybox>
+    ), [product?.images]);
+
+    return (
+        <div className='flex_box'>
+            <div className='top_container'>
+            <h1>{product?.name}</h1>
                 <div className="product__rating">
                     {product?.rate} sao
                     <p className='rating'> {product?.rating}</p>
@@ -141,6 +132,33 @@ function ProductDetailComponent({ product }) {
                         <span> đã bán</span>
                     </p>
                 </div>
+            </div>
+            <div className='image__container'>
+                {carouselContent}
+            </div>
+            <div className='left__container'>
+                <div className='hidden_block'>
+                    <h1>{product?.name}</h1>
+                    <div className="product__rating">
+                        {product?.rate} sao
+                        <p className='rating'> {product?.rating}</p>
+                        <p>
+                            {[...Array(Math.floor(product?.rate || 0))].map((_, index) => (
+                                <IoIosStar key={index} color="#FFCB45" />
+                            ))}
+                            {[...Array(5 - Math.floor(product?.rate || 0))].map((_, index) => (
+                                <IoIosStar key={index + Math.floor(product?.rating)} />
+                            ))}
+                        </p>
+                        <p className="rate__total">
+                            {product?.rates?.length}
+                            <span> đánh giá</span>
+                        </p>
+                        <p className='sale__count'>{product?.saleCount || 0}
+                            <span> đã bán</span>
+                        </p>
+                    </div>
+                </div>
                 <div className='price__container'>
                     <p className='new__price'>{formatPrice(product.cost - product.cost * product.promotion / 100)}</p>
                     {product?.promotion && <p className='old__price'>{formatPrice(product?.cost)}</p>}
@@ -149,40 +167,21 @@ function ProductDetailComponent({ product }) {
                 <div className='type__container'>
                     <p className='type__title'>Phân loại</p>
                     <div className='type__box'>
-                        {
-                            product?.sizes?.map((size, index) => (
-                                <div key={index}>
-                                    <input
-                                        name='size'
-                                        type="radio"
-                                        value={size.id}
-                                        onChange={(e) => { handleStorageOptionChange(e, 'size'); }}
-                                        id={`size-${index}`}
-                                    />
-                                    <label htmlFor={`size-${index}`}>{size.name}</label>
-                                </div>
-                            ))
-                        }
+                        <RadioButton
+                            type="radio"
+                            options={product?.sizes?.map((size) => convertOption(size, 'size')) || []}
+                            onOptionChange={(selectedOption) => handleStorageOptionChange(selectedOption, 'size')}
+                        />
                     </div>
                 </div>
                 <div className='type__container'>
                     <p className='type__title'>Màu sắc</p>
                     <div className='type__box'>
-                        {
-                            product?.colors?.map((color, index) => (
-                                <div key={index}>
-                                    <input
-                                        name='color'
-                                        type="radio"
-                                        value={color.id}
-                                        onChange={(e) => { handleStorageOptionChange(e, 'color'); }}
-                                        id={`color-${index}`}
-                                    />
-                                    <label htmlFor={`color-${index}`}>{convertColor(color.name)}</label>
-                                </div>
-                            ))
-                        }
-
+                        <RadioButton
+                            type="radio"
+                            options={product?.colors?.map((color) => convertOption(color, 'color')) || []}
+                            onOptionChange={(selectedOption) => handleStorageOptionChange(selectedOption, 'color')}
+                        />
                     </div>
                 </div>
                 <div className='type__container'>
@@ -191,10 +190,10 @@ function ProductDetailComponent({ product }) {
                 </div>
                 <div className='button__container'>
                     <Button className='button__buy' onClick={handleBuy}>Mua ngay</Button>
-                    <Button icon={<FaCartPlus />} className='button__cart' onClick={handleAddToCart}>Thêm vào giỏ hàng</Button>
+                    <Button icon={<FaCartPlus />} className='button__cart' onClick={handleAddToCart}>Thêm vào giỏ</Button>
                 </div>
             </div>
-        </>
+        </div>
     );
 }
 
