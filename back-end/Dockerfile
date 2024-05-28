@@ -6,6 +6,12 @@ WORKDIR /app
 COPY pom.xml /app/
 RUN mvn dependency:go-offline
 
+# Copy the local lib directory
+COPY libs/payos.jar /app/libs/payos.jar
+# Install the jar into the local repository
+RUN mvn install:install-file -Dfile=/app/libs/payos.jar -DgroupId=io.github -DartifactId=payoshq -Dversion=0.0.1 -Dpackaging=jar
+
+
 # Now copy the rest of the project files
 COPY src /app/src
 RUN mvn clean package -DskipTests
