@@ -18,6 +18,7 @@ const RadioButton = ({ type, options, onOptionChange }) => {
     const handleOptionChange = (event) => {
         setSelectedOption(event.target.value);
     };
+    
 
     return (
         <div className={cx('radio-inputs')}>

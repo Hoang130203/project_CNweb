@@ -29,18 +29,20 @@ export default function ProductDetailPage() {
     }
   }, [product])
   return (
-    <div className={cx('container')}>
-      <ProductDetailComponent product={product} />
-      <ProductInformation
-        description={{
-          "Danh mục": product?.type == 'MOBILE' ? 'Điện thoại' : product?.type == 'LAPTOP' ? 'Laptop' : product?.type == 'WATCH' ? 'Đồng hồ' : 'Phụ kiện',
-          "Xuất xứ": product?.origin,
-        }}
-        moreDetails={{
-          "Mô tả": product?.description?.split('\n').map((line, index) => <p key={index}>{line}</p>),
-        }}
-      />
-      <ProductReview product={product} />
+    <div className={cx('wrap')}>
+      <div className={cx('container')}>
+        <ProductDetailComponent product={product} />
+        <ProductInformation
+          description={{
+            "Danh mục": product?.type == 'MOBILE' ? 'Điện thoại' : product?.type == 'LAPTOP' ? 'Laptop' : product?.type == 'WATCH' ? 'Đồng hồ' : 'Phụ kiện',
+            "Xuất xứ": product?.origin,
+          }}
+          moreDetails={{
+            "Mô tả": product?.description?.split('\n').map((line, index) => <p key={index}>{line}</p>),
+          }}
+        />
+        <ProductReview product={product} />
+      </div>
     </div>
   )
 }
