@@ -12,4 +12,5 @@ import java.util.List;
 public interface CommentRepository extends JpaRepository<Comment,Integer> {
     List<Comment> findCommentsByUserAndProduct(User user, Product product);
     long count();
+    List<Comment> findAllByProduct(Product product);
 }

@@ -10,26 +10,45 @@ import { useContext, useEffect, useState } from 'react';
 import UserApi from '../../Api/UserApi';
 import { Link } from 'react-router-dom';
 import { LoadingContext } from '../..';
+import { useQuery } from 'react-query';
 
 
 const cx = classNames.bind(styles);
 function HomePage() {
-    const [products, setProducts] = useState([])
-    const [loading, setLoading] = useContext(LoadingContext)
+    // const [products, setProducts] = useState([])
+    // const [loading, setLoading] = useContext(LoadingContext)
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         setLoading(true);
+    //         try {
+    //             const res = await UserApi.GetNewProducts();
+    //             setProducts(res.data);
+    //         } catch (error) {
+    //             console.error("Error fetching products:", error);
+    //         } finally {
+    //             setLoading(false);
+    //         }
+    //     };
+    //     fetchData();
+    // }, [setLoading])
+    const [loading, setLoading] = useContext(LoadingContext);
+
+    const { data: products, isLoading, isError } = useQuery('newProducts', async () => {
+        const res = await UserApi.GetNewProducts();
+        return res.data;
+    },
+        {
+            cacheTime: 5000, //Thời gian cache data, ví dụ: 5000, sau 5s thì cache sẽ bị xóa, khi đó data trong cache sẽ là undefined
+            refetchOnWindowFocus: false,
+            staleTime: 10000,
+        });
+
     useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true);
-            try {
-                const res = await UserApi.GetNewProducts();
-                setProducts(res.data);
-            } catch (error) {
-                console.error("Error fetching products:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchData();
-    }, [setLoading])
+        setLoading(isLoading);
+    }, [isLoading, setLoading]);
+
+    if (isLoading) return <div>Loading...</div>;
+    if (isError) return <div>Error fetching products</div>;
     return (
         <div className={cx('homepage')} >
             <h1>

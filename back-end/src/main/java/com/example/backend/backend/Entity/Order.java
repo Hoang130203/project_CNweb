@@ -38,7 +38,7 @@ public class Order {
     @Column(name = "payment_status")
     private boolean paymentStatus;//0 là chưa trả , 1 là đã trả
 
-    @Column(name = "time",columnDefinition = "datetime")
+    @Column(name = "time")
     private Timestamp time;
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)

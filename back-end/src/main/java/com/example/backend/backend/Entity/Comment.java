@@ -28,13 +28,13 @@ public class Comment {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "content",columnDefinition = "nvarchar(max)")
+    @Column(name = "content",columnDefinition = "text")
     private String content;
 
-    @Column(name = "picture",columnDefinition = "varchar(max)")
+    @Column(name = "picture",columnDefinition = "text")
     private String picture;
 
-    @Column(name = "time", columnDefinition = "DATETIME")
+    @Column(name = "time")
     private Timestamp time;
 
     public Comment(Product product, User user, String content, String picture, Timestamp timestamp) {

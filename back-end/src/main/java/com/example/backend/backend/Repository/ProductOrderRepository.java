@@ -1,5 +1,6 @@
 package com.example.backend.backend.Repository;
 
+import com.example.backend.backend.Entity.Product;
 import com.example.backend.backend.Entity.ProductOrder;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,4 +16,7 @@ public interface ProductOrderRepository extends JpaRepository<ProductOrder,Long>
             "WHERE o.time BETWEEN :startDate AND :endDate " +
             "GROUP BY po.product.type")
     List<Object[]> findTotalCostOfMobileProductsLast6Months(@Param("startDate") Timestamp startDate, @Param("endDate") Timestamp endDate);
+
+    @Query("update ProductOrder po set po.product=null where po.product=:product ")
+    void deleteProductOrders(@Param("product") Product product);
 }

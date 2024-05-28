@@ -34,7 +34,8 @@ public class ProductServiceImpl implements ProductService {
     private final OrderRepository orderRepository;
     private final ProductOrderRepository productOrderRepository;
     private final ProductQuantityRepository productQuantityRepository;
-    public ProductServiceImpl(UserRepository userRepository, RateRepository rateRepository, CommentRepository commentRepository, ProductImageRepository productImageRepository, ColorRepository colorRepository, SizeRepository sizeRepository, OrderRepository orderRepository, ProductOrderRepository productOrderRepository, ProductQuantityRepository productQuantityRepository) {
+    private final CartRepository cartRepository;
+    public ProductServiceImpl(UserRepository userRepository, RateRepository rateRepository, CommentRepository commentRepository, ProductImageRepository productImageRepository, ColorRepository colorRepository, SizeRepository sizeRepository, OrderRepository orderRepository, ProductOrderRepository productOrderRepository, ProductQuantityRepository productQuantityRepository, CartRepository cartRepository) {
         this.userRepository = userRepository;
         this.rateRepository = rateRepository;
         this.commentRepository = commentRepository;
@@ -44,6 +45,7 @@ public class ProductServiceImpl implements ProductService {
         this.orderRepository = orderRepository;
         this.productOrderRepository = productOrderRepository;
         this.productQuantityRepository = productQuantityRepository;
+        this.cartRepository = cartRepository;
     }
 
     //lưu sản phẩm
@@ -360,5 +362,30 @@ public class ProductServiceImpl implements ProductService {
         return productOrderRepository.findTotalCostOfMobileProductsLast6Months(
                 Timestamp.valueOf(startOfMonth),
                 Timestamp.valueOf(startOfNextMonth));
+    }
+    @Transactional
+    @Override
+    public boolean deleteProduct(int id) {
+        Product product= productRepository.findById(id)
+                .orElseThrow(()->new RuntimeException("product not found"));
+        List<ProductQuantity> productQuantities= productQuantityRepository.findAllByProduct(product);
+        for (ProductQuantity productQuantity:productQuantities
+             ) {
+            productQuantityRepository.delete(productQuantity);
+        }
+        List<Comment> comments= commentRepository.findAllByProduct(product);
+        for (Comment comment: comments
+             ) {
+            commentRepository.delete(comment);
+        }
+        List<Rate> rates= rateRepository.findAllByProduct(product);
+        for (Rate rate: rates){
+            rateRepository.delete(rate);
+        }
+        productOrderRepository.deleteProductOrders(product);
+        cartRepository.deleteAllByProduct(product);
+        productImageRepository.deleteAllByProduct(product);
+        productRepository.delete(product);
+        return true;
     }
 }

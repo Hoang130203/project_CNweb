@@ -21,13 +21,13 @@ public class Product {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "name",columnDefinition = "nvarchar(max)")
+    @Column(name = "name",columnDefinition = "text")
     private String name;
 
-    @Column(name = "origin",columnDefinition = "nvarchar(255)")
+    @Column(name = "origin",columnDefinition = "text")
     private String origin;
 
-    @Column(name = "description",columnDefinition = "nvarchar(max)")
+    @Column(name = "description",columnDefinition = "text")
     private String description;
 
     @Column(name = "cost")
@@ -37,7 +37,7 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private EType type;
 
-    @Column(name = "brand",columnDefinition = "nvarchar(255)")
+    @Column(name = "brand",columnDefinition = "text")
     private String brand;
 
     @JsonIgnore

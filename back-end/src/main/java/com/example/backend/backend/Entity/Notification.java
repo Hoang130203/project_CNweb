@@ -17,10 +17,10 @@ public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(columnDefinition = "datetime")
+    @Column
     private Date date;
 
-    @Column(columnDefinition = "nvarchar(max)")
+    @Column(columnDefinition = "text")
     private String content;
     @ManyToOne
     @JoinColumn(name = "user_id")

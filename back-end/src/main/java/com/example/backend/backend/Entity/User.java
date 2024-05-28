@@ -37,17 +37,17 @@ public class User {
     @Column(name = "has_provider")
     private boolean hasProvider;
 
-    @Column(name = "avatar",columnDefinition = "nvarchar(max)")
+    @Column(name = "avatar",columnDefinition = "text")
     private String avatar;
 
-    @Column(name="name",columnDefinition = "nvarchar(70)")
+    @Column(name="name",columnDefinition = "text")
     private String name;
 
     @JsonIgnore
     @Column(name = "age")
     private int age;
 
-    @Column(name = "address",columnDefinition = "nvarchar(max)")
+    @Column(name = "address",columnDefinition = "text")
     private  String address;
 
     @Column(name = "phone",columnDefinition = "varchar(12)")

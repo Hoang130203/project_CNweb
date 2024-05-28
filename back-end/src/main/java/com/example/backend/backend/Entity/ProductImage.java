@@ -17,7 +17,7 @@ public class ProductImage {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "url",columnDefinition = "varchar(max)")
+    @Column(name = "url",columnDefinition = "text")
     private String url;
 
     @JsonIgnore

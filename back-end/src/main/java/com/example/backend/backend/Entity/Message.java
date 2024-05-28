@@ -23,16 +23,16 @@ public class Message {
     @Column(name = "num_order")
     private int numOrder;
 
-    @Column(name = "content",columnDefinition = "nvarchar(max)")
+    @Column(name = "content",columnDefinition = "text")
     private String content;
 
-    @Column(name = "image",columnDefinition = "varchar(max)")
+    @Column(name = "image",columnDefinition = "text")
     private String image;
 
     @Column(name = "owner")
     private boolean owner;
 
-    @Column(name = "time",columnDefinition = "datetime")
+    @Column(name = "time")
     private Timestamp time;
 
     @Column(name = "topic")

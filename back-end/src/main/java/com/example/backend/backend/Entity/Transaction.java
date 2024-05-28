@@ -28,7 +28,7 @@ public class Transaction {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "time",columnDefinition = "datetime")
+    @Column(name = "time")
     private Timestamp time;
 
     @Column(name = "status")

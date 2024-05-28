@@ -29,4 +29,5 @@ public interface ProductService {
     long countOrdersThisWeek();
     Long totalCostThisWeek();
     List<Object[]> findallCostMonth(int  month);
+    boolean deleteProduct(int id);
 }

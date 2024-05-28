@@ -3,12 +3,14 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 export const LoadingContext = createContext();
 
 const { Provider } = LoadingContext;
+const queryClient = new QueryClient();
 
 export const LoadingProvider = (props) => {
   const [loading, setLoading] = useState(false);
@@ -20,9 +22,11 @@ export const LoadingProvider = (props) => {
 }
 root.render(
   <React.StrictMode>
-    <LoadingProvider>
-      <App />
-    </LoadingProvider>
+    <QueryClientProvider client={queryClient}>
+      <LoadingProvider>
+        <App />
+      </LoadingProvider>
+    </QueryClientProvider>
   </React.StrictMode>
 );
 
