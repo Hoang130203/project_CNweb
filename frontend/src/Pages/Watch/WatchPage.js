@@ -118,4 +118,4 @@ function Watch() {
     );
 }
 
-export default Watch;
+export default WatchPage;
