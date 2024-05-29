@@ -3,11 +3,12 @@ package com.example.backend.backend.AuthController;
 
 import com.example.backend.backend.Entity.User;
 import com.example.backend.backend.Service.UserService;
+import com.example.backend.backend.payos.PayOS;
+import com.example.backend.backend.payos.type.ItemData;
+import com.example.backend.backend.payos.type.PaymentData;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lib.payos.PayOS;
-import com.lib.payos.type.ItemData;
-import com.lib.payos.type.PaymentData;
+
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,7 +29,7 @@ public class PayOsController {
     private final PayOS payOS;
     private final UserService userService;
 //    private String base_url="http://localhost:8081";
-    //    private String base_url2="http://localhost:3000";
+//        private String base_url2="http://localhost:3000";
     private String base_url="https://project-cnweb.onrender.com";
     private String base_url2="https://project-c-nweb.vercel.app";
 
