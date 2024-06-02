@@ -4,8 +4,6 @@
 }
 .container{
     width: 90%;
-    height: 70vh;
-    margin-top: 75px;
     display: flex;
     margin-left: 100px;
 }
@@ -26,6 +24,8 @@
     margin-left: 80px;
     margin-top:40px;
     width: 50%;
+    display: flex;
+    flex-direction: column;
 }
 
 .logger h1{
@@ -49,13 +49,13 @@
 .internal .row{
     width: 100%;
     height: 25%;
+    margin-top: 10px;
 }
 
 .internal .row .label{
     font-size: 25px;
     margin-bottom: 5px;
     width: 100%;
-    height: 50%;
 }
 
 .internal .row .input{
@@ -71,6 +71,10 @@
     border-radius: 15px;
     padding-left: 15px;
     border: 1px #000000 solid;
+}
+.internal .row .input .error {
+    color: red;
+    font-size: 15px;
 }
 
 

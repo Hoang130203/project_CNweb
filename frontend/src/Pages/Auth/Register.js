@@ -1,18 +1,62 @@
-import "../Auth/Logger.css"
-import loggerImg from "../../Assets/Logger.png"
+import "../Auth/Logger.css";
+import loggerImg from "../../Assets/Logger.png";
 import SocialButton from "./SocialLoginButton";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import UserApi from "../../Api/UserApi";
+
 function Register() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const navigate = useNavigate()
+    const [usernameError, setUsernameError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
+    const [confirmPasswordError, setConfirmPasswordError] = useState("");
+
+    const navigate = useNavigate();
+
     useEffect(() => {
-        document.title = 'Đăng kí';
+        document.title = "Đăng kí";
     }, []);
+
+    const handleUsernameBlur = () => {
+        if (username.trim() === "") {
+            setUsernameError("Vui lòng không bỏ trống");
+        } else {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const phoneRegex = /^[0-9]{10,11}$/;
+            if (!emailRegex.test(username) && !phoneRegex.test(username)) {
+                setUsernameError("Vui lòng kiểm tra lại email hoặc số điện thoại");
+            } else {
+                setUsernameError("");
+            }
+        }
+    };
+
+    const handlePasswordBlur = () => {
+        if (password.trim() === "") {
+            setPasswordError("Vui lòng không bỏ trống");
+        } else {
+            const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+            if (!passwordRegex.test(password)) {
+                setPasswordError("Mật khẩu tối thiểu 6 ký tự, có ít nhất 1 chữ và 1 số");
+            } else {
+                setPasswordError("");
+            }
+        }
+    };
+
+  const handleConfirmPasswordBlur = () => {
+    if (confirmPassword.trim() === "") {
+      setConfirmPasswordError("Vui lòng không bỏ trống");
+    } else if (confirmPassword !== password) {
+      setConfirmPasswordError("Mật khẩu xác nhận không khớp");
+    } else {
+      setConfirmPasswordError("");
+    }
+  };
+
     const handleSubmit = async (e) => {
         if (password !== confirmPassword) {
             toast.error("Mật khẩu xác nhận không khớp");
@@ -20,71 +64,102 @@ function Register() {
         }
         e.preventDefault();
         try {
-            const res = await UserApi.Register(username, password, "", "")
-                .then((res) => {
+            const res = await UserApi.Register(username, password, "", "").then(
+                (res) => {
                     if (res.status === 200 || res.status === 201) {
                         toast.success("Đăng kí thành công");
-                        navigate("/login")
-                    }
-                    else
+                        navigate("/login");
+                    } else {
                         toast.error("Đăng kí thất bại");
-                })
+                    }
+                }
+            );
             console.log(res);
-        }
-        catch (error) {
+        } catch (error) {
             toast.error("Đăng kí thất bại");
             console.log(error);
         }
-    }
+    };
+
     return (
-        <div class="container">
+        <div className="container">
             {/* ảnh nền */}
-            <div class="ad-block">
+            <div className="ad-block">
                 <img src={loggerImg}></img>
             </div>
             {/* phần đăng kí */}
-            <div class="logger">
+            <div className="logger">
                 <h1>Đăng kí</h1>
                 {/* form đăng kí */}
-                <div class="internal">
+                <div className="internal">
                     {/* tài khoản */}
-                    <div class="row">
-                        <div class="label">Tài khoản</div>
-                        <div class="input">
-                            <input type="text" value={username} onChange={(e) => { setUsername(e.target.value) }} name="UserName" placeholder="Số điện thoại hoặc Email..." id="UserName"></input>
+                    <div className="row">
+                        <div className="label">Tài khoản</div>
+                        <div className="input">
+                            <input
+                                type="text"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                onBlur={handleUsernameBlur}
+                                name="UserName"
+                                placeholder="Số điện thoại hoặc Email..."
+                                id="UserName"
+                            ></input>
+                            {usernameError && <div className="error">{usernameError}</div>}
                         </div>
                     </div>
                     {/* mật khẩu */}
-                    <div class="row">
-                        <div class="label">Mật khẩu</div>
-                        <div class="input">
-                            <input type="password" value={password} onChange={(e) => { setPassword(e.target.value) }} name="UserPassword" placeholder="*************" id="UserPassword"></input>
+                    <div className="row">
+                        <div className="label">Mật khẩu</div>
+                        <div className="input">
+                            <input
+                                type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                onBlur={handlePasswordBlur}
+                                name="UserPassword"
+                                placeholder="*************"
+                                id="UserPassword"
+                            ></input>
+                            {passwordError && <div className="error">{passwordError}</div>}
                         </div>
                     </div>
                     {/* xác nhận mật khẩu */}
-                    <div class="row">
-                        <div class="label">Nhập lại mật khẩu</div>
-                        <div class="input">
-                            <input type="password" value={confirmPassword} onChange={(e) => { setConfirmPassword(e.target.value) }} name="ConfirmUserPassword" placeholder="*************" id="ConfirmUserPassword"></input>
+                    <div className="row">
+                        <div className="label">Nhập lại mật khẩu</div>
+                        <div className="input">
+                            <input
+                                type="password"
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                onBlur={handleConfirmPasswordBlur}
+                                name="ConfirmUserPassword"
+                                placeholder="*************"
+                                id="ConfirmUserPassword"
+                            ></input>
+                            {confirmPasswordError && <div className="error">{confirmPasswordError}</div>}
                         </div>
                     </div>
                     {/* nút đăng kí */}
-                    <div class="row">
-                        <button class="logger-btn" onClick={handleSubmit}>Đăng kí</button>
+                    <div className="row">
+                        <button className="logger-btn" onClick={handleSubmit}>
+                            Đăng kí
+                        </button>
                     </div>
-
                 </div>
                 {/* Hoặc */}
-                <div class="break-line">
-                    <em class="break-caption">Hoặc</em>
+                <div className="break-line">
+                    <em className="break-caption">Hoặc</em>
                 </div>
                 {/* --------------------------------------- */}
                 {/* Đăng nhập bằng liên kết */}
                 <SocialButton />
                 {/* Chuyển hướng đăng nhập */}
-                <div class="other">
-                    <p class="note">Đã có tài khoản?</p>
-                    <Link class="nav" to="/login">Đăng nhập</Link>
+                <div className="other">
+                    <p className="note">Đã có tài khoản?</p>
+                    <Link className="nav" to="/login">
+                        Đăng nhập
+                    </Link>
                 </div>
             </div>
         </div>
