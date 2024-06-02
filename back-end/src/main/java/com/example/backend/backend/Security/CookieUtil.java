@@ -15,6 +15,7 @@ public class CookieUtil {
         cookie.setMaxAge(maxAge);
         cookie.setDomain(domain);
         cookie.setPath("/");
+
         httpServletResponse.addCookie(cookie);
 
     }
