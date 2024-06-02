@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import AdminApi from '../../Api/AdminApi';
 
 function LiveStream() {
     const [isLive, setIsLive] = useState(false);
@@ -80,6 +81,7 @@ function LiveStream() {
 
     const handleLiveButtonClick = () => {
         setIsLive(true);
+        AdminApi.StartLive();
     };
 
     return (

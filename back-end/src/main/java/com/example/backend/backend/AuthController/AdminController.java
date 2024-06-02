@@ -198,6 +198,24 @@ public class AdminController {
     {
         return ResponseEntity.ok(productService.toggleShow(id));
     }
+
+    @GetMapping("/live")
+    public ResponseEntity<?> startLive(){
+        NotificationMessage notificationMessage= new NotificationMessage();
+        notificationMessage.setContent("Quản trị viên vừa bắt đầu buổi livestream!");
+        notificationMessage.setAdmin(false);
+        notificationMessage.setSender("System");
+        notificationMessage.setTimestamp(new Date());
+        List<User> users= userRepository.findAll();
+        for (User user:users
+             ) {
+            String topic= user.getAccount();
+            messagingTemplate.convertAndSend(String.format("/topic/%s", topic), notificationMessage);
+            Notification notification= new Notification(new java.sql.Date(System.currentTimeMillis()), notificationMessage.getContent(), user, 0,false,false);
+            notificationRepository.save(notification);
+        }
+        return ResponseEntity.ok("sended");
+    }
     @GetMapping("/sendemail")
     public ResponseEntity<?> sendEmail(@RequestParam("content") String content)
     {

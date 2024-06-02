@@ -57,5 +57,8 @@ class AdminApi {
     ToggleShowProduct(productId) {
         return axios.put(`${base_api}/api/admin/toggleShow?id=${productId}`, {}, headers)
     }
+    StartLive() {
+        return axios.get(`${base_api}/api/admin/live`, headers)
+    }
 }
 export default new AdminApi();
