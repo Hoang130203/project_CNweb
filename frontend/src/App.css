@@ -152,7 +152,7 @@
     border: 1px solid #a7a6a6;
     border-radius: 16px;
     margin-top: 20px;
-    background-color: #e7e7e7;
+    background-color: #e8eeef;
     padding-top: 10px;
 
     .find_item {
@@ -198,7 +198,7 @@
   border: 1px solid #a7a6a6;
   border-radius: 16px;
   margin-top: 20px;
-  background-color: #e7e7e7;
+  background-color: #e8eeef;
   padding-top: 10px;
 
   .find_item {
@@ -350,7 +350,7 @@
 .mobile-search {
   display: flex;
   justify-content: center;
-  background-color: #d9d8d8;
+  background-color: #e8eeef;
   padding: 10px 0;
 }
 
@@ -365,7 +365,7 @@
 .mobile-menu {
   display: flex;
   flex-direction: column;
-  background-color: #d9d8d8;
+  background-color: #e8eeef;
   padding: 10px 0;
 }
 

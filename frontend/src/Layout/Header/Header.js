@@ -185,7 +185,7 @@ function Header() {
             {user &&
               <>
                 <div className='search-container'>
-                  <input type="text" className="search-input" placeholder="Tìm kiếm..." value={valueInput} onChange={e => setValueInput(e.target.value)} onFocus={inputClicked} onBlur={inputUnClicked} />
+                  <input type="text" className="search-input" placeholder="Tìm kiếm..." value={valueInput} onChange={e => setValueInput(e.target.value)} />
                   <FaSearch className="icon search-icon-laptop" />
                   <FaSearch className="icon search-icon" onClick={toggleSearch} />
                   {
@@ -198,7 +198,7 @@ function Header() {
                                 <img className='find_img' src={item.images[0].url} alt='find_img' />
                                 <div className='find_text'>
                                   <p className='find_name'>{item.name}</p>
-                                  <p className='find_price'>{item.cost.toLocaleString()}</p>
+                                  <p className='find_price'>{item.cost?.toLocaleString()}</p>
                                 </div>
                               </a>
                             </div>
@@ -267,7 +267,7 @@ function Header() {
         </header>
         {searchOpen && (
           <div className="mobile-search">
-            <input type="text" className="mobile-search-input" placeholder="Tìm kiếm..." value={valueInput} onChange={e => setValueInput(e.target.value)} onFocus={inputClicked} onBlur={inputUnClicked} />
+            <input type="text" className="mobile-search-input" placeholder="Tìm kiếm..." value={valueInput} onChange={e => setValueInput(e.target.value)} />
             {
               listSearch.length > 0 && <div className='find_box_2'>
                 {
@@ -278,7 +278,7 @@ function Header() {
                           <img className='find_img' src={item.images[0].url} alt='find_img' />
                           <div className='find_text'>
                             <p className='find_name'>{item.name}</p>
-                            <p className='find_price'>{item.cost.toLocaleString()}</p>
+                            <p className='find_price'>{item.cost?.toLocaleString()}</p>
                           </div>
                         </a>
                       </div>

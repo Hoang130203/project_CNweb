@@ -399,33 +399,33 @@ export default function UserOrders() {
 
       <hr style={{ border: '0.1px solid #B6B6B6', width: 'auto', paddingLeft: '4px', margin: '22px 0px 0px 12px' }} />
       {selectedLink === 'all' &&
-        orders.map((order, index) => {
+        orders?.sort((a, b) => b.id - a.id).map((order, index) => {
           return <Order key={index} order={order} />;
         })}
 
       {selectedLink === 'unconfirmed' &&
-        orders
+        orders?.sort((a, b) => b.id - a.id)
           .filter((order) => order.status === null)
           .map((order, index) => {
             return <Order key={index} order={order} />;
           })}
 
       {selectedLink === 'shipping' &&
-        orders
+        orders?.sort((a, b) => b.id - a.id)
           .filter((order) => order.status === 'SENDING')
           .map((order, index) => {
             return <Order key={index} order={order} />;
           })}
 
       {selectedLink === 'success' &&
-        orders
+        orders?.sort((a, b) => b.id - a.id)
           .filter((order) => order.status === 'SUCCESS')
           .map((order, index) => {
             return <Order key={index} order={order} />;
           })}
 
       {selectedLink === 'cancelled' &&
-        orders
+        orders?.sort((a, b) => b.id - a.id)
           .filter((order) => order.status === 'CANCELLED')
           .map((order, index) => {
             return <Order key={index} order={order} />;
