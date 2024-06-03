@@ -29,7 +29,7 @@ function OrderRow({ order }) {
             toast.warn('Không thể thay đổi trạng thái đơn hàng đã hoàn thành');
             return;
         }
-        if (order.paymentStatus == true) {
+        if (order.paymentStatus == true && e.target.value == 'CANCELLED') {
             toast.warn('Vì đơn hàng đã được thanh toán nên hãy liên hệ với người mua để hủy')
             return;
         }

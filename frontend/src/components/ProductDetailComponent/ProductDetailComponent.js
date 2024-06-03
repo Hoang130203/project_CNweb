@@ -57,7 +57,7 @@ function ProductDetailComponent({ product }) {
             return;
         }
         let isUser = false
-        let roles = JSON.parse(localStorage.getItem('w15store_user'))?.roles
+        let roles = JSON.parse(localStorage.getItem('w15store_user'))?.roles || []
         for (let i = 0; i < roles.length; i++) {
             if (roles[i].role?.id == 1) {
                 isUser = true
@@ -87,7 +87,7 @@ function ProductDetailComponent({ product }) {
             return;
         }
         let isUser = false
-        let roles = JSON.parse(localStorage.getItem('w15store_user'))?.roles
+        let roles = JSON.parse(localStorage.getItem('w15store_user'))?.roles || []
         for (let i = 0; i < roles.length; i++) {
             if (roles[i].role?.id == 1) {
                 isUser = true

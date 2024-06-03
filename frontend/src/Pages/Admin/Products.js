@@ -48,7 +48,12 @@ function Products() {
             try {
                 const response = await AdminApi.GetAllProducts()
                     .finally(() => setLoading(false));
-                setProducts(response.data);
+
+                if (response && response.data) {
+                    const sortedProducts = response.data.sort((a, b) => b.id - a.id);
+                    setProducts(sortedProducts);
+                }
+
                 setTotalPages(Math.ceil(response.data.length / 8));
             } catch (error) {
                 console.error("Error fetching products:", error);
@@ -127,8 +132,14 @@ function Products() {
     const updateProducts = () => {
         const fetchProducts = async () => {
             try {
-                const response = await AdminApi.GetAllProducts();
-                setProducts(response.data);
+                const response = await AdminApi.GetAllProducts()
+                    .finally(() => setLoading(false));
+
+                if (response && response.data) {
+                    const sortedProducts = response.data.sort((a, b) => b.id - a.id);
+                    setProducts(sortedProducts);
+                }
+
             } catch (error) {
                 console.error("Error fetching products:", error);
             }
