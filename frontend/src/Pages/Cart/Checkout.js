@@ -78,19 +78,23 @@ const ShippingAddress = () => {
 
 
 // Phương thức thanh toán
-const PaymentMethod = ({ method, setMethod }) => {
+const PaymentMethod = ({ method, setMethod, setIsPaymentMethodSelected }) => {
     const handlePaymentOptionChange = (option) => {
-        setMethod(option);
+        setMethod(option === 'Thanh toán khi nhận hàng' ? 1 : 0);
+        setIsPaymentMethodSelected(true);
     };
+    console.log(method)
+    const paymentOptions = ['Thanh toán khi nhận hàng', 'Thanh toán online'];
+
     return (
         <div>
             <h3>Phương thức thanh toán</h3>
-            <div className='payment__options'>
-                <input type='radio' name='payment' id='payment1' value={method} onChange={() => handlePaymentOptionChange(1)} />
-                <label htmlFor='payment1'>Thanh toán khi nhận hàng</label>
-                <input type='radio' name='payment' id='payment2' value={method} onChange={() => handlePaymentOptionChange(0)} />
-                <label htmlFor='payment2'>Thanh toán online</label>
-            </div>
+            <RadioButton
+                type="radio"
+                options={paymentOptions}
+                onOptionChange={handlePaymentOptionChange}
+                hasDefaultOption={false}
+            />
         </div>
     );
 };
@@ -184,7 +188,10 @@ const CheckoutPage = () => {
     const [orderId, setOrderId] = useState(null)
     const [show, setShow] = useState(false);
     const shippingFee = 50000;
-    const [methods, setMethod] = useState(1);
+    const [methods, setMethod] = useState();
+    const [isPaymentMethodSelected, setIsPaymentMethodSelected] = useState(false);
+
+
     useEffect(() => {
         document.title = 'Thanh toán';
     }, []);
@@ -207,6 +214,10 @@ const CheckoutPage = () => {
     const handlePay = async (method) => {
         if (products.length === 0) {
             toast.error('Chưa có sản phẩm');
+            return;
+        }
+        if (!isPaymentMethodSelected) {
+            toast.warn('Vui lòng chọn phương thức thanh toán');
             return;
         }
         console.log('Thanh toán qua:', method);
@@ -313,7 +324,7 @@ const CheckoutPage = () => {
                 <div className={cx('info__container')}>
                     <CustomerInfo />
                     <ShippingAddress />
-                    <PaymentMethod method={methods} setMethod={setMethod} />
+                    <PaymentMethod method={methods} setMethod={setMethod} setIsPaymentMethodSelected={setIsPaymentMethodSelected} />
                 </div>
                 <div className={cx('order__container')}>
                     <div>

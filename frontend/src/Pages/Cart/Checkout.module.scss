@@ -1,4 +1,5 @@
 // Checkout.module.scss
+
 .wrap {
     width: 1200px;
     margin: 0 auto;
@@ -27,11 +28,11 @@
             input,
             select {
                 display: block;
-                width: 90%;
                 padding: 10px;
                 border: 1px solid #ccc;
                 border-radius: 4px;
                 font-size: 14px;
+                width: 90%;
             }
 
             .info-row {
@@ -157,3 +158,4 @@
         }
     }
 }
+
