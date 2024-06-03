@@ -1,13 +1,14 @@
 import classNames from 'classnames/bind';
 import styles from '../Layout.module.scss'
 import { Link } from 'react-router-dom';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, createContext } from 'react';
 import { NotificationContext } from '../../Pages/ContextOrder/NotificationContext';
 import UserApi from '../../Api/UserApi';
 import { FaShoppingCart } from "react-icons/fa";
 import { MdLiveTv } from "react-icons/md";
 
 import { FaBell, FaUser, FaSearch, FaBars } from 'react-icons/fa';
+import { NumberContext } from './NumberContext';
 
 const cx = classNames.bind(styles)
 
@@ -73,7 +74,6 @@ function DivAcc({ updateRole, handleClickAcc }) {
       </div>
     </div>)
 }
-
 
 
 function Header() {
@@ -162,6 +162,7 @@ function Header() {
     localStorage.removeItem('w15store_avatar');
     setUser(null);
   };
+  const [number, setNumber] = useContext(NumberContext)
   return (
     <div>
       <div className='wrap_header'>
@@ -216,7 +217,7 @@ function Header() {
                     <path d="M6.25 13.5H43.75" stroke="#6B6B6B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
                     <path d="M33.3334 22.5C33.3334 24.887 32.4554 27.1761 30.8926 28.864C29.3298 30.5518 27.2102 31.5 25 31.5C22.7899 31.5 20.6703 30.5518 19.1075 28.864C17.5447 27.1761 16.6667 24.887 16.6667 22.5" stroke="#6B6B6B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
                   </svg>
-                  <div className={cx("nav-cart-count")}>0</div>
+                  <div className={cx("nav-cart-count")}>{number}</div>
                 </Link>
               </>
             }

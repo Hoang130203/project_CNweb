@@ -13,6 +13,7 @@ import { convertColor } from '../../Api/OtherFunction';
 import { OrderContext } from '../../Pages/ContextOrder/OrderContext';
 import { toast } from 'react-toastify';
 import { LoadingContext } from '../..';
+import { NumberContext } from '../../Layout/Header/NumberContext';
 
 const formatPrice = (price) => {
     const formattedPrice = Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
@@ -24,7 +25,7 @@ function ProductDetailComponent({ product }) {
     const [products, setProducts, address, setAddress] = useContext(OrderContext);
     const [option, setOption] = useState({ color: '', size: '' });
     const [quantity, setQuantity] = useState(1);
-
+    const [number, setNumber] = useContext(NumberContext)
     const convertOption = useCallback((option, type) => {
         if (type === 'size') {
             return option.name;
@@ -97,6 +98,7 @@ function ProductDetailComponent({ product }) {
             toast.warn('Chỉ có người dùng mới có thể mua hàng, hãy đăng nhập với tư cách người dùng')
             return
         }
+        setNumber(number + 1)
         const newProduct = {
             productId: product.id,
             cost: product.cost,

@@ -8,6 +8,7 @@ import UserApi from '../../Api/UserApi';
 import { OrderContext } from '../ContextOrder/OrderContext';
 import { toast } from 'react-toastify';
 import { LoadingContext } from '../..';
+import { NumberContext } from '../../Layout/Header/NumberContext';
 
 const cx = classNames.bind(styles);
 
@@ -16,6 +17,7 @@ export default function ShoppingList() {
   const [selectedLink, setSelectedLink] = useState('all');
   const [products, setProducts] = useContext(OrderContext);
   const [loading, setLoading] = useContext(LoadingContext);
+  const [number, setNumber] = useContext(NumberContext)
   const [loadSuccess, setLoadSuccess] = useState(false);
   const handleLinkClick = (link) => {
     setSelectedLink(link);
@@ -47,6 +49,7 @@ export default function ShoppingList() {
           console.log('Xóa thành công');
           toast.success('Xóa thành công 1 sản phẩm khỏi giỏ hàng');
           setCarts(carts.filter(item => item !== product));
+          setNumber(number - 1)
         }
       }).catch((error) => {
         toast.error('Xóa thất bại');
