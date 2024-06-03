@@ -18,7 +18,7 @@ function Orders() {
         setLoading(true);
         AdminApi.GetAllOrders().then(res => {
             console.log(res.data);
-            setOrders(res.data?.filter(order => order.totalCost > 50000));
+            setOrders(res.data?.filter(order => order.totalCost > 50000).sort((a, b) => b.id - a.id));
         })
             .finally(() => setLoading(false));
     }, []);
