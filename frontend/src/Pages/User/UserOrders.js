@@ -172,12 +172,12 @@ function TotalMoney({ order }) {
     <div>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
         <div style={{ display: 'flex', height: '35px' }}>
-          <p style={{ }}>Phí vận chuyển:</p>
+          <p style={{}}>Phí vận chuyển:</p>
           <span style={{ marginRight: '5px' }}></span>
           <p style={{}} className={cx('new__price')}>{formatPrice(order.deliveryCost)}</p>
         </div>
         <div style={{ display: 'flex', height: '35px' }}>
-          <p style={{  }}>Thành tiền:</p>
+          <p style={{}}>Thành tiền:</p>
           <span style={{ marginRight: '5px' }}></span>
           <p style={{}} className={cx('new__price')}>{formatPrice(order.totalCost)}</p>
         </div>
@@ -222,7 +222,7 @@ function Product({ product }) {
         </div>
       </div>
       <div style={{ margin: '15px 0px 0px 0px' }}>
-        <button style={{ border: 'none', margin: '0px 0px 0px 520px', backgroundColor: 'rgb(226, 58, 58)', color: 'white', borderRadius: '6px', width: '150px', height: '35px', fontSize: '16px' }} onClick={() => { setShow(true) }}>Đánh giá</button>
+        <button style={{ border: 'none', margin: '0px 0px 0px 600px', backgroundColor: 'rgb(226, 58, 58)', color: 'white', borderRadius: '6px', width: '150px', height: '35px', fontSize: '16px' }} onClick={() => { setShow(true) }}>Đánh giá</button>
         <button style={{ border: 'none', margin: '0px 0px 0px 10px', backgroundColor: 'rgb(81, 191, 228)', color: 'white', borderRadius: '6px', width: '150px', height: '35px', fontSize: '16px' }} onClick={() => { setShowComment(true) }}>Bình luận</button>
       </div>
 
@@ -335,6 +335,7 @@ function Order({ order }) {
         })
       }
       <TotalMoney order={order} />
+      <hr style={{ borderTop: '4px solid #B6B6B6', width: 'auto', margin: '18px 0px 0px 0px' }} />
     </div >
   )
 }
@@ -397,13 +398,38 @@ export default function UserOrders() {
       </div>
 
       <hr style={{ border: '0.1px solid #B6B6B6', width: 'auto', paddingLeft: '4px', margin: '22px 0px 0px 12px' }} />
-      {
+      {selectedLink === 'all' &&
         orders.map((order, index) => {
-          return (
-            <Order key={index} order={order} />
-          )
-        })
-      }
+          return <Order key={index} order={order} />;
+        })}
+
+      {selectedLink === 'unconfirmed' &&
+        orders
+          .filter((order) => order.status === null)
+          .map((order, index) => {
+            return <Order key={index} order={order} />;
+          })}
+
+      {selectedLink === 'shipping' &&
+        orders
+          .filter((order) => order.status === 'SENDING')
+          .map((order, index) => {
+            return <Order key={index} order={order} />;
+          })}
+
+      {selectedLink === 'success' &&
+        orders
+          .filter((order) => order.status === 'SUCCESS')
+          .map((order, index) => {
+            return <Order key={index} order={order} />;
+          })}
+
+      {selectedLink === 'cancelled' &&
+        orders
+          .filter((order) => order.status === 'CANCELLED')
+          .map((order, index) => {
+            return <Order key={index} order={order} />;
+          })}
     </div>
   )
 }

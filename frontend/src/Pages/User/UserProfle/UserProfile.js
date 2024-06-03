@@ -78,7 +78,7 @@ export default function UserProfile() {
         <input id='profile_image' type="file" onChange={handleChangImage} style={{ display: 'none' }} />
         <label htmlFor='profile_image' style={{ cursor: 'pointer' }}>
           <div className={cx('avatar')}>
-            <img src={avatar || ''} alt="User Profile" />
+            <img src={avatar || 'https://icons.veryicon.com/png/o/miscellaneous/rookie-official-icon-gallery/225-default-avatar.png'} alt="User Profile" />
           </div>
         </label>
         <div className={cx('form')}>

@@ -21,7 +21,7 @@ function SideBar() {
             <div className={cx('content')}>
                 <div className={cx('userInfo')}>
                     <div className={cx('avatar')}>
-                        <img src={user?.avatar || "https://i.imgur.com/8Km9tLL.jpg"} alt="avatar" />
+                        <img src={user?.avatar || "https://icons.veryicon.com/png/o/miscellaneous/rookie-official-icon-gallery/225-default-avatar.png"} alt="avatar" />
                     </div>
                     <div className={cx('name')}>
                         <h3>{user?.name}</h3>

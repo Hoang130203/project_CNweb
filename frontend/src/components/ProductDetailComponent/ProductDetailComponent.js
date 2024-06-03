@@ -189,8 +189,7 @@ function ProductDetailComponent({ product }) {
                 <div className='price__container'>
                     <p className='new__price'>{formatPrice(product.cost - product.cost * product.promotion / 100)}</p>
                     {product?.promotion && <p className='old__price'>{formatPrice(product?.cost)}</p>}
-                    <p className='discount'>{product?.promotion}</p>
-                </div>
+                    <p className='discount'>(Giảm {product?.promotion}%)</p>                </div>
                 <div className='type__container'>
                     <p className='type__title'>Phân loại</p>
                     <div className='type__box'>

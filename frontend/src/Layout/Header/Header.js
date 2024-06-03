@@ -221,8 +221,11 @@ function Header() {
             }
             {user ? (
               <div style={{ display: 'flex', alignItems: 'center' }} className='user' >
-                <img src={avatar || 'https://via.placeholder.com/150'} alt="avatar" className="avatar" />
-                <div >
+                <img
+                  src={avatar != "null" ? avatar : "https://icons.veryicon.com/png/o/miscellaneous/rookie-official-icon-gallery/225-default-avatar.png"}
+                  alt="avatar"
+                  className="avatar"
+                />                <div >
                   {notifications.length > 0 && <div className='notifinumber'>{notifications.length}</div>}
                 </div>
                 <div className="user-menu">
@@ -258,7 +261,7 @@ function Header() {
             )}
             <FaBars className="icon menu-icon" onClick={toggleMenu} />
           </div>
-  
+
         </header>
         {searchOpen && (
           <div className="mobile-search">
