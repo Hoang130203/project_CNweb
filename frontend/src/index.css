@@ -24,3 +24,19 @@ html {
     border-radius: 5px; /* Độ cong của nút cuộn */
   }
 }
+
+.nav-cart-count {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -43px;
+  margin-left: 22px;
+  border-radius: 10px;
+  font-size: 12px;
+  background: red;
+  color: white;
+  position: absolute;
+  z-index: 1000;
+}

@@ -216,6 +216,7 @@ function Header() {
                     <path d="M6.25 13.5H43.75" stroke="#6B6B6B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
                     <path d="M33.3334 22.5C33.3334 24.887 32.4554 27.1761 30.8926 28.864C29.3298 30.5518 27.2102 31.5 25 31.5C22.7899 31.5 20.6703 30.5518 19.1075 28.864C17.5447 27.1761 16.6667 24.887 16.6667 22.5" stroke="#6B6B6B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
                   </svg>
+                  <div className={cx("nav-cart-count")}>0</div>
                 </Link>
               </>
             }
