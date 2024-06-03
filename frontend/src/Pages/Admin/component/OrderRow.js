@@ -29,6 +29,10 @@ function OrderRow({ order }) {
             toast.warn('Không thể thay đổi trạng thái đơn hàng đã hoàn thành');
             return;
         }
+        if (order.paymentStatus == true) {
+            toast.warn('Vì đơn hàng đã được thanh toán nên hãy liên hệ với người mua để hủy')
+            return;
+        }
         if (status == 'SENDING') {
 
             if (e.target.value !== 'SUCCESS' && e.target.value !== 'CANCELLED') {
