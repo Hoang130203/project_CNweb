@@ -5,6 +5,7 @@ function LiveStream() {
     const [isLive, setIsLive] = useState(false);
 
     useEffect(() => {
+        document.title = 'LiveStream'
         if (!isLive) return;
 
         const script = document.createElement('script');

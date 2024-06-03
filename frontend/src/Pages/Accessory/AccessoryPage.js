@@ -8,37 +8,60 @@ import { getMinMaxNewPrice } from '../../components/Filter/FilterLogic';
 import Sort from '../../components/Sort/Sort';
 import UserApi from '../../Api/UserApi';
 import { LoadingContext } from '../..';
+import { useQuery } from 'react-query';
 
 const cx = classNames.bind(styles);
 
 function AccessoryPage() {
-    const [products, setProducts] = useState([]);
     const [loading, setLoading] = useContext(LoadingContext)
+    const [products, setProducts] = useState([])
+    const { data: productss, isLoading, isError } = useQuery('product_accessory', async () => {
+        let res = await UserApi.GetProductByCategory('ACCESSORY')
 
-    useEffect(() => {
-        document.title = 'Phụ kiện';
-        setLoading(true);
-        UserApi.GetProductByCategory('ACCESSORY').then(res => {
-            const productsWithNewPrice = res.data.map(product => ({
-                ...product,
-                newPrice: product.cost - (product.cost * product.promotion / 100)
-            }));
-            setProducts(productsWithNewPrice);
+        return res.data;
+    },
+        {
+            cacheTime: 60000,
+            refetchOnWindowFocus: false,
+            staleTime: 100000,
         });
-    }, []);
 
     useEffect(() => {
-        if (products.length > 0) {
-            setLoading(false);
-        }
-    }, [products]);
+        document.title = 'phụ kiện';
+        setLoading(isLoading);
+    }, [isLoading, setLoading]);
+    useEffect(() => {
+        const productsWithNewPrice = productss?.map(product => ({
+            ...product,
+            newPrice: product.cost - (product.cost * product.promotion / 100)
+        }));
+        setProducts(productsWithNewPrice);
+    }, [productss])
+
+    // useEffect(() => {
+    //     document.title = 'Điện thoại';
+    //     setLoading(true);
+    //     UserApi.GetProductByCategory('MOBILE').then(res => {
+    //         const productsWithNewPrice = res.data.map(product => ({
+    //             ...product,
+    //             newPrice: product.cost - (product.cost * product.promotion / 100)
+    //         }));
+    //         setProducts(productsWithNewPrice);
+    //     });
+    // }, []);
+
+    // useEffect(() => {
+    //     if (products.length > 0) {
+    //         setLoading(false);
+    //     }
+    // }, [products]);
 
     const { min: MIN, max: MAX } = getMinMaxNewPrice();
     const [selectedOptions, setSelectedOptions] = useState({});
     const [priceRange, setPriceRange] = useState([MIN, MAX]);
     const [sortType, setSortType] = useState('Giá thấp - cao');
 
-    const filteredProducts = products.filter((product) => {
+    const filteredProducts = products?.filter((product) => {
         for (const [filterName, options] of Object.entries(selectedOptions)) {
             const filterNameLower = filterName.toLowerCase();
             if (filterNameLower === 'rate') {
@@ -57,7 +80,7 @@ function AccessoryPage() {
         return product.newPrice >= priceRange[0] && product.newPrice <= priceRange[1];
     });
 
-    const sortedProducts = [...filteredProducts].sort((a, b) => {
+    const sortedProducts = [...filteredProducts || []].sort((a, b) => {
         switch (sortType) {
             case 'Giá cao - thấp':
                 return b.newPrice - a.newPrice;
@@ -79,6 +102,8 @@ function AccessoryPage() {
     const handleSortTypeChange = (sortType) => {
         setSortType(sortType);
     };
+    if (isLoading) return <div>Loading...</div>;
+    if (isError) return <div>Error fetching products</div>;
 
     return (
         <div className={cx('product__page')}>

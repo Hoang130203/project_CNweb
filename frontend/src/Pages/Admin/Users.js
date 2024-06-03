@@ -57,6 +57,8 @@ function Users() {
     }, [isBaseLoading, isTransactionsLoading, isUsersLoading, setLoading]);
 
     useEffect(() => {
+        document.title = 'Quản lý người dùng'
+
         if (users) {
             let totalPage = Math.ceil(users.length / itemsPerPage);
             setTotalPages(totalPage);

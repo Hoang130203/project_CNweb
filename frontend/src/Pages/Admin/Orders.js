@@ -14,6 +14,7 @@ function Orders() {
     const [orders, setOrders] = useState([
     ]);
     useEffect(() => {
+        document.title = 'Đơn hàng'
         setLoading(true);
         AdminApi.GetAllOrders().then(res => {
             console.log(res.data);

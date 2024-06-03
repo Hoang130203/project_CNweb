@@ -52,6 +52,7 @@ function Chats() {
     }, [key])
 
     useEffect(() => {
+        document.title = 'Chat'
         scroll()
         setKey(prevKey => prevKey + 1);
     }, [messageList, messages]);

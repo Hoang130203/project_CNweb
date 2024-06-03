@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './css/setting.css'
 import { toast } from 'react-toastify';
 import UserApi from '../../Api/UserApi';
@@ -13,6 +13,10 @@ function Setting() {
         // Sau khi đổi mật khẩu thành công, đóng popup
 
     }
+    useEffect(() => {
+        document.title = 'Cài đặt tài khoản'
+
+    }, [])
     const handleSubmit = () => {
         if (newPassword !== confirmNewPassword) {
             toast.error("Mật khẩu mới không khớp");

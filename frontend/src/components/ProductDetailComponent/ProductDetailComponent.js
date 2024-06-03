@@ -56,6 +56,17 @@ function ProductDetailComponent({ product }) {
             toast.warn('Vui lòng chọn đủ màu sắc và kích thước');
             return;
         }
+        let isUser = false
+        let roles = JSON.parse(localStorage.getItem('w15store_user'))?.roles
+        for (let i = 0; i < roles.length; i++) {
+            if (roles[i].role?.id == 1) {
+                isUser = true
+            }
+        }
+        if (!isUser) {
+            toast.warn('Chỉ có người dùng mới có thể mua hàng, hãy đăng nhập với tư cách người dùng')
+            return
+        }
         const newProduct = {
             id: product.id,
             name: product.name,
@@ -74,6 +85,17 @@ function ProductDetailComponent({ product }) {
         if (!option.size || !option.color) {
             toast.warn('Vui lòng chọn đủ màu sắc và kích thước');
             return;
+        }
+        let isUser = false
+        let roles = JSON.parse(localStorage.getItem('w15store_user'))?.roles
+        for (let i = 0; i < roles.length; i++) {
+            if (roles[i].role?.id == 1) {
+                isUser = true
+            }
+        }
+        if (!isUser) {
+            toast.warn('Chỉ có người dùng mới có thể mua hàng, hãy đăng nhập với tư cách người dùng')
+            return
         }
         const newProduct = {
             productId: product.id,

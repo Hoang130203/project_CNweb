@@ -42,6 +42,7 @@ function Products() {
     const [showFixImage, setShowFixImage] = useState(false);
     // Lấy tất cả sản phẩm qua API
     useEffect(() => {
+        document.title = 'Quản lý sản phẩm'
         setLoading(true);
         const fetchProducts = async () => {
             try {

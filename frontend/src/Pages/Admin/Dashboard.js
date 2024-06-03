@@ -20,6 +20,7 @@ function Dashboard() {
             staleTime: 100000,
         });
     useEffect(() => {
+        document.title = 'Thống kê'
         setLoading(isLoading);
     }, [isLoading, setLoading]);
 

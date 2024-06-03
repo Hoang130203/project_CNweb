@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SocketContext } from "./Context/context";
 import AdminApi from "../../Api/AdminApi";
 import { toast } from "react-toastify";
@@ -7,7 +7,9 @@ function Notifications() {
     const [newNotification, setNewNotification] = useState("");
     const [messages, setMessages, stompClient, username, oldTopicDict, notifications, setNotifications, oldNotifications, setOldNotifications] = useContext(SocketContext)
 
-
+    useEffect(() => {
+        document.title = 'Thông báo'
+    }, [])
     const handleNewNotification = async () => {
         toast.info("Đang gửi thông báo...");
         if (newNotification.trim() !== "") {

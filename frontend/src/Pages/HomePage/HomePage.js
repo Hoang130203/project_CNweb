@@ -39,7 +39,7 @@ function HomePage() {
         return res.data;
     },
         {
-            cacheTime: 5000,
+            cacheTime: 6000,
             refetchOnWindowFocus: false,
             staleTime: 10000,
         });
