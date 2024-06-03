@@ -12,8 +12,8 @@ import { useState } from 'react';
 
 const cx = classNames.bind(styles);
 
-const RadioButton = ({ type, options, onOptionChange }) => {
-    const [selectedOption, setSelectedOption] = useState(options[0]);
+const RadioButton = ({ type, options, onOptionChange, hasDefaultOption = true }) => {
+    const [selectedOption, setSelectedOption] = useState(hasDefaultOption ? options[0] : null);
 
     const handleOptionChange = (event) => {
         setSelectedOption(event.target.value);

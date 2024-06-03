@@ -47,22 +47,31 @@ function Register() {
         }
     };
 
-  const handleConfirmPasswordBlur = () => {
-    if (confirmPassword.trim() === "") {
-      setConfirmPasswordError("Vui lòng không bỏ trống");
-    } else if (confirmPassword !== password) {
-      setConfirmPasswordError("Mật khẩu xác nhận không khớp");
-    } else {
-      setConfirmPasswordError("");
-    }
-  };
+    const handleConfirmPasswordBlur = () => {
+        if (confirmPassword.trim() === "") {
+            setConfirmPasswordError("Vui lòng không bỏ trống");
+        } else if (confirmPassword !== password) {
+            setConfirmPasswordError("Mật khẩu xác nhận không khớp");
+        } else {
+            setConfirmPasswordError("");
+        }
+    };
 
     const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        // Kiểm tra xác nhận mật khẩu
         if (password !== confirmPassword) {
             toast.error("Mật khẩu xác nhận không khớp");
             return;
         }
-        e.preventDefault();
+
+        // Kiểm tra lỗi
+        if (usernameError || passwordError || confirmPasswordError) {
+            toast.error("Vui lòng kiểm tra lại thông tin đăng ký");
+            return;
+        }
+
         try {
             const res = await UserApi.Register(username, password, "", "").then(
                 (res) => {

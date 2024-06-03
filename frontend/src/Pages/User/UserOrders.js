@@ -172,12 +172,12 @@ function TotalMoney({ order }) {
     <div>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
         <div style={{ display: 'flex', height: '35px' }}>
-          <p style={{ marginTop: '18px' }}>Phí vận chuyển:</p>
+          <p style={{ }}>Phí vận chuyển:</p>
           <span style={{ marginRight: '5px' }}></span>
           <p style={{}} className={cx('new__price')}>{formatPrice(order.deliveryCost)}</p>
         </div>
         <div style={{ display: 'flex', height: '35px' }}>
-          <p style={{ marginTop: '18px' }}>Thành tiền:</p>
+          <p style={{  }}>Thành tiền:</p>
           <span style={{ marginRight: '5px' }}></span>
           <p style={{}} className={cx('new__price')}>{formatPrice(order.totalCost)}</p>
         </div>
