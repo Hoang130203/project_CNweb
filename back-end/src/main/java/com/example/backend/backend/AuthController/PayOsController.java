@@ -1,7 +1,10 @@
 package com.example.backend.backend.AuthController;
 
 
+import com.example.backend.backend.Entity.Notification;
 import com.example.backend.backend.Entity.User;
+import com.example.backend.backend.Payload.Response.NotificationMessage;
+import com.example.backend.backend.Repository.NotificationRepository;
 import com.example.backend.backend.Service.UserService;
 import com.example.backend.backend.payos.PayOS;
 import com.example.backend.backend.payos.type.ItemData;
@@ -10,7 +13,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,15 +33,20 @@ import java.util.Optional;
 public class PayOsController {
     private final PayOS payOS;
     private final UserService userService;
+    private final NotificationRepository notificationRepository;
+
+    @Autowired
+    private SimpMessageSendingOperations messagingTemplate;
 //    private String base_url="http://localhost:8081";
-//        private String base_url2="http://localhost:3000";
+//    private String base_url2="http://localhost:3000";
     private String base_url="https://project-cnweb.onrender.com";
     private String base_url2="https://project-c-nweb.vercel.app";
 
-    public PayOsController(PayOS payOS, UserService userService) {
+    public PayOsController(PayOS payOS, UserService userService, NotificationRepository notificationRepository) {
         super();
         this.payOS = payOS;
         this.userService = userService;
+        this.notificationRepository = notificationRepository;
     }
 //    @RequestMapping(value = "/")
 //    public String Index() {
@@ -47,6 +57,11 @@ public class PayOsController {
         User user = userService.getById(userId)
                 .orElseThrow(()->new RuntimeException("transaction not found"));
         boolean status= userService.completeTransaction(user,amount,orderId);
+        NotificationMessage notificationMessage= new NotificationMessage();
+        notificationMessage.setContent(user.getName()+" vừa thanh toán thành công "+ amount+" đồng");
+        messagingTemplate.convertAndSend("/topic-admin", notificationMessage);
+        Notification notification= new Notification(new java.sql.Date(System.currentTimeMillis()), notificationMessage.getContent(), user,0,true,false);
+        notificationRepository.save(notification);
         return "<a href=\"https://project-c-nweb.vercel.app\" id=\"return-page-btn\">Trở về</a>";
     }
 //    @RequestMapping(value = "/cancel")
