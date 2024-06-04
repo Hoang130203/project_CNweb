@@ -216,6 +216,12 @@ const CheckoutPage = () => {
             toast.error('Chưa có sản phẩm');
             return;
         }
+        if (JSON.parse(localStorage.getItem('w15store_user'))?.address?.length > 2) {
+
+        } else {
+            toast.error('Chưa có địa chỉ giao hàng')
+            return
+        }
         if (!isPaymentMethodSelected) {
             toast.warn('Vui lòng chọn phương thức thanh toán');
             return;

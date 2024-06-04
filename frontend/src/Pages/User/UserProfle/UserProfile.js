@@ -59,8 +59,9 @@ export default function UserProfile() {
     }
     UserApi.PutInfo(name, email, phone, address, url).then(res => {
       if (res.status === 200) {
+        let roles = JSON.parse(localStorage.getItem('w15store_user'))?.roles;
         toast.success('Cập nhật thông tin thành công');
-        localStorage.setItem('w15store_user', JSON.stringify({ name, email, phone, address, avatar: url }));
+        localStorage.setItem('w15store_user', JSON.stringify({ name, email, phone, address, avatar: url, roles }));
         localStorage.setItem('w15store_avatar', url);
       }
     });
