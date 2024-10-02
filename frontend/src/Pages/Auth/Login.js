@@ -16,11 +16,13 @@ function Login() {
     const handleSubmit = async (e) => {
         setLoading(true);
         e.preventDefault();
+        
         try {
             const res = await UserApi.Login(username, password)
                 .then((res) => {
                     if (res.status === 200 || res.status === 201) {
                         toast.success("Đăng nhập thành công");
+                        console.log(res);
                         localStorage.setItem("w15store_user", JSON.stringify(res.data));
                         localStorage.setItem("w15store_avatar", res.data?.avatar);
                         let isAdmin = false;
